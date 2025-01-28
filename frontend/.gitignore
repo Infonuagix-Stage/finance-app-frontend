@@ -1,23 +1,62 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# 📌 Ignore les fichiers Java & Maven inutiles
+target/
+*.jar
+*.war
+*.ear
+*.class
+*.log
+hs_err_pid*
+replay_pid*
+!src/main/resources/application.properties
+!src/main/resources/application.yml
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
+# 📌 IntelliJ IDEA / Eclipse / VSCode (si tu utilises un IDE)
+.idea/
+*.iml
+*.iws
+.classpath
+.project
+.settings/
+.vscode/
 
-# testing
-/coverage
+# 📌 Wrapper Maven
+.mvn/
+mvnw
+mvnw.cmd
 
-# production
-/build
-
-# misc
+# 📌 Fichiers système
 .DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+Thumbs.db
+*.swp
+*.swo
 
+# 📌 Logs et erreurs
+*.log
+*.out
+*.err
+
+# 📌 Node.js & Frontend (React, Vue, Angular, etc.)
+node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+package-lock.json
+.pnp
+.pnp.js
+dist/
+build/
+coverage/
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# 📌 Cache & dépendances inutiles
+/.cache
+/.pnp
+/.parcel-cache
+/.turbo
+/.next
+/out
+
