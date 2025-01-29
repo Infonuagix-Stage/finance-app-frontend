@@ -2,6 +2,4 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply bg-gradient-to-r from-blue-500 to-indigo-500 min-h-screen flex items-center justify-center;
-}
+

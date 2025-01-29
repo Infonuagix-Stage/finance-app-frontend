@@ -16,92 +16,96 @@ const Signup = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent the default form submission behavior
-    setMessage(""); // Clear any previous messages
-    setLoading(true); // If you are using a loading state
-    
+    e.preventDefault();
+    setMessage("");
+    setLoading(true);
+
     try {
       const response = await axios.post(
         "http://localhost:8080/api/v1/auth/register",
         formData,
         {
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
         }
       );
-      setMessage("Utilisateur inscrit avec succès !");
-      setFormData({ name: "", email: "", password: "" }); // Reset form fields
-      console.log("Response:", response.data); // Log response if needed
+      setMessage("✅ Utilisateur inscrit avec succès !");
+      setFormData({ name: "", email: "", password: "" });
+      console.log("Response:", response.data);
     } catch (error) {
-      setMessage("Erreur lors de l'inscription. Veuillez réessayer.");
-      console.error("Erreur API:", error); // Log error details for debugging
+      setMessage("❌ Erreur lors de l'inscription. Veuillez réessayer.");
+      console.error("Erreur API:", error);
     } finally {
-      setLoading(false); // Stop loading state
+      setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-400 via-teal-500 to-blue-500">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-gray-200 px-4">
       <Navbar />
-      <div className="flex items-center justify-center min-h-screen -mt-16">
-        <div className="bg-white/20 backdrop-blur-lg p-8 rounded-2xl shadow-xl w-96 border border-white/30">
-          <h2 className="text-3xl font-extrabold text-center text-white mb-6">
-            Inscription
-          </h2>
-          <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="w-full max-w-md bg-gray-800 p-8 rounded-xl shadow-lg border border-gray-700">
+        <h2 className="text-3xl font-semibold text-center mb-6 text-gray-100">
+          Inscription
+        </h2>
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div>
+            <label className="block text-gray-400 mb-2">Nom</label>
             <input
               type="text"
               name="name"
-              placeholder="Nom"
+              placeholder="Votre nom"
               value={formData.name}
               onChange={handleChange}
               required
-              className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 bg-white/90 placeholder-gray-700"
+              className="w-full px-4 py-3 rounded-lg bg-gray-700 border border-gray-600 text-gray-200 focus:ring-2 focus:ring-blue-500 focus:outline-none"
             />
+          </div>
+          <div>
+            <label className="block text-gray-400 mb-2">Email</label>
             <input
               type="email"
               name="email"
-              placeholder="Email"
+              placeholder="Votre email"
               value={formData.email}
               onChange={handleChange}
               required
-              className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 bg-white/90 placeholder-gray-700"
+              className="w-full px-4 py-3 rounded-lg bg-gray-700 border border-gray-600 text-gray-200 focus:ring-2 focus:ring-blue-500 focus:outline-none"
             />
+          </div>
+          <div>
+            <label className="block text-gray-400 mb-2">Mot de passe</label>
             <input
               type="password"
               name="password"
-              placeholder="Mot de passe"
+              placeholder="Votre mot de passe"
               value={formData.password}
               onChange={handleChange}
               required
-              className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 bg-white/90 placeholder-gray-700"
+              className="w-full px-4 py-3 rounded-lg bg-gray-700 border border-gray-600 text-gray-200 focus:ring-2 focus:ring-blue-500 focus:outline-none"
             />
-            <button
-              type="submit"
-              disabled={loading}
-              className={`w-full p-4 rounded-lg text-white font-bold transition ${
-                loading
-                  ? "bg-gray-500 cursor-not-allowed"
-                  : "bg-gradient-to-r from-green-500 to-teal-400 hover:opacity-90"
-              }`}
-            >
-              {loading ? "Inscription..." : "S'inscrire"}
-            </button>
-          </form>
-          {message && (
-            <p className="mt-4 text-center text-white font-medium">{message}</p>
-          )}
-          <p className="mt-4 text-center text-sm text-white/80">
-            Vous avez déjà un compte ?{" "}
-            <a
-              href="/login"
-              className="text-white font-semibold underline hover:text-blue-200"
-            >
-              Connectez-vous
-            </a>
+          </div>
+          <button
+            type="submit"
+            disabled={loading}
+            className={`w-full py-3 rounded-lg text-white font-semibold text-lg transition ${
+              loading
+                ? "bg-gray-600 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700"
+            }`}
+          >
+            {loading ? "Inscription..." : "S'inscrire"}
+          </button>
+        </form>
+        {message && (
+          <p className="mt-4 text-center text-sm font-medium text-gray-300">
+            {message}
           </p>
-        </div>
+        )}
+        <p className="mt-4 text-center text-gray-400 text-sm">
+          Vous avez déjà un compte ?{" "}
+          <a href="/login" className="text-blue-500 hover:underline">
+            Connectez-vous
+          </a>
+        </p>
       </div>
     </div>
   );
