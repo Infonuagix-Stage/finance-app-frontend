@@ -16,20 +16,29 @@ const Signup = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setMessage("");
-
+    e.preventDefault(); // Prevent the default form submission behavior
+    setMessage(""); // Clear any previous messages
+    setLoading(true); // If you are using a loading state
+    
     try {
-      await axios.post("http://localhost:8080/api/v1/auth/signup", formData);
+      const response = await axios.post(
+        "http://localhost:8080/api/v1/auth/register",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       setMessage("Utilisateur inscrit avec succès !");
-      setFormData({ name: "", email: "", password: "" });
+      setFormData({ name: "", email: "", password: "" }); // Reset form fields
+      console.log("Response:", response.data); // Log response if needed
     } catch (error) {
       setMessage("Erreur lors de l'inscription. Veuillez réessayer.");
-      console.error("Erreur API:", error);
+      console.error("Erreur API:", error); // Log error details for debugging
+    } finally {
+      setLoading(false); // Stop loading state
     }
-
-    setLoading(false);
   };
 
   return (
