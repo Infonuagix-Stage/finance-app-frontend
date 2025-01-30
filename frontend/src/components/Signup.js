@@ -21,18 +21,32 @@ const Signup = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post(
+      // Register the user
+      const registerResponse = await axios.post(
         "http://localhost:8080/api/v1/auth/register",
         formData,
         {
           headers: { "Content-Type": "application/json" },
         }
       );
-      setMessage("✅ Utilisateur inscrit avec succès !");
-      setFormData({ name: "", email: "", password: "" });
-      console.log("Response:", response.data);
+      console.log("Register Response:", registerResponse.data);
+
+      // Automatically log in the user after successful registration
+      const loginResponse = await axios.post(
+        "http://localhost:8080/api/v1/auth/login",
+        {
+          email: formData.email,
+          password: formData.password,
+        }
+      );
+      console.log("Token reçu après connexion :", loginResponse.data.token);
+
+      // Store the JWT token in localStorage
+      localStorage.setItem("token", loginResponse.data.token);
+
+      // Redirect to dashboard
+      window.location.href = "/dashboard";
     } catch (error) {
-      setMessage("❌ Erreur lors de l'inscription. Veuillez réessayer.");
       console.error("Erreur API:", error);
     } finally {
       setLoading(false);

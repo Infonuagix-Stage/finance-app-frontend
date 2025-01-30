@@ -21,7 +21,6 @@ const Login = () => {
         "http://localhost:8080/api/v1/auth/login",
         formData
       );
-      setMessage("✅ Connexion réussie !");
       console.log("Token reçu:", response.data.token);
 
       // Store the JWT in localStorage
@@ -30,7 +29,7 @@ const Login = () => {
       // Redirect to dashboard
       window.location.href = "/dashboard";
     } catch (error) {
-      setMessage("❌ Erreur lors de la connexion. Veuillez vérifier vos informations.");
+      setMessage("Erreur lors de la connexion. Veuillez vérifier vos informations.");
       console.error("Erreur API:", error);
     }
 
