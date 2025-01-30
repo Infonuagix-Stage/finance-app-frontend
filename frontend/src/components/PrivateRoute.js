@@ -1,8 +1,12 @@
+import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { getToken } from "../services/authServices";
 
 const PrivateRoute = () => {
-    return getToken() ? <Outlet /> : <Navigate to="/login" />;
+    // Check if the token exists
+    const isAuthenticated = !!getToken();
+
+    return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
 };
 
 export default PrivateRoute;

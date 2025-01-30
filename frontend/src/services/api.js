@@ -1,12 +1,14 @@
 import axios from "axios";
-import { getToken } from "./authService";
+import { getToken } from "./authServices";
 
-const API = axios.create({
-    baseURL: "http://localhost:8080/api/v1", // Base URL for all API requests
+const api = axios.create({
+    baseURL: "http://localhost:8080/api", // Update with your backend's URL
+    headers: {
+        "Content-Type": "application/json",
+    },
 });
-
 // Attach Authorization Header to Requests
-API.interceptors.request.use(
+api.interceptors.request.use(
     (config) => {
         const token = getToken();
         if (token) {
@@ -17,4 +19,4 @@ API.interceptors.request.use(
     (error) => Promise.reject(error)
 );
 
-export default API;
+export default api;
