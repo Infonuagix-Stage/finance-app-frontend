@@ -1,33 +1,34 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+// App.js
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./components/Login";
 import Register from "./components/Signup";
 import Dashboard from "./components/Dashboard";
 import PrivateRoute from "./components/PrivateRoute";
 import BudgetingPage from "./components/BudgetingPage";
 import CategoryPage from "./components/CategoryPage";
-import { Navigate } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 
 function App() {
     return (
         <AuthProvider>
-        <Router>
-            <Routes>
-                {/* Public Routes */}
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<Register />} />
+            <Router>
+                <Routes>
+                    {/* Routes publiques */}
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/signup" element={<Register />} />
 
-                {/* Protected Routes */}
-                <Route element={<PrivateRoute />}>
-                    <Route path="/dashboard" element={<Dashboard />} />
-                    <Route path="/budgeting" element={<BudgetingPage />} />
-                    <Route path="/category/:category" element={<CategoryPage />} />
-                </Route>
+                    {/* Routes protégées */}
+                    <Route element={<PrivateRoute />}>
+                        <Route path="/dashboard" element={<Dashboard />} />
+                        <Route path="/budgeting" element={<BudgetingPage />} />
+                        {/* On passe l'ID de la catégorie */}
+                        <Route path="/category/:categoryId" element={<CategoryPage />} />
+                    </Route>
 
-                {/* Fallback Route */}
-                <Route path="*" element={<Navigate to="/login" replace />} />
-            </Routes>
-        </Router>
+                    {/* Route de fallback */}
+                    <Route path="*" element={<Navigate to="/login" replace />} />
+                </Routes>
+            </Router>
         </AuthProvider>
     );
 }

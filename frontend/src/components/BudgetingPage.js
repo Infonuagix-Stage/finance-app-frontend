@@ -87,7 +87,7 @@ const BudgetingPage = () => {
           {categories.map((category) => (
             <Link
               key={category.id}
-              to={`/category/${category.name}`}
+              to={`/category/${category.id}`}
               className="block p-6 bg-gray-800 rounded-lg shadow hover:bg-gray-700 transition"
             >
               <h3 className="text-lg font-semibold text-white">{category.name}</h3>
