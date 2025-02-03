@@ -1,11 +1,16 @@
+// Login.js
 import React, { useState } from "react";
 import axios from "axios";
 import Navbar from "./Navbar";
+import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../context/AuthContext";
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const { login } = useAuthContext();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -22,17 +27,14 @@ const Login = () => {
         formData
       );
       console.log("Token reçu:", response.data.token);
-
-      // Store the JWT in localStorage
-      localStorage.setItem("token", response.data.token);
-
-      // Redirect to dashboard
-      window.location.href = "/dashboard";
+      // Mettre à jour le contexte avec le nouveau token
+      login(response.data.token);
+      // Rediriger vers le dashboard
+      navigate("/dashboard");
     } catch (error) {
       setMessage("Erreur lors de la connexion. Veuillez vérifier vos informations.");
       console.error("Erreur API:", error);
     }
-
     setLoading(false);
   };
 

@@ -6,9 +6,11 @@ import PrivateRoute from "./components/PrivateRoute";
 import BudgetingPage from "./components/BudgetingPage";
 import CategoryPage from "./components/CategoryPage";
 import { Navigate } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
 
 function App() {
     return (
+        <AuthProvider>
         <Router>
             <Routes>
                 {/* Public Routes */}
@@ -26,6 +28,7 @@ function App() {
                 <Route path="*" element={<Navigate to="/login" replace />} />
             </Routes>
         </Router>
+        </AuthProvider>
     );
 }
 
