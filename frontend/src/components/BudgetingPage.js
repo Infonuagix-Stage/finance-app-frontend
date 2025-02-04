@@ -6,26 +6,28 @@ import { createCategoryForUser } from "../services/categoryService";
 import { useAuthContext } from "../context/AuthContext";
 
 const BudgetingPage = () => {
-  // Récupération du contexte d'authentification
   const { user, token } = useAuthContext();
-
-  // Vérifier que l'utilisateur est défini
   const userId = user ? user.id : null;
 
   const [categories, setCategories] = useState([]);
   const [newCategory, setNewCategory] = useState("");
+  // État pour stocker les totaux des dépenses par catégorie :
+  const [categoryTotals, setCategoryTotals] = useState({});
+  const totalGlobalCategories = categories.reduce(
+    (acc, category) => acc + Number(categoryTotals[category.id] || 0),
+    0
+  );
 
-  // Fetch categories depuis le backend
+  // Récupérer les catégories depuis le backend
   useEffect(() => {
-    if (!userId) return; // Ne rien faire si l'utilisateur n'est pas identifié
-
+    if (!userId) return;
     const fetchCategories = async () => {
       try {
         const response = await axios.get(
           `http://localhost:8080/api/v1/users/${userId}/categories`,
           {
             headers: {
-              Authorization: `Bearer ${token}`, // Utilisation du token du contexte
+              Authorization: `Bearer ${token}`,
             },
           }
         );
@@ -38,6 +40,36 @@ const BudgetingPage = () => {
     fetchCategories();
   }, [userId, token]);
 
+  // Une fois les catégories récupérées, lancer la récupération des totaux pour chaque catégorie
+  useEffect(() => {
+    if (!userId || categories.length === 0) return;
+
+    const fetchTotals = async () => {
+      const totals = {};
+      // Utilise Promise.all pour exécuter tous les appels en parallèle
+      await Promise.all(
+        categories.map(async (category) => {
+          try {
+            const response = await axios.get(
+              `http://localhost:8080/api/v1/users/${userId}/categories/${category.id}/expenses/total`,
+              {
+                headers: { Authorization: `Bearer ${token}` },
+              }
+            );
+            // Supposons que l'API renvoie directement un nombre ou une chaîne
+            totals[category.id] = response.data;
+          } catch (error) {
+            console.error("Erreur lors de la récupération du total pour la catégorie", category.id, error);
+            totals[category.id] = 0;
+          }
+        })
+      );
+      setCategoryTotals(totals);
+    };
+
+    fetchTotals();
+  }, [userId, categories, token]);
+
   // Ajout d'une nouvelle catégorie
   const addCategory = async () => {
     if (newCategory.trim() === "") return;
@@ -48,6 +80,7 @@ const BudgetingPage = () => {
   
     try {
       const created = await createCategoryForUser(userId, newCategory);
+      // On ajoute la nouvelle catégorie et on met à jour l'état
       setCategories([...categories, created]);
       setNewCategory("");
     } catch (error) {
@@ -80,7 +113,7 @@ const BudgetingPage = () => {
         </button>
       </div>
 
-      {/* Affichage des catégories */}
+      {/* Affichage des catégories avec le total de chaque catégorie */}
       <div>
         <h2 className="text-xl font-semibold mb-4">Categories</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -92,9 +125,21 @@ const BudgetingPage = () => {
             >
               <h3 className="text-lg font-semibold text-white">{category.name}</h3>
               <p className="text-gray-400 text-sm">{category.description}</p>
+              <p className="text-white mt-2">
+                Total : $
+                {categoryTotals[category.id] !== undefined
+                  ? Number(categoryTotals[category.id]).toFixed(2)
+                  : "0.00"}
+              </p>
             </Link>
           ))}
         </div>
+      </div>
+        {/* Div pour afficher le total global de toutes les catégories */}
+        <div className="mb-6">
+        <h1 className="text-3xl font-bold">
+          Total Global de toutes les catégories : ${totalGlobalCategories.toFixed(2)}
+        </h1>
       </div>
     </div>
   );

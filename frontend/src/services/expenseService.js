@@ -21,12 +21,14 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
+// Modification ici pour appeler l'endpoint qui renvoie la liste complète des dépenses
 export const getExpensesForCategory = async (userId, categoryId) => {
   const response = await api.get(`/users/${userId}/categories/${categoryId}/expenses`);
   return response.data;
 };
 
 export const createExpenseForCategory = async (userId, categoryId, expense) => {
+  // L'objet expense doit contenir au minimum la description et le montant (adapter les noms si besoin)
   const response = await api.post(`/users/${userId}/categories/${categoryId}/expenses`, expense);
   return response.data;
 };
