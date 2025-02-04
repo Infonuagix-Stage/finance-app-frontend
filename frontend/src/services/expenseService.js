@@ -27,7 +27,6 @@ export const getExpensesForCategory = async (userId, categoryId) => {
 };
 
 export const createExpenseForCategory = async (userId, categoryId, expense) => {
-  // L'objet expense doit contenir au minimum la description et le montant (adapter les noms si besoin)
   const response = await api.post(`/users/${userId}/categories/${categoryId}/expenses`, expense);
   return response.data;
 };

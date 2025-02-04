@@ -30,7 +30,7 @@ const Login = () => {
       // Mettre à jour le contexte avec le nouveau token
       login(response.data.token);
       // Rediriger vers le dashboard
-      navigate("/dashboard");
+      navigate("/loadingpage");
     } catch (error) {
       setMessage("Erreur lors de la connexion. Veuillez vérifier vos informations.");
       console.error("Erreur API:", error);

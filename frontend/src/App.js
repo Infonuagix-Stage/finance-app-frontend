@@ -2,7 +2,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./components/Login";
 import Register from "./components/Signup";
-import Dashboard from "./components/Dashboard";
+import Dashboard from "./components/LoadingPage";
 import PrivateRoute from "./components/PrivateRoute";
 import BudgetingPage from "./components/BudgetingPage";
 import CategoryPage from "./components/CategoryPage";
@@ -19,7 +19,7 @@ function App() {
 
                     {/* Routes protégées */}
                     <Route element={<PrivateRoute />}>
-                        <Route path="/dashboard" element={<Dashboard />} />
+                        <Route path="/loadingpage" element={<Dashboard />} />
                         <Route path="/budgeting" element={<BudgetingPage />} />
                         {/* On passe l'ID de la catégorie */}
                         <Route path="/category/:categoryId" element={<CategoryPage />} />

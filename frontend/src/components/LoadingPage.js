@@ -2,9 +2,10 @@ import { logout } from "../services/authServices";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-const Dashboard = () => {
+const LoadingPage = () => {
+
     const navigate = useNavigate();
-    const [countdown, setCountdown] = useState(3); // Timer for redirection
+    const [countdown, setCountdown] = useState(2); // Timer for redirection
 
     // Handle logout functionality
     const handleLogout = () => {
@@ -28,7 +29,7 @@ const Dashboard = () => {
 
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-gray-200">
-            <h2 className="text-3xl font-bold mb-4">Welcome to the Dashboard</h2>
+            <h2 className="text-3xl font-bold mb-4">Welcome to the loading page</h2>
             <button
                 onClick={handleLogout}
                 className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition"
@@ -43,4 +44,4 @@ const Dashboard = () => {
     );
 };
 
-export default Dashboard;
+export default LoadingPage;

@@ -45,7 +45,7 @@ const Signup = () => {
       localStorage.setItem("token", loginResponse.data.token);
 
       // Redirect to dashboard
-      window.location.href = "/dashboard";
+      window.location.href = "/loadingpage";
     } catch (error) {
       console.error("Erreur API:", error);
     } finally {
