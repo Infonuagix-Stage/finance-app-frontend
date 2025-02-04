@@ -22,7 +22,7 @@ function App() {
                         <Route path="/loadingpage" element={<Dashboard />} />
                         <Route path="/budgeting" element={<BudgetingPage />} />
                         {/* On passe l'ID de la catégorie */}
-                        <Route path="/category/:categoryId" element={<CategoryPage />} />
+                        <Route path="/category/:categoryName" element={<CategoryPage />} />
                     </Route>
 
                     {/* Route de fallback */}

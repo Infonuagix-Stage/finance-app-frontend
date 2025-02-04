@@ -1,8 +1,30 @@
-// services/categoryService.js
+// categoryService.js
 import axios from "axios";
 
-// This function fetches categories for a specific user.
-// Replace userId with a dynamic value if needed.
+const api = axios.create({
+  baseURL: "http://localhost:8080/api/v1",
+  headers: { "Content-Type": "application/json" },
+});
+
+// Ajout de l'intercepteur pour le token si nécessaire
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+export const getCategoryByName = async (userId, categoryName) => {
+  const response = await api.get(`/users/${userId}/categories/${encodeURIComponent(categoryName)}`);
+  return response.data;
+};
+
+
+// Vous pouvez également avoir d'autres fonctions, par exemple pour créer une catégorie, etc.
+
 export const getCategoriesForUser = async (userId) => {
   // Retrieve the token from localStorage
   const yourJwtToken = localStorage.getItem("token");

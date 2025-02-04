@@ -1,27 +1,38 @@
+// CategoryPage.js
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { getExpensesForCategory, createExpenseForCategory } from "../services/expenseService";
 import { useAuthContext } from "../context/AuthContext";
 
 const CategoryPage = () => {
-  const { categoryId } = useParams();
+  // Récupération du paramètre "categoryName" dans l'URL
+  const { categoryName } = useParams();
+  const location = useLocation();
   const { user } = useAuthContext();
   const userId = user ? user.id : null;
+
+  // On récupère éventuellement l'ID de la catégorie passé dans le state (si vous l'avez transmis depuis BudgetingPage)
+  const categoryIdFromState = location.state?.categoryId;
+  
+  // On utilise le nom passé via l'URL
+  const [displayedCategoryName, setDisplayedCategoryName] = useState(categoryName);
+  
+  // Utilisez cet ID (si présent) pour vos appels API
   const [expenses, setExpenses] = useState([]);
   const [newExpense, setNewExpense] = useState({ description: "", amount: "" });
 
-  // On s'assure que expenses est un tableau
   const expensesArray = Array.isArray(expenses) ? expenses : [];
   const totalForCategory = expensesArray.reduce(
     (acc, expense) => acc + Number(expense.montant),
     0
   );
 
+  // Récupération des dépenses, en utilisant l'ID transmis (si disponible)
   useEffect(() => {
-    if (!userId || !categoryId) return;
+    if (!userId || !categoryIdFromState) return;
     const fetchExpenses = async () => {
       try {
-        const data = await getExpensesForCategory(userId, categoryId);
+        const data = await getExpensesForCategory(userId, categoryIdFromState);
         console.log("API response:", data);
         setExpenses(Array.isArray(data) ? data : []);
       } catch (error) {
@@ -29,18 +40,18 @@ const CategoryPage = () => {
       }
     };
     fetchExpenses();
-  }, [userId, categoryId]);
+  }, [userId, categoryIdFromState]);
 
   const addExpense = async () => {
-    if (newExpense.description && newExpense.amount) {
+    if (newExpense.description && newExpense.amount && categoryIdFromState) {
       try {
         const expenseData = {
           description: newExpense.description,
           montant: newExpense.amount,
           userId,
-          categoryId,
+          categoryId: categoryIdFromState,
         };
-        const createdExpense = await createExpenseForCategory(userId, categoryId, expenseData);
+        const createdExpense = await createExpenseForCategory(userId, categoryIdFromState, expenseData);
         console.log("Created expense:", createdExpense);
         setExpenses(prevExpenses =>
           Array.isArray(prevExpenses) ? [...prevExpenses, createdExpense] : [createdExpense]
@@ -54,7 +65,7 @@ const CategoryPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-200 p-8">
-      <h1 className="text-3xl font-bold mb-6">Catégorie: {categoryId}</h1>
+      <h1 className="text-3xl font-bold mb-6">Catégorie : {displayedCategoryName}</h1>
       {/* Formulaire d'ajout de dépense */}
       <div className="mb-6">
         <input
