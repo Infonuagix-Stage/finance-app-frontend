@@ -3,7 +3,7 @@ import axios from "axios";
 
 const api = axios.create({
   baseURL:
-    "http://financeapp-env-1.eba-rx23r9ye.us-east-1.elasticbeanstalk.com//api/v1",
+    "http://financeapp-env-1.eba-rx23r9ye.us-east-1.elasticbeanstalk.com/api/v1",
   headers: { "Content-Type": "application/json" },
 });
 
@@ -34,7 +34,7 @@ export const getCategoriesForUser = async (userId) => {
 
   // Make the request with the Authorization header
   const response = await axios.get(
-    `http://financeapp-env-1.eba-rx23r9ye.us-east-1.elasticbeanstalk.com//api/v1/users/${userId}/categories`,
+    `http://financeapp-env-1.eba-rx23r9ye.us-east-1.elasticbeanstalk.com/api/v1/users/${userId}/categories`,
     {
       headers: {
         Authorization: `Bearer ${yourJwtToken}`,
@@ -50,7 +50,7 @@ export const createCategoryForUser = async (userId, categoryName) => {
   console.log("Token envoyé dans l'en-tête Authorization :", yourJwtToken);
 
   const response = await axios.post(
-    `http://financeapp-env-1.eba-rx23r9ye.us-east-1.elasticbeanstalk.com//api/v1/users/${userId}/categories`,
+    `http://financeapp-env-1.eba-rx23r9ye.us-east-1.elasticbeanstalk.com/api/v1/users/${userId}/categories`,
     {
       name: categoryName,
       description: `Description for ${categoryName}`,

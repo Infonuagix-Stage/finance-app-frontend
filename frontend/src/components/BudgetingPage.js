@@ -24,7 +24,7 @@ const BudgetingPage = () => {
     const fetchCategories = async () => {
       try {
         const response = await axios.get(
-          `http://financeapp-env-1.eba-rx23r9ye.us-east-1.elasticbeanstalk.com//api/v1/users/${userId}/categories`,
+          `http://financeapp-env-1.eba-rx23r9ye.us-east-1.elasticbeanstalk.com/api/v1/users/${userId}/categories`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -54,7 +54,7 @@ const BudgetingPage = () => {
         categories.map(async (category) => {
           try {
             const response = await axios.get(
-              `http://financeapp-env-1.eba-rx23r9ye.us-east-1.elasticbeanstalk.com//api/v1/users/${userId}/categories/${category.id}/expenses/total`,
+              `http://financeapp-env-1.eba-rx23r9ye.us-east-1.elasticbeanstalk.com/api/v1/users/${userId}/categories/${category.id}/expenses/total`,
               {
                 headers: { Authorization: `Bearer ${token}` },
               }
