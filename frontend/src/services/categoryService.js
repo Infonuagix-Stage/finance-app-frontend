@@ -2,7 +2,8 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:8080/api/v1",
+  baseURL:
+    "http://financeapp-env-1.eba-rx23r9ye.us-east-1.elasticbeanstalk.com//api/v1",
   headers: { "Content-Type": "application/json" },
 });
 
@@ -18,10 +19,11 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 export const getCategoryByName = async (userId, categoryName) => {
-  const response = await api.get(`/users/${userId}/categories/${encodeURIComponent(categoryName)}`);
+  const response = await api.get(
+    `/users/${userId}/categories/${encodeURIComponent(categoryName)}`
+  );
   return response.data;
 };
-
 
 // Vous pouvez également avoir d'autres fonctions, par exemple pour créer une catégorie, etc.
 
@@ -31,11 +33,14 @@ export const getCategoriesForUser = async (userId) => {
   console.log("Token envoyé dans l'en-tête Authorization :", yourJwtToken);
 
   // Make the request with the Authorization header
-  const response = await axios.get(`http://localhost:8080/api/v1/users/${userId}/categories`, {
-    headers: {
-      Authorization: `Bearer ${yourJwtToken}`,
-    },
-  });
+  const response = await axios.get(
+    `http://financeapp-env-1.eba-rx23r9ye.us-east-1.elasticbeanstalk.com//api/v1/users/${userId}/categories`,
+    {
+      headers: {
+        Authorization: `Bearer ${yourJwtToken}`,
+      },
+    }
+  );
 
   return response.data; // Return the categories array
 };
@@ -45,7 +50,7 @@ export const createCategoryForUser = async (userId, categoryName) => {
   console.log("Token envoyé dans l'en-tête Authorization :", yourJwtToken);
 
   const response = await axios.post(
-    `http://localhost:8080/api/v1/users/${userId}/categories`,
+    `http://financeapp-env-1.eba-rx23r9ye.us-east-1.elasticbeanstalk.com//api/v1/users/${userId}/categories`,
     {
       name: categoryName,
       description: `Description for ${categoryName}`,

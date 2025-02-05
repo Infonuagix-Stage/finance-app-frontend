@@ -24,7 +24,7 @@ const BudgetingPage = () => {
     const fetchCategories = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/api/v1/users/${userId}/categories`,
+          `http://financeapp-env-1.eba-rx23r9ye.us-east-1.elasticbeanstalk.com//api/v1/users/${userId}/categories`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -34,7 +34,10 @@ const BudgetingPage = () => {
         console.log("Catégories récupérées :", response.data);
         setCategories(response.data);
       } catch (error) {
-        console.error("Erreur lors de la récupération des catégories :", error.response || error.message);
+        console.error(
+          "Erreur lors de la récupération des catégories :",
+          error.response || error.message
+        );
       }
     };
     fetchCategories();
@@ -51,7 +54,7 @@ const BudgetingPage = () => {
         categories.map(async (category) => {
           try {
             const response = await axios.get(
-              `http://localhost:8080/api/v1/users/${userId}/categories/${category.id}/expenses/total`,
+              `http://financeapp-env-1.eba-rx23r9ye.us-east-1.elasticbeanstalk.com//api/v1/users/${userId}/categories/${category.id}/expenses/total`,
               {
                 headers: { Authorization: `Bearer ${token}` },
               }
@@ -59,7 +62,11 @@ const BudgetingPage = () => {
             // Supposons que l'API renvoie directement un nombre ou une chaîne
             totals[category.id] = response.data;
           } catch (error) {
-            console.error("Erreur lors de la récupération du total pour la catégorie", category.id, error);
+            console.error(
+              "Erreur lors de la récupération du total pour la catégorie",
+              category.id,
+              error
+            );
             totals[category.id] = 0;
           }
         })
@@ -74,10 +81,12 @@ const BudgetingPage = () => {
   const addCategory = async () => {
     if (newCategory.trim() === "") return;
     if (!userId) {
-      console.error("L'ID utilisateur est indéfini. Impossible d'ajouter une catégorie.");
+      console.error(
+        "L'ID utilisateur est indéfini. Impossible d'ajouter une catégorie."
+      );
       return;
     }
-  
+
     try {
       const created = await createCategoryForUser(userId, newCategory);
       // On ajoute la nouvelle catégorie et on met à jour l'état
@@ -117,16 +126,18 @@ const BudgetingPage = () => {
       <div>
         <h2 className="text-xl font-semibold mb-4">Categories</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {categories.map((category) => (
-         <Link
-            key={category.id}
-            // On construit l'URL avec le nom de la catégorie encodé
-            to={`/category/${encodeURIComponent(category.name)}`}
-            // On peut également transmettre le nom dans le state
-            state={{ categoryName: category.name, categoryId: category.id }}
-            className="block p-6 bg-gray-800 rounded-lg shadow hover:bg-gray-700 transition"
-          >
-              <h3 className="text-lg font-semibold text-white">{category.name}</h3>
+          {categories.map((category) => (
+            <Link
+              key={category.id}
+              // On construit l'URL avec le nom de la catégorie encodé
+              to={`/category/${encodeURIComponent(category.name)}`}
+              // On peut également transmettre le nom dans le state
+              state={{ categoryName: category.name, categoryId: category.id }}
+              className="block p-6 bg-gray-800 rounded-lg shadow hover:bg-gray-700 transition"
+            >
+              <h3 className="text-lg font-semibold text-white">
+                {category.name}
+              </h3>
               <p className="text-gray-400 text-sm">{category.description}</p>
               <p className="text-white mt-2">
                 Total : $
@@ -134,14 +145,15 @@ const BudgetingPage = () => {
                   ? Number(categoryTotals[category.id]).toFixed(2)
                   : "0.00"}
               </p>
-          </Link>
-        ))}
+            </Link>
+          ))}
         </div>
       </div>
-        {/* Div pour afficher le total global de toutes les catégories */}
-        <div className="mb-6">
+      {/* Div pour afficher le total global de toutes les catégories */}
+      <div className="mb-6">
         <h1 className="text-3xl font-bold">
-          Total Global de toutes les catégories : ${totalGlobalCategories.toFixed(2)}
+          Total Global de toutes les catégories : $
+          {totalGlobalCategories.toFixed(2)}
         </h1>
       </div>
     </div>

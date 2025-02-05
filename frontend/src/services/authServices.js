@@ -1,32 +1,37 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8080/api/v1/auth"; // Adjust if backend runs on another port
+const API_URL =
+  "http://financeapp-env-1.eba-rx23r9ye.us-east-1.elasticbeanstalk.com//api/v1/auth"; // Adjust if backend runs on another port
 
 export const login = async (email, password) => {
-    try {
-        const response = await axios.post(`${API_URL}/login`, { email, password });
-        if (response.data.token) {
-            localStorage.setItem("token", response.data.token); // Store JWT token
-        }
-        return response.data;
-    } catch (error) {
-        throw new Error(error.response?.data || "Login failed");
+  try {
+    const response = await axios.post(`${API_URL}/login`, { email, password });
+    if (response.data.token) {
+      localStorage.setItem("token", response.data.token); // Store JWT token
     }
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data || "Login failed");
+  }
 };
 
 export const register = async (name, email, password) => {
-    try {
-        const response = await axios.post(`${API_URL}/register`, { name, email, password });
-        return response.data;
-    } catch (error) {
-        throw new Error(error.response?.data || "Registration failed");
-    }
+  try {
+    const response = await axios.post(`${API_URL}/register`, {
+      name,
+      email,
+      password,
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data || "Registration failed");
+  }
 };
 
 export const logout = () => {
-    localStorage.removeItem("token"); // Remove token from localStorage
+  localStorage.removeItem("token"); // Remove token from localStorage
 };
 
 export const getToken = () => {
-    return localStorage.getItem("token"); // Get token from localStorage
+  return localStorage.getItem("token"); // Get token from localStorage
 };

@@ -23,7 +23,7 @@ const Signup = () => {
     try {
       // Register the user
       const registerResponse = await axios.post(
-        "http://localhost:8080/api/v1/auth/register",
+        "http://financeapp-env-1.eba-rx23r9ye.us-east-1.elasticbeanstalk.com//api/v1/auth/register",
         formData,
         {
           headers: { "Content-Type": "application/json" },
@@ -33,7 +33,7 @@ const Signup = () => {
 
       // Automatically log in the user after successful registration
       const loginResponse = await axios.post(
-        "http://localhost:8080/api/v1/auth/login",
+        "http://financeapp-env-1.eba-rx23r9ye.us-east-1.elasticbeanstalk.com//api/v1/auth/login",
         {
           email: formData.email,
           password: formData.password,
