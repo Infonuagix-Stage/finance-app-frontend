@@ -1,7 +1,6 @@
 import axios from "axios";
 
-const API_URL =
-  "http://financeapp-env-1.eba-rx23r9ye.us-east-1.elasticbeanstalk.com/api/v1/auth"; // Adjust if backend runs on another port
+const API_URL = `${process.env.REACT_APP_BACKEND_URL}/api/v1/auth`; // Adjust if backend runs on another port
 
 export const login = async (email, password) => {
   try {

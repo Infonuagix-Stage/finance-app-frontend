@@ -2,8 +2,7 @@ import axios from "axios";
 import { getToken } from "./authServices";
 
 const api = axios.create({
-  baseURL:
-    "http://financeapp-env-1.eba-rx23r9ye.us-east-1.elasticbeanstalk.com/api", // Update with your backend's URL
+  baseURL: `${process.env.REACT_APP_BACKEND_URL}/api`, // Update with your backend's URL
   headers: {
     "Content-Type": "application/json",
   },

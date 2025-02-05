@@ -23,7 +23,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "http://financeapp-env-1.eba-rx23r9ye.us-east-1.elasticbeanstalk.com/api/v1/auth/login",
+        `${process.env.REACT_APP_BACKEND_URL}/api/v1/auth/login`,
         formData
       );
       console.log("Token reçu:", response.data.token);
