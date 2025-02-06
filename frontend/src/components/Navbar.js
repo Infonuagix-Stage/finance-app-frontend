@@ -12,7 +12,7 @@ const Navbar = () => {
 
         {/* Navigation Links */}
         <div className="hidden md:flex space-x-6">
-          {/* <Link
+          <Link
             to="/features"
             className="text-gray-300 hover:text-white transition font-medium"
           >
@@ -29,7 +29,7 @@ const Navbar = () => {
             className="text-gray-300 hover:text-white transition font-medium"
           >
             À propos
-          </Link> */}
+          </Link>
         </div>
 
         {/* Auth Buttons */}

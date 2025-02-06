@@ -40,16 +40,13 @@ export const getCategoriesForUser = async (userId) => {
   return response.data; // Return the categories array
 };
 
-export const createCategoryForUser = async (userId, categoryName) => {
+export const createCategoryForUser = async (userId, categoryData) => {
   const yourJwtToken = localStorage.getItem("token");
   console.log("Token envoyé dans l'en-tête Authorization :", yourJwtToken);
 
-  const response = await axios.post(
-    `http://localhost:8080/api/v1/users/${userId}/categories`,
-    {
-      name: categoryName,
-      description: `Description for ${categoryName}`,
-    },
+  const response = await api.post(
+    `/users/${userId}/categories`, // utilisation de la route relative
+    categoryData, // ici categoryData est un objet { name, description, type }
     {
       headers: {
         Authorization: `Bearer ${yourJwtToken}`,
@@ -57,5 +54,7 @@ export const createCategoryForUser = async (userId, categoryName) => {
     }
   );
 
-  return response.data; // Return the newly created category
+  return response.data;
 };
+
+
