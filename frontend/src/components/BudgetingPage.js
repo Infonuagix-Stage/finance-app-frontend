@@ -1,10 +1,8 @@
+// BudgetingPage.js
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-// Vous n'utilisez plus createIncomeForCategory ou createExpenseForCategory ici
-// import { createIncomeForCategory } from "../services/incomeService";
-// import { createExpenseForCategory } from "../services/expenseService";
 import { createCategoryForUser, getCategoriesForUser } from "../services/categoryService";
-
+import { getCategoryTotal } from "../services/totalService";
 import { useAuthContext } from "../context/AuthContext";
 
 const BudgetingPage = () => {
@@ -12,6 +10,7 @@ const BudgetingPage = () => {
   const userId = user ? user.id : null;
 
   const [categories, setCategories] = useState([]);
+  const [totalsMap, setTotalsMap] = useState({}); // Object mapping categoryId to total
 
   const [newExpenseCategoryName, setNewExpenseCategoryName] = useState("");
   const [newExpenseCategoryDesc, setNewExpenseCategoryDesc] = useState("");
@@ -19,6 +18,7 @@ const BudgetingPage = () => {
   const [newIncomeCategoryName, setNewIncomeCategoryName] = useState("");
   const [newIncomeCategoryDesc, setNewIncomeCategoryDesc] = useState("");
 
+  // Récupérer la liste des catégories
   useEffect(() => {
     if (!userId) return;
     const fetchCategories = async () => {
@@ -27,15 +27,49 @@ const BudgetingPage = () => {
         console.log("Catégories récupérées :", fetchedCategories);
         setCategories(fetchedCategories);
       } catch (error) {
-        console.error(
-          "Erreur lors de la récupération des catégories :",
-          error.response || error.message
-        );
+        console.error("Erreur lors de la récupération des catégories :", error.response || error.message);
       }
     };
     fetchCategories();
   }, [userId, token]);
 
+  // Pour chaque catégorie, récupérer son total via l'endpoint /total
+  useEffect(() => {
+    if (categories.length === 0 || !userId) return;
+    const fetchTotals = async () => {
+      const newTotalsMap = {};
+      await Promise.all(
+        categories.map(async (cat) => {
+          try {
+            const total = await getCategoryTotal(userId, cat.id, cat.type);
+            newTotalsMap[cat.id] = total;
+          } catch (error) {
+            console.error(`Erreur lors de la récupération du total pour la catégorie ${cat.id}:`, error);
+            newTotalsMap[cat.id] = 0;
+          }
+        })
+      );
+      setTotalsMap(newTotalsMap);
+    };
+    fetchTotals();
+  }, [categories, userId]);
+
+  // Calculer les totaux globaux et la balance
+  const totalIncome = categories.reduce((acc, cat) => {
+    return cat.type.toUpperCase() === "INCOME"
+      ? acc + parseFloat(totalsMap[cat.id] || 0)
+      : acc;
+  }, 0);
+
+  const totalExpense = categories.reduce((acc, cat) => {
+    return cat.type.toUpperCase() === "EXPENSE"
+      ? acc + parseFloat(totalsMap[cat.id] || 0)
+      : acc;
+  }, 0);
+
+  const globalBalance = totalIncome - totalExpense;
+
+  // Fonctions pour ajouter une catégorie
   const addExpenseCategory = async () => {
     if (newExpenseCategoryName.trim() === "") return;
     if (!userId) {
@@ -56,8 +90,6 @@ const BudgetingPage = () => {
       console.error("Erreur lors de l'ajout de la catégorie expense :", error);
     }
   };
-  
-  
 
   const addIncomeCategory = async () => {
     if (newIncomeCategoryName.trim() === "") return;
@@ -137,23 +169,36 @@ const BudgetingPage = () => {
       <div>
         <h2 className="text-xl font-semibold mb-4">Liste des Catégories</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {categories.map((category) => (
+          {categories.map((cat) => (
             <Link
-              key={category.id}
-              to={`/category/${encodeURIComponent(category.name)}`}
+              key={cat.id}
+              to={`/category/${encodeURIComponent(cat.name)}`}
               state={{
-                categoryName: category.name,
-                categoryId: category.id,
-                categoryType: category.type, // "EXPENSE" ou "INCOME"
+                categoryName: cat.name,
+                categoryId: cat.id,
+                categoryType: cat.type,
               }}
               className="block p-6 bg-gray-800 rounded-lg shadow hover:bg-gray-700 transition"
             >
-              <h3 className="text-lg font-semibold text-white">{category.name}</h3>
-              <p className="text-gray-400 text-sm">{category.description}</p>
-              <p className="text-sm text-gray-300 mt-2">Type : {category.type}</p>
+              <h3 className="text-lg font-semibold text-white">{cat.name}</h3>
+              <p className="text-gray-400 text-sm">{cat.description}</p>
+              <p className="text-sm text-gray-300 mt-2">Type : {cat.type}</p>
+              <p className="text-sm text-gray-300 mt-2">
+                Total : ${totalsMap[cat.id] || 0}
+              </p>
             </Link>
           ))}
         </div>
+      </div>
+
+      {/* Affichage de la balance globale */}
+      <div className="mt-8 p-4 bg-gray-700 rounded">
+        <h2 className="text-2xl font-bold">Balance Globale</h2>
+        <p className="mt-2">
+          Revenus totaux : ${totalIncome.toFixed(2)} <br />
+          Dépenses totales : ${totalExpense.toFixed(2)} <br />
+          <span className="font-semibold">Balance :</span> ${globalBalance.toFixed(2)}
+        </p>
       </div>
     </div>
   );
