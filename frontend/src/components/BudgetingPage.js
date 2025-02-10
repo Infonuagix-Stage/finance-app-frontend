@@ -1,4 +1,3 @@
-// BudgetingPage.js
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { createCategoryForUser, getCategoriesForUser } from "../services/categoryService";
@@ -23,30 +22,15 @@ const BudgetingPage = () => {
     if (!userId) return;
     const fetchCategories = async () => {
       try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_BACKEND_URL}/api/v1/users/${userId}/categories`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        console.log("Catégories récupérées :", response.data);
-        setCategories(response.data);
         const fetchedCategories = await getCategoriesForUser(userId);
         setCategories(fetchedCategories);
       } catch (error) {
         console.error("Error fetching categories:", error);
-        console.error(
-          "Erreur lors de la récupération des catégories :",
-          error.response || error.message
-        );
       }
     };
     fetchCategories();
-  }, [userId, token]);
+  }, [userId]);
 
-  // Une fois les catégories récupérées, lancer la récupération des totaux pour chaque catégorie
   useEffect(() => {
     if (categories.length === 0 || !userId) return;
     const fetchTotals = async () => {
@@ -54,27 +38,15 @@ const BudgetingPage = () => {
       await Promise.all(
         categories.map(async (cat) => {
           try {
-            const response = await axios.get(
-              `${process.env.REACT_APP_BACKEND_URL}/api/v1/users/${userId}/categories/${category.id}/expenses/total`,
-              {
-                headers: { Authorization: `Bearer ${token}` },
-              }
-            );
-            // Supposons que l'API renvoie directement un nombre ou une chaîne
-            totals[category.id] = response.data;
-          } catch (error) {
-            console.error(
-              "Erreur lors de la récupération du total pour la catégorie",
-              category.id,
-              error
-            );
-            totals[category.id] = 0;
+            const total = await getCategoryTotal(userId, cat.id, cat.type);
+            newTotalsMap[cat.id] = total;
+          } catch {
+            newTotalsMap[cat.id] = 0;
           }
         })
       );
-      setCategoryTotals(totals);
+      setTotalsMap(newTotalsMap);
     };
-
     fetchTotals();
   }, [categories, userId]);
 
@@ -112,10 +84,6 @@ const BudgetingPage = () => {
       console.error(`Error adding ${type} category:`, error);
     }
   };
-
-  if (!user) {
-    return <p>Chargement ou redirection...</p>;
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-gray-100 px-6 py-12">
