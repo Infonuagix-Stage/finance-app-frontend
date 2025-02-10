@@ -1,9 +1,11 @@
 // components/Dashboard.js
 import React from "react";
 import { useAuthContext } from "../context/AuthContext";
+import { useBudgetContext } from "../context/BudgetContext"; // Importez useBudgetContext
 
 const Dashboard = () => {
   const { user } = useAuthContext();
+  const { totalIncome, totalExpense, globalBalance } = useBudgetContext(); // Utilisez useBudgetContext
 
   return (
     <div className="min-h-screen bg-gray-900 text-white pt-20">
@@ -23,16 +25,22 @@ const Dashboard = () => {
         {/* Statistiques ou résumé */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
-            <h3 className="text-xl font-semibold mb-2">Solde total</h3>
-            <p className="text-2xl text-green-400">$5,000.00</p>
+            <h3 className="text-xl font-semibold mb-2">Revenus totaux</h3>
+            <p className="text-2xl text-green-400">${totalIncome.toFixed(2)}</p>
           </div>
           <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
-            <h3 className="text-xl font-semibold mb-2">Dépenses ce mois-ci</h3>
-            <p className="text-2xl text-red-400">$1,200.00</p>
+            <h3 className="text-xl font-semibold mb-2">Dépenses totales</h3>
+            <p className="text-2xl text-red-400">${totalExpense.toFixed(2)}</p>
           </div>
           <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
-            <h3 className="text-xl font-semibold mb-2">Revenus ce mois-ci</h3>
-            <p className="text-2xl text-blue-400">$2,500.00</p>
+            <h3 className="text-xl font-semibold mb-2">Solde global</h3>
+            <p
+              className={`text-2xl ${
+                globalBalance >= 0 ? "text-green-400" : "text-red-400"
+              }`}
+            >
+              ${globalBalance.toFixed(2)}
+            </p>
           </div>
         </div>
 

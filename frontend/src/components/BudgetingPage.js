@@ -1,11 +1,18 @@
+// components/BudgetingPage.js
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { createCategoryForUser, getCategoriesForUser } from "../services/categoryService";
+import {
+  createCategoryForUser,
+  getCategoriesForUser,
+} from "../services/categoryService";
 import { getCategoryTotal } from "../services/totalService";
 import { useAuthContext } from "../context/AuthContext";
+import { useBudgetContext } from "../context/BudgetContext"; // Importez useBudgetContext
 
 const BudgetingPage = () => {
   const { user } = useAuthContext();
+  const { setTotalIncome, setTotalExpense, setGlobalBalance } =
+    useBudgetContext(); // Utilisez useBudgetContext
   const userId = user ? user.id : null;
 
   const [categories, setCategories] = useState([]);
@@ -51,18 +58,27 @@ const BudgetingPage = () => {
   }, [categories, userId]);
 
   const totalIncome = categories.reduce(
-    (acc, cat) => (cat.type === "INCOME" ? acc + (totalsMap[cat.id] || 0) : acc),
+    (acc, cat) =>
+      cat.type === "INCOME" ? acc + (totalsMap[cat.id] || 0) : acc,
     0
   );
   const totalExpense = categories.reduce(
-    (acc, cat) => (cat.type === "EXPENSE" ? acc + (totalsMap[cat.id] || 0) : acc),
+    (acc, cat) =>
+      cat.type === "EXPENSE" ? acc + (totalsMap[cat.id] || 0) : acc,
     0
   );
   const globalBalance = totalIncome - totalExpense;
 
+  // Mettre à jour le contexte
+  setTotalIncome(totalIncome);
+  setTotalExpense(totalExpense);
+  setGlobalBalance(globalBalance);
+
   const addCategory = async (type) => {
-    const name = type === "EXPENSE" ? newExpenseCategoryName : newIncomeCategoryName;
-    const desc = type === "EXPENSE" ? newExpenseCategoryDesc : newIncomeCategoryDesc;
+    const name =
+      type === "EXPENSE" ? newExpenseCategoryName : newIncomeCategoryName;
+    const desc =
+      type === "EXPENSE" ? newExpenseCategoryDesc : newIncomeCategoryDesc;
 
     if (name.trim() === "") return;
 
@@ -89,13 +105,24 @@ const BudgetingPage = () => {
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-gray-100 px-6 py-12">
       {/* Header */}
       <div className="max-w-4xl mx-auto bg-gray-700 bg-opacity-80 rounded-xl shadow-lg p-8 border border-gray-600">
-        <h1 className="text-4xl font-bold text-center text-gray-100 mb-4">Gestion du Budget</h1>
+        <h1 className="text-4xl font-bold text-center text-gray-100 mb-4">
+          Gestion du Budget
+        </h1>
         <div className="text-center space-y-2">
           <p className="text-lg font-medium">
-            <span className="text-green-400">Revenus : ${totalIncome.toFixed(2)}</span> |{" "}
-            <span className="text-red-400">Dépenses : ${totalExpense.toFixed(2)}</span>
+            <span className="text-green-400">
+              Revenus : ${totalIncome.toFixed(2)}
+            </span>{" "}
+            |{" "}
+            <span className="text-red-400">
+              Dépenses : ${totalExpense.toFixed(2)}
+            </span>
           </p>
-          <p className={`text-2xl font-bold ${globalBalance >= 0 ? "text-green-400" : "text-red-400"}`}>
+          <p
+            className={`text-2xl font-bold ${
+              globalBalance >= 0 ? "text-green-400" : "text-red-400"
+            }`}
+          >
             Balance : ${globalBalance.toFixed(2)}
           </p>
         </div>
@@ -113,11 +140,17 @@ const BudgetingPage = () => {
                 <Link
                   key={cat.id}
                   to={`/category/${encodeURIComponent(cat.name)}`}
-                  state={{ categoryName: cat.name, categoryId: cat.id, categoryType: cat.type }}
+                  state={{
+                    categoryName: cat.name,
+                    categoryId: cat.id,
+                    categoryType: cat.type,
+                  }}
                   className="block p-4 bg-gray-800 rounded-lg shadow border border-gray-700 hover:bg-gray-700"
                 >
                   <h4 className="text-lg font-semibold">{cat.name}</h4>
-                  <p className="text-sm text-gray-300 mt-2">Total : ${totalsMap[cat.id] || 0}</p>
+                  <p className="text-sm text-gray-300 mt-2">
+                    Total : ${totalsMap[cat.id] || 0}
+                  </p>
                 </Link>
               ))}
             <button
@@ -139,11 +172,17 @@ const BudgetingPage = () => {
                 <Link
                   key={cat.id}
                   to={`/category/${encodeURIComponent(cat.name)}`}
-                  state={{ categoryName: cat.name, categoryId: cat.id, categoryType: cat.type }}
+                  state={{
+                    categoryName: cat.name,
+                    categoryId: cat.id,
+                    categoryType: cat.type,
+                  }}
                   className="block p-4 bg-gray-800 rounded-lg shadow border border-gray-700 hover:bg-gray-700"
                 >
                   <h4 className="text-lg font-semibold">{cat.name}</h4>
-                  <p className="text-sm text-gray-300 mt-2">Total : ${totalsMap[cat.id] || 0}</p>
+                  <p className="text-sm text-gray-300 mt-2">
+                    Total : ${totalsMap[cat.id] || 0}
+                  </p>
                 </Link>
               ))}
             <button
