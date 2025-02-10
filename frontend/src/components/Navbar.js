@@ -19,23 +19,27 @@ const Navbar = () => {
         {/* Navigation Links */}
         <div className="hidden md:flex space-x-6">
           <Link
-            to="/features"
-            className="text-gray-300 hover:text-white transition font-medium"
-          >
-            Fonctionnalités
-          </Link>
-          <Link
-            to="/pricing"
-            className="text-gray-300 hover:text-white transition font-medium"
-          >
-            Tarifs
-          </Link>
-          <Link
             to="/about"
             className="text-gray-300 hover:text-white transition font-medium"
           >
-            À propos
+            About
           </Link>
+          {user && (
+            <Link
+              to="/budgeting"
+              className="text-gray-300 hover:text-white transition font-medium"
+            >
+              Budget management
+            </Link>
+          )}
+          {user && (
+            <Link
+              to="/dashboard"
+              className="text-gray-300 hover:text-white transition font-medium"
+            >
+              Tableau de bord
+            </Link>
+          )}
         </div>
 
         {/* Auth Buttons */}
@@ -45,30 +49,24 @@ const Navbar = () => {
               to="/login"
               className="px-4 py-2 text-white border border-gray-500 rounded-md hover:bg-gray-700 transition"
             >
-              Connexion
+              Login
             </Link>
             <Link
               to="/signup"
               className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition shadow-md"
             >
-              Inscription
+              Sign Up
             </Link>
           </div>
         )}
 
         {user && (
           <div className="space-x-4">
-            <Link
-              to="/dashboard"
-              className="px-4 py-2 text-white border border-gray-500 rounded-md hover:bg-gray-700 transition"
-            >
-              Tableau de bord
-            </Link>
             <button
               onClick={logout}
               className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition shadow-md"
             >
-              Deconnexion
+              Logout
             </button>
           </div>
         )}

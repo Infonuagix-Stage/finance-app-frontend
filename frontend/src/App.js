@@ -11,7 +11,7 @@ import Dashboard from "./components/LoadingPage";
 import PrivateRoute from "./components/PrivateRoute";
 import BudgetingPage from "./components/BudgetingPage";
 import CategoryPage from "./components/CategoryPage";
-import Navbar from "./components/Navbar";
+import DashboardPage from "./components/Dashboard";
 import { AuthProvider } from "./context/AuthContext";
 
 function App() {
@@ -29,6 +29,7 @@ function App() {
             <Route path="/budgeting" element={<BudgetingPage />} />
             {/* On passe l'ID de la catégorie */}
             <Route path="/category/:categoryName" element={<CategoryPage />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
           </Route>
 
           {/* Route de fallback */}
