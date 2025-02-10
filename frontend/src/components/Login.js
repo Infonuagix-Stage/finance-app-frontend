@@ -23,7 +23,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/v1/auth/login",
+        `${process.env.REACT_APP_BACKEND_URL}/api/v1/auth/login`,
         formData
       );
       console.log("Token reçu:", response.data.token);
@@ -32,7 +32,9 @@ const Login = () => {
       // Rediriger vers le dashboard
       navigate("/loadingpage");
     } catch (error) {
-      setMessage("Erreur lors de la connexion. Veuillez vérifier vos informations.");
+      setMessage(
+        "Erreur lors de la connexion. Veuillez vérifier vos informations."
+      );
       console.error("Erreur API:", error);
     }
     setLoading(false);

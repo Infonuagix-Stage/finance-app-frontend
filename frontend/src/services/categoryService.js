@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:8080/api/v1",
+  baseURL: `${process.env.REACT_APP_BACKEND_URL}/api/v1`,
   headers: { "Content-Type": "application/json" },
 });
 
@@ -18,7 +18,9 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 export const getCategoryByName = async (userId, categoryName) => {
-  const response = await api.get(`/users/${userId}/categories/${encodeURIComponent(categoryName)}`);
+  const response = await api.get(
+    `/users/${userId}/categories/${encodeURIComponent(categoryName)}`
+  );
   return response.data;
 };
 
@@ -31,22 +33,28 @@ export const getCategoriesForUser = async (userId) => {
   console.log("Token envoyé dans l'en-tête Authorization :", yourJwtToken);
 
   // Make the request with the Authorization header
-  const response = await axios.get(`http://localhost:8080/api/v1/users/${userId}/categories`, {
-    headers: {
-      Authorization: `Bearer ${yourJwtToken}`,
-    },
-  });
+  const response = await axios.get(
+    `${process.env.REACT_APP_BACKEND_URL}/api/v1/users/${userId}/categories`,
+    {
+      headers: {
+        Authorization: `Bearer ${yourJwtToken}`,
+      },
+    }
+  );
 
   return response.data; // Return the categories array
 };
 
-export const createCategoryForUser = async (userId, categoryData) => {
+export const createCategoryForUser = async (userId, categoryName) => {
   const yourJwtToken = localStorage.getItem("token");
   console.log("Token envoyé dans l'en-tête Authorization :", yourJwtToken);
 
-  const response = await api.post(
-    `/users/${userId}/categories`, // utilisation de la route relative
-    categoryData, // ici categoryData est un objet { name, description, type }
+  const response = await axios.post(
+    `${process.env.REACT_APP_BACKEND_URL}/api/v1/users/${userId}/categories`,
+    {
+      name: categoryName,
+      description: `Description for ${categoryName}`,
+    },
     {
       headers: {
         Authorization: `Bearer ${yourJwtToken}`,
@@ -56,5 +64,3 @@ export const createCategoryForUser = async (userId, categoryData) => {
 
   return response.data;
 };
-
-
