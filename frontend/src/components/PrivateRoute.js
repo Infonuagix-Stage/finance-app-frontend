@@ -1,12 +1,22 @@
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { getToken } from "../services/authServices";
+import { useAuthContext } from "../context/AuthContext";
+import Navbar from "./Navbar";
 
 const PrivateRoute = () => {
-    // Check if the token exists
-    const isAuthenticated = !!getToken();
+  const { user } = useAuthContext();
 
-    return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return (
+    <>
+      <Navbar /> {/* Ajoutez le Navbar ici */}
+      <Outlet /> {/* Ceci affiche le contenu de la route protégée */}
+    </>
+  );
 };
 
 export default PrivateRoute;
