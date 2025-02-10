@@ -1,11 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
-import { logout } from "../services/authServices";
 
 const Navbar = () => {
-  const { user } = useAuthContext();
-  const handleLogout = () => logout();
+  const { user, logout } = useAuthContext();
 
   return (
     <nav className="fixed top-0 left-0 w-full bg-gray-900/70 backdrop-blur-md border-b border-gray-700 shadow-lg">
@@ -67,7 +65,7 @@ const Navbar = () => {
               Tableau de bord
             </Link>
             <button
-              onClick={handleLogout}
+              onClick={logout}
               className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition shadow-md"
             >
               Deconnexion
