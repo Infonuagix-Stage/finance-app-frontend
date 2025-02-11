@@ -9,7 +9,7 @@ import DashboardPage from "./components/Dashboard";
 import { AuthProvider, useAuthContext } from "./context/AuthContext";
 import LoadingPage from "./components/LoadingPage";
 import About from "./components/About";
-import Project from "./components/Project";
+import ProjectPage from "./components/ProjectPage";
 import Navbar from "./components/Navbar";
 import Payment from "./components/Payment";
 
@@ -31,7 +31,7 @@ const AppContent = () => {
           <Route path="/category/:categoryName" element={<CategoryPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/about" element={<About />} />
-          <Route path="/project" element={<Project />} />
+          <Route path="/project" element={<ProjectPage />} />
           <Route path="/payment" element={<Payment/>} />
         </Route>
 

@@ -6,7 +6,7 @@ const Navbar = () => {
   const { user, logout } = useAuthContext();
 
   return (
-    <nav className="fixed top-0 left-0 w-full h-16 bg-gray-900/70 backdrop-blur-md border-b border-gray-700 shadow-lg z-50">
+    <nav className="fixed top-0 left-0 w-full h-16 bg-gray-800 backdrop-blur-md border-b border-gray-700 shadow-lg z-50">
       <div className="max-w-7xl mx-auto px-6 lg:px-12 flex justify-between items-center h-16">
         {/* Logo */}
         <Link
