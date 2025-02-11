@@ -2,9 +2,6 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 
-
-
-
 // Création du contexte
 const AuthContext = createContext();
 
@@ -19,11 +16,12 @@ export const AuthProvider = ({ children }) => {
       try {
         const decoded = jwtDecode(token);
         console.log("Token décodé :", decoded); // Ajoutez ce log pour inspecter le payload
-  
+
         // Vérifiez ici que le token contient bien une propriété "id"
         setUser({
-          id: decoded.id,       // Assurez-vous que 'decoded.id' existe
-          email: decoded.sub,   // 'sub' est souvent utilisé pour l'email ou l'identifiant principal
+          id: decoded.id, // Assurez-vous que 'decoded.id' existe
+          email: decoded.sub,
+          name: decoded.name, // 'sub' est souvent utilisé pour l'email ou l'identifiant principal
           // Ajoutez d'autres propriétés si nécessaire
         });
       } catch (error) {
