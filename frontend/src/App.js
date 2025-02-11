@@ -11,7 +11,7 @@ import Dashboard from "./components/LoadingPage";
 import PrivateRoute from "./components/PrivateRoute";
 import BudgetingPage from "./components/BudgetingPage";
 import CategoryPage from "./components/CategoryPage";
-import DashboardPage from "./components/Dashboard";
+import DashboardPage from "./components/Dashboard/Dashboard";
 import { AuthProvider } from "./context/AuthContext";
 import { BudgetProvider } from "./context/BudgetContext";
 
