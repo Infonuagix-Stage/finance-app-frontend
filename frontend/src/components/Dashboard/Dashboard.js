@@ -6,25 +6,7 @@ import ExpenseWidget from "./widgets/ExpenseWidget";
 import BudgetWidget from "./widgets/BudgetWidget";
 import SavingsWidget from "./widgets/SavingsWidget";
 import DebtWidget from "./widgets/DebtWidget";
-import { Bar } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+import ChartWidget from "./widgets/ChartWidget"; // Importez le nouveau composant
 
 const Dashboard = () => {
   const { user } = useAuthContext();
@@ -40,26 +22,53 @@ const Dashboard = () => {
     datasets: [
       {
         label: "Revenus",
-        data: [1200, 1900, 3000, 2500, 2000, 3000],
-        backgroundColor: "rgba(75, 192, 192, 0.6)",
+        data: [2500, 1900, 3000, 2800, 2000, 3000],
+        backgroundColor: "rgba(75, 192, 192, 0.6)", // Couleur des barres de revenus
+        borderColor: "rgba(75, 192, 192, 1)",
+        borderWidth: 1,
+        borderRadius: 5, // Bordures arrondies pour les barres
       },
       {
         label: "Dépenses",
-        data: [800, 1200, 1500, 1000, 2000, 1800],
-        backgroundColor: "rgba(255, 99, 132, 0.6)",
+        data: [1500, 1200, 1800, 1000, 2000, 1500],
+        backgroundColor: "rgba(255, 99, 132, 0.6)", // Couleur des barres de dépenses
+        borderColor: "rgba(255, 99, 132, 1)",
+        borderWidth: 1,
+        borderRadius: 5, // Bordures arrondies pour les barres
       },
     ],
   };
 
   const chartOptions = {
     responsive: true,
+    maintainAspectRatio: false, // Permet de redimensionner le graphique
     plugins: {
       legend: {
         position: "top",
+        labels: {
+          color: "#fff", // Couleur du texte de la légende
+        },
       },
       title: {
-        display: true,
-        text: "Revenus et Dépenses par Mois",
+        display: false, // Masquer le titre (optionnel)
+      },
+    },
+    scales: {
+      x: {
+        grid: {
+          display: false, // Masquer la grille de l'axe X
+        },
+        ticks: {
+          color: "#fff", // Couleur des étiquettes de l'axe X
+        },
+      },
+      y: {
+        grid: {
+          color: "#4A5568", // Couleur de la grille de l'axe Y
+        },
+        ticks: {
+          color: "#fff", // Couleur des étiquettes de l'axe Y
+        },
       },
     },
   };
@@ -72,7 +81,7 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white pt-20">
+    <div className="min-h-screen bg-gray-900 text-white pt-20 pb-0">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <h1 className="text-3xl font-bold mb-8">Tableau de bord</h1>
 
@@ -94,10 +103,9 @@ const Dashboard = () => {
           <DebtWidget totalDebt={totalDebt} />
         </div>
 
-        {/* Graphiques */}
-        <div className="bg-gray-800 p-6 rounded-lg shadow-lg mb-8">
-          <h3 className="text-xl font-semibold mb-4">Revenus vs Dépenses</h3>
-          <Bar data={chartData} options={chartOptions} />
+        {/* Widget du graphique */}
+        <div className="mb-8">
+          <ChartWidget chartData={chartData} chartOptions={chartOptions} />
         </div>
 
         {/* Dernières transactions */}
@@ -113,7 +121,7 @@ const Dashboard = () => {
         </div>
 
         {/* Section pour les projets/épargne */}
-        <div className="bg-gray-800 p-6 rounded-lg shadow-lg mb-8">
+        <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
           <h3 className="text-xl font-semibold mb-4">Projets et Épargne</h3>
           <p className="text-gray-300">
             Aucun projet ou épargne en cours pour le moment.
