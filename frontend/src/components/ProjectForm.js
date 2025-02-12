@@ -9,11 +9,19 @@ const ProjectForm = ({ onCreate }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const monthsRemaining = Math.max(1, Math.ceil((new Date(deadline) - new Date()) / (1000 * 60 * 60 * 24 * 30)));
+
+    // Calcul du nombre de mois restants (min 1)
+    const monthsRemaining = Math.max(
+      1,
+      Math.ceil((new Date(deadline) - new Date()) / (1000 * 60 * 60 * 24 * 30))
+    );
+    // Calcul de la contribution mensuelle
     const monthlyContribution = (targetAmount - savedAmount) / monthsRemaining;
 
+    // Envoi des données du projet au composant parent
     onCreate({ name, targetAmount, savedAmount, deadline, priority, monthlyContribution });
 
+    // Réinitialisation du formulaire
     setName("");
     setTargetAmount("");
     setSavedAmount("");
@@ -22,77 +30,92 @@ const ProjectForm = ({ onCreate }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-lg mx-auto">
-      <h2 className="text-white text-2xl font-semibold mb-6 text-center">Créer un projet</h2>
-
-      {/* Project Name */}
-      <div className="mb-4">
-        <label className="text-gray-300 font-medium">Nom du projet</label>
+    <form
+      onSubmit={handleSubmit}
+      className="bg-gradient-to-br from-gray-800 to-gray-900 p-8 rounded-2xl shadow-2xl w-full max-w-md mx-auto border border-gray-700/50 backdrop-blur-sm"
+    >
+      <h2 className="text-3xl font-bold text-center bg-gradient-to-r from-teal-400 to-blue-500 bg-clip-text text-transparent mb-8">
+        Créer un projet
+      </h2>
+  
+      {/* Nom du projet */}
+      <div className="mb-6">
+        <label className="block text-sm font-medium text-gray-300 mb-2">
+          Nom du projet
+        </label>
         <input
           type="text"
           placeholder="Ex: Achat Maison"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="w-full p-3 mt-1 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500"
+          className="w-full p-3 bg-gray-700/50 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400/50 border border-gray-600/50 transition-all duration-200 hover:border-teal-400/50"
           required
         />
       </div>
-
-      {/* Target Amount */}
-      <div className="mb-4">
-        <label className="text-gray-300 font-medium">Montant cible ($)</label>
+  
+      {/* Montant cible */}
+      <div className="mb-6">
+        <label className="block text-sm font-medium text-gray-300 mb-2">
+          Montant cible ($)
+        </label>
         <input
           type="number"
           placeholder="Ex: 20000"
           value={targetAmount}
           onChange={(e) => setTargetAmount(Number(e.target.value))}
-          className="w-full p-3 mt-1 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-green-500"
+          className="w-full p-3 bg-gray-700/50 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400/50 border border-gray-600/50 transition-all duration-200 hover:border-teal-400/50"
           required
         />
       </div>
-
-      {/* Saved Amount */}
-      <div className="mb-4">
-        <label className="text-gray-300 font-medium">Montant déjà économisé ($)</label>
+  
+      {/* Montant déjà économisé */}
+      <div className="mb-6">
+        <label className="block text-sm font-medium text-gray-300 mb-2">
+          Montant déjà économisé ($)
+        </label>
         <input
           type="number"
           placeholder="Ex: 5000"
           value={savedAmount}
           onChange={(e) => setSavedAmount(Number(e.target.value))}
-          className="w-full p-3 mt-1 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-yellow-500"
+          className="w-full p-3 bg-gray-700/50 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400/50 border border-gray-600/50 transition-all duration-200 hover:border-teal-400/50"
         />
       </div>
-
-      {/* Deadline */}
-      <div className="mb-4">
-        <label className="text-gray-300 font-medium">Date limite</label>
+  
+      {/* Date limite */}
+      <div className="mb-6">
+        <label className="block text-sm font-medium text-gray-300 mb-2">
+          Date limite
+        </label>
         <input
           type="date"
           value={deadline}
           onChange={(e) => setDeadline(e.target.value)}
-          className="w-full p-3 mt-1 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-red-500"
+          className="w-full p-3 bg-gray-700/50 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400/50 border border-gray-600/50 transition-all duration-200 hover:border-teal-400/50"
           required
         />
       </div>
-
-      {/* Priority */}
-      <div className="mb-6">
-        <label className="text-gray-300 font-medium">Priorité</label>
+  
+      {/* Priorité */}
+      <div className="mb-8">
+        <label className="block text-sm font-medium text-gray-300 mb-2">
+          Priorité
+        </label>
         <select
           value={priority}
           onChange={(e) => setPriority(e.target.value)}
-          className="w-full p-3 mt-1 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-purple-500"
+          className="w-full p-3 bg-gray-700/50 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400/50 border border-gray-600/50 transition-all duration-200 hover:border-teal-400/50"
         >
-          <option value="Basse">Basse</option>
-          <option value="Moyenne">Moyenne</option>
-          <option value="Haute">Haute</option>
+          <option value="Basse" className="bg-gray-800 rounded-2xl">Basse</option>
+          <option value="Moyenne" className="bg-gray-800 rounded-2xl">Moyenne</option>
+          <option value="Haute" className="bg-gray-800 rounded-2xl">Haute</option>
         </select>
       </div>
-
-      {/* Submit Button */}
+  
+      {/* Bouton de soumission */}
       <button
         type="submit"
-        className="w-full bg-blue-500 text-white py-3 rounded-lg text-lg font-semibold hover:bg-blue-600 transition"
+        className="w-full bg-gradient-to-r from-teal-400 to-blue-500 hover:from-teal-500 hover:to-blue-600 transition-all duration-300 font-semibold text-white py-3 px-4 rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105"
       >
         Ajouter le projet
       </button>
