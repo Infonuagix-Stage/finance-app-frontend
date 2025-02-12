@@ -13,6 +13,7 @@ import BudgetingPage from "./components/BudgetingPage";
 import CategoryPage from "./components/CategoryPage";
 import DashboardPage from "./components/Dashboard/Dashboard";
 import { AuthProvider } from "./context/AuthContext";
+import About from "./components/About";
 import { BudgetProvider } from "./context/BudgetContext";
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
             {/* Routes publiques */}
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Register />} />
+            <Route path="/about" element={<About />} />
 
             {/* Routes protégées */}
             <Route element={<PrivateRoute />}>
