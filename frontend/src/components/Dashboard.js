@@ -13,7 +13,7 @@ const Dashboard = () => {
         {/* Section de bienvenue */}
         <div className="bg-gray-800 p-6 rounded-lg shadow-lg mb-8">
           <h2 className="text-2xl font-semibold mb-4">
-            Bienvenue, {user ? user.email : "Utilisateur"} !
+            Bienvenue, {user ? user.name : "Utilisateur"} !
           </h2>
           <p className="text-gray-300">
             Voici un aperçu de vos finances et de vos activités récentes.

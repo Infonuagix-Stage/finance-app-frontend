@@ -1,4 +1,4 @@
-import { logout } from "../services/authServices";
+import { logout } from "../services/authService";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -15,6 +15,8 @@ const LoadingPage = () => {
 
     // Countdown and redirect logic
     useEffect(() => {
+
+        console.log("okok")
         const interval = setInterval(() => {
             setCountdown((prev) => prev - 1); // Decrement countdown by 1 every second
         }, 1000);
