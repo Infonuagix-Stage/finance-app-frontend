@@ -1,0 +1,49 @@
+# ==========================
+# ⚙️  GÉNÉRAL
+# ==========================
+.DS_Store
+Thumbs.db
+*.log
+*.swp
+*.swo
+
+
+# ==========================
+# 🖥️  FRONTEND (REACT/VUE)
+# ==========================
+
+# Node modules et builds
+frontend/node_modules/
+frontend/.cache/
+frontend/dist/
+frontend/build/
+
+# Fichiers de lock des dépendances (optionnel si tu veux les garder)
+frontend/package-lock.json
+frontend/yarn.lock
+
+# Variables d'environnement (sensibles)
+frontend/.env
+frontend/.env.local
+frontend/.env.development
+frontend/.env.production
+frontend/.env.test
+backend/.env
+
+# Logs et erreurs
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+
+# ==========================
+# 🧪  TESTS & COUVERTURE
+# ==========================
+/test/
+backend/coverage/
+frontend/coverage/
+
+# ==========================
+# 🔍  DIVERS
+# ==========================
+/tmp/
+*.tmp
