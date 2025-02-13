@@ -2,4 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Ajoutez ces styles dans votre fichier CSS global ou dans un fichier de style dédié */
+.chart-container {
+  background-color: #2d3748; /* Couleur de fond du conteneur du graphique */
+  border-radius: 8px; /* Bordures arrondies */
+  padding: 16px; /* Espacement intérieur */
+}
 
+.chart-title {
+  color: #fff; /* Couleur du titre */
+  font-size: 1.25rem; /* Taille du texte */
+  font-weight: 600; /* Épaisseur du texte */
+  margin-bottom: 16px; /* Espacement en bas */
+}

@@ -1,24 +1,29 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import Login from "./components/Login";
 import Register from "./components/Signup";
 import Dashboard from "./components/LoadingPage";
 import PrivateRoute from "./components/PrivateRoute";
 import BudgetingPage from "./components/BudgetingPage";
 import CategoryPage from "./components/CategoryPage";
-import DashboardPage from "./components/Dashboard";
+import DashboardPage from "./components/Dashboard/Dashboard";
 import { AuthProvider, useAuthContext } from "./context/AuthContext";
-import LoadingPage from "./components/LoadingPage";
 import About from "./components/About";
 import ProjectPage from "./components/ProjectPage";
 import Navbar from "./components/Navbar";
 import Payment from "./components/Payment";
+import { BudgetProvider } from "./context/BudgetContext";
 
 const AppContent = () => {
   const { user } = useAuthContext(); // Vérifie si l'utilisateur est connecté
 
   return (
     <div className="pt-16">
-      {user && <Navbar />} 
+      {user && <Navbar />}
       <Routes>
         {/* Routes publiques */}
         <Route path="/login" element={<Login />} />
@@ -32,7 +37,7 @@ const AppContent = () => {
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/about" element={<About />} />
           <Route path="/project" element={<ProjectPage />} />
-          <Route path="/payment" element={<Payment/>} />
+          <Route path="/payment" element={<Payment />} />
         </Route>
 
         {/* Route de fallback */}
@@ -45,9 +50,11 @@ const AppContent = () => {
 function App() {
   return (
     <AuthProvider>
-      <Router>
-        <AppContent />
-      </Router>
+      <BudgetProvider>
+        <Router>
+          <AppContent />
+        </Router>
+      </BudgetProvider>
     </AuthProvider>
   );
 }
