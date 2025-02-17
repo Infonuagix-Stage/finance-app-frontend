@@ -1,0 +1,45 @@
+name: Frontend CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch: # Permet le déclenchement manuel
+  workflow_run:
+    workflows: ["Backend CI/CD"]
+    types: [completed]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build app
+        run: npm run build
+
+      - name: Deploy to GitHub Pages (if applicable)
+        if: success()
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: build
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Deploy to Server (Optional)
+        run: |
+          scp -r build/* user@server:/var/www/frontend
