@@ -4,17 +4,13 @@ import { useAuthContext } from "../../context/AuthContext";
 import { useBudgetContext } from "../../context/BudgetContext";
 import ExpenseWidget from "./widgets/ExpenseWidget";
 import BudgetWidget from "./widgets/BudgetWidget";
-import SavingsWidget from "./widgets/SavingsWidget";
+import SavingsWidget from "./widgets/SavingsWidget"; // Importez le nouveau composant
 import DebtWidget from "./widgets/DebtWidget";
-import ChartWidget from "./widgets/ChartWidget"; // Importez le nouveau composant
+import ChartWidget from "./widgets/ChartWidget";
 
 const Dashboard = () => {
   const { user } = useAuthContext();
   const { totalIncome, totalExpense, globalBalance } = useBudgetContext();
-
-  // Données factices pour l'exemple (à remplacer par des données réelles plus tard)
-  const savingsProgress = 45; // 45% de l'objectif d'épargne atteint
-  const totalDebt = 500;
 
   // Données pour le graphique
   const chartData = {
@@ -23,62 +19,55 @@ const Dashboard = () => {
       {
         label: "Revenus",
         data: [2500, 1900, 3000, 2800, 2000, 3000],
-        backgroundColor: "rgba(75, 192, 192, 0.6)", // Couleur des barres de revenus
+        backgroundColor: "rgba(75, 192, 192, 0.6)",
         borderColor: "rgba(75, 192, 192, 1)",
         borderWidth: 1,
-        borderRadius: 5, // Bordures arrondies pour les barres
+        borderRadius: 5,
       },
       {
         label: "Dépenses",
         data: [1500, 1200, 1800, 1000, 2000, 1500],
-        backgroundColor: "rgba(255, 99, 132, 0.6)", // Couleur des barres de dépenses
+        backgroundColor: "rgba(255, 99, 132, 0.6)",
         borderColor: "rgba(255, 99, 132, 1)",
         borderWidth: 1,
-        borderRadius: 5, // Bordures arrondies pour les barres
+        borderRadius: 5,
       },
     ],
   };
 
   const chartOptions = {
     responsive: true,
-    maintainAspectRatio: false, // Permet de redimensionner le graphique
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: "top",
         labels: {
-          color: "#fff", // Couleur du texte de la légende
+          color: "#fff",
         },
       },
       title: {
-        display: false, // Masquer le titre (optionnel)
+        display: false,
       },
     },
     scales: {
       x: {
         grid: {
-          display: false, // Masquer la grille de l'axe X
+          display: false,
         },
         ticks: {
-          color: "#fff", // Couleur des étiquettes de l'axe X
+          color: "#fff",
         },
       },
       y: {
         grid: {
-          color: "#4A5568", // Couleur de la grille de l'axe Y
+          color: "#4A5568",
         },
         ticks: {
-          color: "#fff", // Couleur des étiquettes de l'axe Y
+          color: "#fff",
         },
       },
     },
   };
-
-  // Données factices pour les dernières transactions
-  const recentTransactions = [
-    { id: 1, description: "Achat en ligne", amount: -50 },
-    { id: 2, description: "Salaire", amount: 2000 },
-    { id: 3, description: "Facture d'électricité", amount: -100 },
-  ];
 
   return (
     <div className="min-h-screen bg-gray-900 text-white pt-20 pb-0">
@@ -96,11 +85,10 @@ const Dashboard = () => {
         </div>
 
         {/* Grille de widgets */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
           <ExpenseWidget totalExpenses={totalExpense} />
           <BudgetWidget remainingBudget={globalBalance} />
-          <SavingsWidget savingsProgress={savingsProgress} />
-          <DebtWidget totalDebt={totalDebt} />
+          <DebtWidget totalDebt={500} />
         </div>
 
         {/* Widget du graphique */}
@@ -108,24 +96,8 @@ const Dashboard = () => {
           <ChartWidget chartData={chartData} chartOptions={chartOptions} />
         </div>
 
-        {/* Dernières transactions */}
-        <div className="bg-gray-800 p-6 rounded-lg shadow-lg mb-8">
-          <h3 className="text-xl font-semibold mb-4">Dernières transactions</h3>
-          <ul>
-            {recentTransactions.map((transaction) => (
-              <li key={transaction.id} className="text-gray-300">
-                {transaction.description} : ${transaction.amount}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Section pour les projets/épargne */}
         <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
-          <h3 className="text-xl font-semibold mb-4">Projets et Épargne</h3>
-          <p className="text-gray-300">
-            Aucun projet ou épargne en cours pour le moment.
-          </p>
+          <SavingsWidget />
         </div>
       </div>
     </div>
