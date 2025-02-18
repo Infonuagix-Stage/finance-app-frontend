@@ -10,7 +10,7 @@ import ChartWidget from "./widgets/ChartWidget"; // Importez le nouveau composan
 
 const Dashboard = () => {
   const { user } = useAuthContext();
-  const { totalIncome, totalExpense, globalBalance } = useBudgetContext();
+  {const {totalExpense, globalBalance } = useBudgetContext();}
 
   // Données factices pour l'exemple (à remplacer par des données réelles plus tard)
   const savingsProgress = 45; // 45% de l'objectif d'épargne atteint
