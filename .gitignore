@@ -18,9 +18,6 @@ frontend/.cache/
 frontend/dist/
 frontend/build/
 
-# Fichiers de lock des dépendances (optionnel si tu veux les garder)
-frontend/package-lock.json
-frontend/yarn.lock
 
 # Variables d'environnement (sensibles)
 frontend/.env
