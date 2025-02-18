@@ -1,9 +1,5 @@
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+
 import Login from "./components/Login";
 import Register from "./components/Signup";
 import Dashboard from "./components/LoadingPage";
@@ -17,6 +13,7 @@ import ProjectPage from "./components/ProjectPage";
 import Navbar from "./components/Navbar";
 import Payment from "./components/Payment";
 import { BudgetProvider } from "./context/BudgetContext";
+
 
 const AppContent = () => {
   const { user } = useAuthContext(); // Vérifie si l'utilisateur est connecté
