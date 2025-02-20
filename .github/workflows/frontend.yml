@@ -30,14 +30,3 @@ jobs:
       - name: Build the project
         run: npm run build
         working-directory: frontend
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Deploy to Vercel
-        run: |
-          npm install -g vercel
-          vercel --prod --token ${{ secrets.VERCEL_TOKEN }}
-        working-directory: frontend
