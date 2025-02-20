@@ -111,7 +111,7 @@ const BudgetingPage = () => {
         <div className="text-center space-y-2">
           <p className="text-lg font-medium">
             <span className="text-green-400">
-              Revenus : ${totalIncome.toFixed(2)}
+              Dépenses : ${Number(totalExpense || 0).toFixed(2)}
             </span>{" "}
             |{" "}
             <span className="text-red-400">
