@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://finance-app-frontend-8bmb.onrender.com/api/v1",
+  baseURL: `${process.env.REACT_APP_BACKEND_URL}/api/v1`,
   headers: { "Content-Type": "application/json" },
 });
 
