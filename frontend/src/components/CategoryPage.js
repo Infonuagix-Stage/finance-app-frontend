@@ -252,9 +252,18 @@ const CategoryPage = () => {
                 Annuler
               </button>
               <button
-                onClick={() =>
-                  handleEditRecord(editingRecord.id, editingRecord)
-                }
+                onClick={() => {
+                  const updatedData = {
+                    ...editingRecord, // Copie toutes les propriétés de editingRecord
+                    categoryId: categoryId, // Assure-toi que categoryId est inclus
+                    userId: userId, // Assure-toi que userId est inclus
+                    expenseDate:
+                      editingRecord.expenseDate ||
+                      new Date().toISOString().split("T")[0], // Ajoute expenseDate avec une valeur par défaut si nécessaire
+                  };
+                  console.log("Updated Data:", updatedData); // Log pour déboguer
+                  handleEditRecord(editingRecord.id, updatedData);
+                }}
                 className="px-4 py-2 bg-blue-600 text-white rounded-lg"
               >
                 Enregistrer
