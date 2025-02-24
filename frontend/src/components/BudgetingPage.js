@@ -69,11 +69,11 @@ const BudgetingPage = () => {
   );
   const globalBalance = totalIncome - totalExpense;
 
-  // Mettre à jour le contexte
-  setTotalIncome(totalIncome);
-  setTotalExpense(totalExpense);
-  setGlobalBalance(globalBalance);
-
+  useEffect(() => {
+    setTotalIncome(totalIncome);
+    setTotalExpense(totalExpense);
+    setGlobalBalance(globalBalance);
+  }, [totalIncome, totalExpense, globalBalance, setTotalIncome, setTotalExpense, setGlobalBalance]);
   const addCategory = async (type) => {
     const name =
       type === "EXPENSE" ? newExpenseCategoryName : newIncomeCategoryName;
