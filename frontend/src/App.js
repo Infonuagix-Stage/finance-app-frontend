@@ -14,7 +14,7 @@ import CategoryPage from "./components/CategoryPage";
 import DashboardPage from "./components/Dashboard/Dashboard";
 import { AuthProvider, useAuthContext } from "./context/AuthContext";
 import About from "./components/About";
-import ProjectPage from "./components/ProjectPage";
+import ProjectPage from "./components/Project/ProjectPage";
 import Navbar from "./components/Navbar";
 import Payment from "./components/Payment";
 import { BudgetProvider } from "./context/BudgetContext";

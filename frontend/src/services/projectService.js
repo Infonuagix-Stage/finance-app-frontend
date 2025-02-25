@@ -71,3 +71,22 @@ export const deleteProjectForUser = async(userId, id) =>{
   return response.data;
 
 }
+
+export const updateProjectForUser = async(userId, id, updatedData) =>{
+  const yourJwtToken = localStorage.getItem("token");
+  console.log("Données envoyées au PUT (updateProjectForUser):", updatedData);
+  console.log("Token envoyé dans l'en-tête Authorization :", yourJwtToken);
+
+  const response = await api.put(
+    `/users/${userId}/projects/${id}`,
+    updatedData,
+    {
+      headers: {
+        Authorization: `Bearer ${yourJwtToken}`,
+      },
+    }
+  );
+  console.log("Données envoyées au PUT (updateProjectForUser):", updatedData);
+  return response.data;
+}
+
