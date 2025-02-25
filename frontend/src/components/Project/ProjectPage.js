@@ -180,16 +180,26 @@ const ProjectPage = () => {
   
         {/* Section de modification du projet (par exemple via un modal ou inline) */}
         {editingProject && (
-          <div className="mt-8">
-            <h2 className="text-3xl font-bold text-center mb-4">
+          <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+          {/* Conteneur du formulaire */}
+          <div className="bg-gray-900 p-6 rounded-lg w-full max-w-lg relative">
+            {/* Bouton pour fermer le modal */}
+            <button
+              onClick={() => setEditingProject(null)}
+              className="absolute top-2 right-2 text-gray-300 hover:text-white"
+            >
+              ✕
+            </button>
+            <h2 className="text-2xl font-bold mb-4">
               Modifier le projet: {editingProject.name}
             </h2>
-            <ProjectUpdateForm 
-              initialProject={editingProject} 
+            <ProjectUpdateForm
+              initialProject={editingProject}
               onUpdate={handleUpdateProject}
               onCancel={() => setEditingProject(null)}
             />
           </div>
+        </div>
         )}
       </div>
   
