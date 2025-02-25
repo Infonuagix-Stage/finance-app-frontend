@@ -1,28 +1,23 @@
-// AuthContext.js
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 
-// Création du contexte
 const AuthContext = createContext();
 
-// Fournisseur du contexte
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token") || null);
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true); // Ajout de l'état de chargement
 
-  // Dès que le token change, on peut essayer d'extraire les infos utilisateur
   useEffect(() => {
     if (token) {
       try {
         const decoded = jwtDecode(token);
-        console.log("Token décodé :", decoded); // Ajoutez ce log pour inspecter le payload
+        console.log("Token décodé :", decoded);
 
-        // Vérifiez ici que le token contient bien une propriété "id"
         setUser({
-          id: decoded.id, // Assurez-vous que 'decoded.id' existe
+          id: decoded.id,
           email: decoded.sub,
-          name: decoded.name, // 'sub' est souvent utilisé pour l'email ou l'identifiant principal
-          // Ajoutez d'autres propriétés si nécessaire
+          name: decoded.name,
         });
       } catch (error) {
         console.error("Erreur lors du décodage du token:", error);
@@ -31,15 +26,14 @@ export const AuthProvider = ({ children }) => {
     } else {
       setUser(null);
     }
+    setLoading(false); // Chargement terminé
   }, [token]);
 
-  // Fonction pour gérer la connexion (mise à jour du token)
   const login = (newToken) => {
     localStorage.setItem("token", newToken);
     setToken(newToken);
   };
 
-  // Fonction pour se déconnecter
   const logout = () => {
     localStorage.removeItem("token");
     setToken(null);
@@ -47,13 +41,12 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, login, logout }}>
+    <AuthContext.Provider value={{ user, token, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-// Hook pour utiliser le contexte plus facilement dans vos composants
 export const useAuthContext = () => {
   return useContext(AuthContext);
 };

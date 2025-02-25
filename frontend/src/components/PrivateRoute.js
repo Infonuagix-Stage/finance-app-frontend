@@ -4,7 +4,11 @@ import { useAuthContext } from "../context/AuthContext";
 import Navbar from "./Navbar";
 
 const PrivateRoute = () => {
-  const { user } = useAuthContext();
+  const { user, loading } = useAuthContext();
+
+  if (loading) {
+    return <Navigate to="/loadingpage" replace />; // Afficher un loader temporaire
+  }
 
   if (!user) {
     return <Navigate to="/login" replace />;
@@ -12,8 +16,8 @@ const PrivateRoute = () => {
 
   return (
     <>
-      <Navbar /> {/* Ajoutez le Navbar ici */}
-      <Outlet /> {/* Ceci affiche le contenu de la route protégée */}
+      <Navbar />
+      <Outlet />
     </>
   );
 };
