@@ -37,3 +37,32 @@ export const createExpenseForCategory = async (userId, categoryId, expense) => {
   );
   return response.data;
 };
+
+export const deleteExpenseForCategory = async (
+  userId,
+  categoryId,
+  expenseId
+) => {
+  const response = await api.delete(
+    `/users/${userId}/categories/${categoryId}/expenses/${expenseId}`
+  );
+  return response.data;
+};
+
+export const updateExpenseForCategory = async (
+  userId,
+  categoryId,
+  expenseId,
+  updatedExpense
+) => {
+  console.log("userId:", userId);
+  console.log("categoryId:", categoryId);
+  console.log("expenseId:", expenseId);
+  console.log("updatedExpense:", updatedExpense);
+  const response = await api.put(
+    `/users/${userId}/categories/${categoryId}/expenses/${expenseId}`,
+    updatedExpense
+  );
+
+  return response.data;
+};

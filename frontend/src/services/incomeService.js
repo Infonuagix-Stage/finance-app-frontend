@@ -23,7 +23,9 @@ api.interceptors.request.use(
 
 // Modification ici pour appeler l'endpoint qui renvoie la liste complète des entrés
 export const getIncomesForCategory = async (userId, categoryId) => {
-  const response = await api.get(`/users/${userId}/categories/${categoryId}/incomes`);
+  const response = await api.get(
+    `/users/${userId}/categories/${categoryId}/incomes`
+  );
   return response.data;
 };
 
@@ -32,7 +34,30 @@ export const createIncomeForCategory = async (userId, categoryId, income) => {
     `/users/${userId}/categories/${categoryId}/incomes`,
     income,
     {
-      headers: { "Content-Type": "application/json" }
+      headers: { "Content-Type": "application/json" },
+    }
+  );
+  return response.data;
+};
+
+export const deleteIncomeForCategory = async (userId, categoryId, incomeId) => {
+  const response = await api.delete(
+    `/users/${userId}/categories/${categoryId}/incomes/${incomeId}`
+  );
+  return response.data;
+};
+
+export const updateIncomeForCategory = async (
+  userId,
+  categoryId,
+  incomeId,
+  updatedIncome
+) => {
+  const response = await api.put(
+    `/users/${userId}/categories/${categoryId}/incomes/${incomeId}`,
+    updatedIncome,
+    {
+      headers: { "Content-Type": "application/json" },
     }
   );
   return response.data;
