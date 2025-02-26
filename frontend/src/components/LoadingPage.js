@@ -21,7 +21,7 @@ const LoadingPage = () => {
 
     // Redirect to `/budgeting` when countdown reaches 0
     if (countdown === 0) {
-      navigate("/budgeting");
+      navigate("/dashboard");
     }
 
     return () => clearInterval(interval); // Cleanup interval on component unmount

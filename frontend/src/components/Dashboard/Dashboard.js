@@ -1,16 +1,70 @@
-// components/Dashboard/Dashboard.js
-import React from "react";
+import React, { useEffect } from "react";
 import { useAuthContext } from "../../context/AuthContext";
 import { useBudgetContext } from "../../context/BudgetContext";
 import ExpenseWidget from "./widgets/ExpenseWidget";
 import BudgetWidget from "./widgets/BudgetWidget";
-import SavingsWidget from "./widgets/SavingsWidget"; // Importez le nouveau composant
+import SavingsWidget from "./widgets/SavingsWidget";
 import DebtWidget from "./widgets/DebtWidget";
 import ChartWidget from "./widgets/ChartWidget";
+import { getExpensesForCategory } from "../../services/expenseService";
+import { getIncomesForCategory } from "../../services/incomeService";
+import { getCategoriesForUser } from "../../services/categoryService";
 
 const Dashboard = () => {
   const { user } = useAuthContext();
-  const {totalExpense, globalBalance } = useBudgetContext();
+  const {
+    totalIncome,
+    totalExpense,
+    globalBalance,
+    setTotalIncome,
+    setTotalExpense,
+    setGlobalBalance,
+  } = useBudgetContext(); // Extrayez les valeurs du contexte
+  const userId = user ? user.id : null;
+
+  // Recalculate totals whenever the Dashboard is displayed
+  useEffect(() => {
+    if (!userId) return;
+
+    const fetchTotals = async () => {
+      try {
+        let totalExpense = 0;
+        let totalIncome = 0;
+
+        // Récupérer toutes les catégories de l'utilisateur
+        const categories = await getCategoriesForUser(userId);
+
+        // Calculer les totaux pour chaque catégorie
+        for (const category of categories) {
+          if (category.type === "EXPENSE") {
+            const expenses = await getExpensesForCategory(userId, category.id);
+            totalExpense += expenses.reduce(
+              (acc, expense) => acc + parseFloat(expense.amount || 0),
+              0
+            );
+          } else if (category.type === "INCOME") {
+            const incomes = await getIncomesForCategory(userId, category.id);
+            totalIncome += incomes.reduce(
+              (acc, income) => acc + parseFloat(income.amount || 0),
+              0
+            );
+          }
+        }
+
+        // Calculer le solde global
+        const globalBalance = totalIncome - totalExpense;
+
+        // Mettre à jour le contexte global
+        setTotalIncome(totalIncome);
+        setTotalExpense(totalExpense);
+        setGlobalBalance(globalBalance);
+      } catch (error) {
+        console.error("Erreur lors du calcul des totaux :", error);
+      }
+    };
+
+    fetchTotals();
+  }, [userId, setTotalIncome, setTotalExpense, setGlobalBalance]);
 
   // Données pour le graphique
   const chartData = {
@@ -86,8 +140,10 @@ const Dashboard = () => {
 
         {/* Grille de widgets */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-          <ExpenseWidget totalExpenses={totalExpense} />
-          <BudgetWidget remainingBudget={globalBalance} />
+          <ExpenseWidget totalExpenses={totalExpense} />{" "}
+          {/* Utilisez totalExpense */}
+          <BudgetWidget remainingBudget={globalBalance} />{" "}
+          {/* Utilisez globalBalance */}
           <DebtWidget totalDebt={500} />
         </div>
 
