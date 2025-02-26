@@ -19,7 +19,7 @@ const Dashboard = () => {
     setTotalIncome,
     setTotalExpense,
     setGlobalBalance,
-  } = useBudgetContext(); // Extrayez les valeurs du contexte
+  } = useBudgetContext();
   const userId = user ? user.id : null;
 
   // Recalculate totals whenever the Dashboard is displayed
@@ -33,23 +33,41 @@ const Dashboard = () => {
 
         // Récupérer toutes les catégories de l'utilisateur
         const categories = await getCategoriesForUser(userId);
+        console.log("Catégories récupérées :", categories); // Log pour vérifier les catégories
+
+        if (!categories || categories.length === 0) {
+          console.warn("Aucune catégorie trouvée pour l'utilisateur.");
+          return;
+        }
 
         // Calculer les totaux pour chaque catégorie
         for (const category of categories) {
           if (category.type === "EXPENSE") {
             const expenses = await getExpensesForCategory(userId, category.id);
+            console.log(
+              "Dépenses pour la catégorie",
+              category.id,
+              ":",
+              expenses
+            ); // Log pour vérifier les dépenses
             totalExpense += expenses.reduce(
-              (acc, expense) => acc + parseFloat(expense.amount || 0),
+              (acc, expense) =>
+                acc + parseFloat(expense.amount || expense.montant || 0), // Utilisez le bon champ
               0
             );
           } else if (category.type === "INCOME") {
             const incomes = await getIncomesForCategory(userId, category.id);
+            console.log("Revenus pour la catégorie", category.id, ":", incomes); // Log pour vérifier les revenus
             totalIncome += incomes.reduce(
-              (acc, income) => acc + parseFloat(income.amount || 0),
+              (acc, income) =>
+                acc + parseFloat(income.amount || income.montant || 0), // Utilisez le bon champ
               0
             );
           }
         }
+
+        console.log("Total des dépenses :", totalExpense); // Log pour vérifier le total des dépenses
+        console.log("Total des revenus :", totalIncome); // Log pour vérifier le total des revenus
 
         // Calculer le solde global
         const globalBalance = totalIncome - totalExpense;
@@ -140,10 +158,8 @@ const Dashboard = () => {
 
         {/* Grille de widgets */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-          <ExpenseWidget totalExpenses={totalExpense} />{" "}
-          {/* Utilisez totalExpense */}
-          <BudgetWidget remainingBudget={globalBalance} />{" "}
-          {/* Utilisez globalBalance */}
+          <ExpenseWidget totalExpenses={totalExpense} />
+          <BudgetWidget remainingBudget={globalBalance} />
           <DebtWidget totalDebt={500} />
         </div>
 
