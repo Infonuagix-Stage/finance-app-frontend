@@ -16,7 +16,6 @@ A personal finance management application with an interactive dashboard and  man
 - **Global Dashboard**:
   - Visualization of expenses/budget/debts
   - Interactive charts (income vs expenses)
-  - Key financial indicators (KPIs)
 - **Comprehensive Management**:
   - Tracking of projects and monthly budgets
   - Budget overrun alerts
@@ -28,9 +27,8 @@ A personal finance management application with an interactive dashboard and  man
   - React Router v6
   - Recharts/Chart.js (visualizations)
   - Axios (API communication)
-  - Styled-components/SCSS (styling)
+  - Tailwind (styling)
 - **Tools**:
-  - Vite
   - ESLint/Prettier
   - Git
 
