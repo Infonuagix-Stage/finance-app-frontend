@@ -35,12 +35,15 @@ A personal finance management application with an interactive dashboard and  man
 ## 📥 Installation
 1. Clone the repository:
 ```bash
-git clone https://github.com/your-username/financed-app.git
-cd financed-app/frontend
+git clone https://github.com/Infonuagix-Stage/finance-app-frontend.git
+cd financed-app-frontend/frontend
 ```
 2. Install dependencies:
+```bash
 npm install
-3. Start the application:
+```
+npm install
+4. Start the application:
 npm start
 
 ## ⚙️ Configuration
