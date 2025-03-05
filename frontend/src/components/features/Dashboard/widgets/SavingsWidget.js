@@ -1,7 +1,7 @@
 // components/Dashboard/widgets/SavingsWidget.js
 import React, { useEffect, useState } from "react";
-import { useAuthContext } from "../../../context/AuthContext";
-import { getProjectsForUser } from "../../../services/projectService"; // Importez la fonction pour récupérer les projets
+import { useAuthContext } from "../../../../context/AuthContext";
+import { getProjectsForUser } from "../../../../services/projectService"; // Importez la fonction pour récupérer les projets
 
 const SavingsWidget = () => {
   const { user } = useAuthContext(); // Récupérez l'utilisateur connecté

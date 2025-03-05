@@ -18,7 +18,6 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-
 export const getProjectsForUser = async (userId) => {
   // Retrieve the token from localStorage
   const yourJwtToken = localStorage.getItem("token");
@@ -34,45 +33,37 @@ export const getProjectsForUser = async (userId) => {
     }
   );
 
-  return response.data; 
+  return response.data;
 };
 
 export const createProjectForUser = async (userId, ProjectData) => {
   const yourJwtToken = localStorage.getItem("token");
   console.log("Token envoyé dans l'en-tête Authorization :", yourJwtToken);
 
-  const response = await api.post(
-    `/users/${userId}/projects`, 
-    ProjectData,
-    {
-      headers: {
-        Authorization: `Bearer ${yourJwtToken}`,
-      },
-    }
-  );
+  const response = await api.post(`/users/${userId}/projects`, ProjectData, {
+    headers: {
+      Authorization: `Bearer ${yourJwtToken}`,
+    },
+  });
 
   return response.data;
 };
 
-export const deleteProjectForUser = async(userId, id) =>{
+export const deleteProjectForUser = async (userId, id) => {
   const yourJwtToken = localStorage.getItem("token");
 
   console.log("Token envoyé dans l'en-tête Authorization :", yourJwtToken);
 
-  const response = await api.delete(
-    `/users/${userId}/projects/${id}`,
-    {
-      headers: {
-        Authorization: `Bearer ${yourJwtToken}`,
-      },
-    }
-  );
+  const response = await api.delete(`/users/${userId}/projects/${id}`, {
+    headers: {
+      Authorization: `Bearer ${yourJwtToken}`,
+    },
+  });
 
   return response.data;
+};
 
-}
-
-export const updateProjectForUser = async(userId, id, updatedData) =>{
+export const updateProjectForUser = async (userId, id, updatedData) => {
   const yourJwtToken = localStorage.getItem("token");
   console.log("Données envoyées au PUT (updateProjectForUser):", updatedData);
   console.log("Token envoyé dans l'en-tête Authorization :", yourJwtToken);
@@ -88,5 +79,4 @@ export const updateProjectForUser = async(userId, id, updatedData) =>{
   );
   console.log("Données envoyées au PUT (updateProjectForUser):", updatedData);
   return response.data;
-}
-
+};
