@@ -1,19 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
-import { useAuthContext } from "../context/AuthContext";
-import {
-  getExpensesForCategory,
-  createExpenseForCategory,
-  deleteExpenseForCategory,
-  updateExpenseForCategory,
-} from "../services/expenseService";
-import {
-  getIncomesForCategory,
-  createIncomeForCategory,
-  deleteIncomeForCategory,
-  updateIncomeForCategory,
-} from "../services/incomeService";
-import RecordActions from "./RecordActions"; // Importez le composant du menu déroulant
+import { useAuthContext } from "../../context/AuthContext";
+import RecordActions from "../RecordActions";
+import useRecords from "../../hooks/useRecords";
 
 const CategoryPage = () => {
   const { categoryName } = useParams();
@@ -22,120 +11,17 @@ const CategoryPage = () => {
   const userId = user ? user.id : null;
   const { categoryId, categoryType } = location.state || {};
 
-  const [records, setRecords] = useState([]);
+  // ✅ Add these state variables for form inputs
   const [newRecord, setNewRecord] = useState({ description: "", amount: "" });
-  const [currentTotal, setCurrentTotal] = useState(0);
-  const [editingRecord, setEditingRecord] = useState(null); // État pour l'enregistrement en cours de modification
+  const [editingRecord, setEditingRecord] = useState(null);
 
-  // Fetch records for the given category
-  useEffect(() => {
-    if (!userId || !categoryId) return;
-    const fetchRecords = async () => {
-      try {
-        let data;
-        if (categoryType && categoryType.toUpperCase() === "INCOME") {
-          data = await getIncomesForCategory(userId, categoryId);
-        } else {
-          data = await getExpensesForCategory(userId, categoryId);
-        }
-        setRecords(Array.isArray(data) ? data : []);
-      } catch (error) {
-        console.error("Erreur lors de la récupération des records :", error);
-      }
-    };
-    fetchRecords();
-  }, [userId, categoryId, categoryType]);
-
-  // Update current total when records change
-  useEffect(() => {
-    const total = records.reduce((acc, record) => {
-      const value = parseFloat(record.amount || record.montant || 0);
-      return acc + value;
-    }, 0);
-    setCurrentTotal(total);
-  }, [records]);
-
-  const addRecord = async () => {
-    if (!newRecord.description || !newRecord.amount || !categoryId) return;
-    try {
-      const recordData =
-        categoryType && categoryType.toUpperCase() === "INCOME"
-          ? {
-              description: newRecord.description,
-              amount: newRecord.amount,
-              incomeDate:
-                newRecord.incomeDate || new Date().toISOString().split("T")[0],
-              userId: userId,
-              categoryId: categoryId,
-            }
-          : {
-              description: newRecord.description,
-              amount: newRecord.amount,
-              expenseDate:
-                newRecord.expenseDate || new Date().toISOString().split("T")[0],
-              userId: userId,
-              categoryId: categoryId,
-            };
-
-      let created;
-      if (categoryType && categoryType.toUpperCase() === "INCOME") {
-        created = await createIncomeForCategory(userId, categoryId, recordData);
-      } else {
-        created = await createExpenseForCategory(
-          userId,
-          categoryId,
-          recordData
-        );
-      }
-      setRecords((prev) =>
-        Array.isArray(prev) ? [...prev, created] : [created]
-      );
-      setNewRecord({ description: "", amount: "" });
-    } catch (error) {
-      console.error("Erreur lors de la création du record :", error);
-    }
-  };
-
-  const handleDeleteRecord = async (recordId) => {
-    try {
-      if (categoryType && categoryType.toUpperCase() === "INCOME") {
-        await deleteIncomeForCategory(userId, categoryId, recordId);
-      } else {
-        await deleteExpenseForCategory(userId, categoryId, recordId);
-      }
-      setRecords((prev) => prev.filter((rec) => rec.id !== recordId));
-    } catch (error) {
-      console.error("Erreur lors de la suppression du record :", error);
-    }
-  };
-
-  const handleEditRecord = async (recordId, updatedData) => {
-    try {
-      let updatedRecord;
-      if (categoryType && categoryType.toUpperCase() === "INCOME") {
-        updatedRecord = await updateIncomeForCategory(
-          userId,
-          categoryId,
-          recordId,
-          updatedData
-        );
-      } else {
-        console.log("Editing record:", recordId, updatedData);
-        updatedRecord = await updateExpenseForCategory(
-          userId,
-          categoryId,
-          recordId,
-          updatedData
-        );
-      }
-      setRecords((prev) =>
-        prev.map((rec) => (rec.id === recordId ? updatedRecord : rec))
-      );
-      setEditingRecord(null); // Fermez le formulaire de modification
-    } catch (error) {
-      console.error("Erreur lors de la modification du record :", error);
-    }
-  };
+  const {
+    records,
+    currentTotal,
+    addRecord,
+    handleDeleteRecord,
+    handleEditRecord,
+  } = useRecords(userId, categoryId, categoryType);
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-200 p-8">
@@ -176,7 +62,18 @@ const CategoryPage = () => {
           className="w-full px-4 py-3 rounded-lg bg-gray-700 border border-gray-600 text-gray-200 mb-4 focus:ring-2 focus:ring-blue-500 focus:outline-none"
         />
         <button
-          onClick={addRecord}
+          onClick={() => {
+            const dateField =
+              categoryType === "INCOME" ? "incomeDate" : "expenseDate";
+            const recordData = {
+              description: newRecord.description,
+              amount: newRecord.amount,
+              [dateField]: new Date().toISOString().split("T")[0],
+              // userId and categoryId are already handled in the hook
+            };
+            addRecord(recordData); // Pass the record data
+            setNewRecord({ description: "", amount: "" });
+          }}
           className="w-full py-3 rounded-lg bg-blue-600 hover:bg-blue-700 transition text-white font-semibold"
         >
           Ajouter

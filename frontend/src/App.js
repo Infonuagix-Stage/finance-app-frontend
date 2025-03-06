@@ -9,13 +9,13 @@ import Login from "./components/Login";
 import Register from "./components/Signup";
 import LoadingPage from "./components/LoadingPage";
 import PrivateRoute from "./components/PrivateRoute";
-import BudgetingPage from "./components/BudgetingPage";
-import CategoryPage from "./components/CategoryPage";
+import BudgetingPage from "./components/pages/BudgetingPage";
+import CategoryPage from "./components/pages/CategoryPage";
 import DashboardPage from "./components/pages/Dashboard";
 import { AuthProvider, useAuthContext } from "./context/AuthContext";
-import About from "./components/About";
+import About from "./components/pages/About";
 import ProjectPage from "./components/pages/ProjectPage";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/layouts/Navbar";
 import Payment from "./components/Payment";
 import { BudgetProvider } from "./context/BudgetContext";
 

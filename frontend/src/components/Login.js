@@ -1,7 +1,7 @@
 // Login.js
 import React, { useState } from "react";
 import axios from "axios";
-import Navbar from "./Navbar";
+import Navbar from "./layouts/Navbar";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
 
