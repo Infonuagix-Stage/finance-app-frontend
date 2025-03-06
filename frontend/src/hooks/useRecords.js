@@ -48,6 +48,16 @@ const useRecords = (userId, categoryId, categoryType) => {
       return;
     }
 
+    recordData = {
+      description: recordData.description,
+      amount: recordData.amount,
+      expenseDate: recordData.expenseDate,
+      userId: userId,
+      categoryId: categoryId,
+
+      // userId and categoryId are already handled in the hook
+    };
+
     console.log("userId:", userId);
     console.log("categoryId:", categoryId);
     console.log("categoryType:", categoryType);

@@ -63,10 +63,14 @@ const useCategories = (userId) => {
       await Promise.all(
         categories.map(async (cat) => {
           try {
-            const total = await getCategoryTotal(userId, cat.id, cat.type);
-            newTotalsMap[cat.id] = total;
+            const total = await getCategoryTotal(
+              userId,
+              cat.categoryId,
+              cat.type
+            );
+            newTotalsMap[cat.categoryId] = total;
           } catch {
-            newTotalsMap[cat.id] = 0;
+            newTotalsMap[cat.categoryId] = 0;
           }
         })
       );

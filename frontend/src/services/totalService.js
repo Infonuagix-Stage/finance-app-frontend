@@ -18,8 +18,11 @@ api.interceptors.request.use(
 );
 
 export const getCategoryTotal = async (userId, categoryId, type) => {
-  const response = await api.get(`/users/${userId}/categories/${categoryId}/total`, {
-    params: { type },
-  });
+  const response = await api.get(
+    `/users/${userId}/categories/${categoryId}/total`,
+    {
+      params: { type },
+    }
+  );
   return response.data;
 };

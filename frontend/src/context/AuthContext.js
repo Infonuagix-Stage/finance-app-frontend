@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
         console.log("Token décodé :", decoded);
 
         setUser({
-          id: decoded.id,
+          userId: decoded.userId,
           email: decoded.sub,
           name: decoded.name,
         });

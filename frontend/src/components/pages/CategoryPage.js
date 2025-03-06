@@ -8,7 +8,7 @@ const CategoryPage = () => {
   const { categoryName } = useParams();
   const location = useLocation();
   const { user } = useAuthContext();
-  const userId = user ? user.id : null;
+  const userId = user ? user.userId : null;
   const { categoryId, categoryType } = location.state || {};
 
   // ✅ Add these state variables for form inputs

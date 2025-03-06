@@ -10,7 +10,7 @@ const BudgetingPage = () => {
   const { user } = useAuthContext();
   const { setTotalIncome, setTotalExpense, setGlobalBalance } =
     useBudgetContext();
-  const userId = user ? user.id : null;
+  const userId = user ? user.userId : null;
 
   const {
     categories,
@@ -88,11 +88,11 @@ const BudgetingPage = () => {
               .filter((cat) => cat.type === "EXPENSE")
               .map((cat) => (
                 <Link
-                  key={cat.id}
+                  key={cat.categoryId}
                   to={`/category/${encodeURIComponent(cat.name)}`}
                   state={{
                     categoryName: cat.name,
-                    categoryId: cat.id,
+                    categoryId: cat.categoryId,
                     categoryType: cat.type,
                   }}
                   className="block p-4 bg-gray-800 rounded-lg shadow border border-gray-700 hover:bg-gray-700"
@@ -122,18 +122,18 @@ const BudgetingPage = () => {
               .filter((cat) => cat.type === "INCOME")
               .map((cat) => (
                 <Link
-                  key={cat.id}
+                  key={cat.categoryId}
                   to={`/category/${encodeURIComponent(cat.name)}`}
                   state={{
                     categoryName: cat.name,
-                    categoryId: cat.id,
+                    categoryId: cat.categoryId,
                     categoryType: cat.type,
                   }}
                   className="block p-4 bg-gray-800 rounded-lg shadow border border-gray-700 hover:bg-gray-700"
                 >
                   <h4 className="text-lg font-semibold">{cat.name}</h4>
                   <p className="text-sm text-gray-300 mt-2">
-                    Total : ${totalsMap[cat.id] || 0}
+                    Total : ${totalsMap[cat.categoryId] || 0}
                   </p>
                 </Link>
               ))}

@@ -8,12 +8,14 @@ const SavingsWidget = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true); // État de chargement
 
+  console.log("user:", user);
+
   // Récupérez les projets depuis le backend
   useEffect(() => {
     if (user) {
       const fetchProjects = async () => {
         try {
-          const fetchedProjects = await getProjectsForUser(user.id);
+          const fetchedProjects = await getProjectsForUser(user.userId);
           setProjects(fetchedProjects);
         } catch (error) {
           console.error("Erreur lors de la récupération des projets:", error);
