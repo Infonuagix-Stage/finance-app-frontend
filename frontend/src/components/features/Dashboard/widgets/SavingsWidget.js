@@ -1,19 +1,21 @@
 // components/Dashboard/widgets/SavingsWidget.js
 import React, { useEffect, useState } from "react";
-import { useAuthContext } from "../../../context/AuthContext";
-import { getProjectsForUser } from "../../../services/projectService"; // Importez la fonction pour récupérer les projets
+import { useAuthContext } from "../../../../context/AuthContext";
+import { getProjectsForUser } from "../../../../services/projectService"; // Importez la fonction pour récupérer les projets
 
 const SavingsWidget = () => {
   const { user } = useAuthContext(); // Récupérez l'utilisateur connecté
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true); // État de chargement
 
+  console.log("user:", user);
+
   // Récupérez les projets depuis le backend
   useEffect(() => {
     if (user) {
       const fetchProjects = async () => {
         try {
-          const fetchedProjects = await getProjectsForUser(user.id);
+          const fetchedProjects = await getProjectsForUser(user.userId);
           setProjects(fetchedProjects);
         } catch (error) {
           console.error("Erreur lors de la récupération des projets:", error);

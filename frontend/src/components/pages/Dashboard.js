@@ -2,15 +2,15 @@
 import React from "react";
 import { useAuthContext } from "../../context/AuthContext";
 import { useBudgetContext } from "../../context/BudgetContext";
-import ExpenseWidget from "./widgets/ExpenseWidget";
-import BudgetWidget from "./widgets/BudgetWidget";
-import SavingsWidget from "./widgets/SavingsWidget"; // Importez le nouveau composant
-import DebtWidget from "./widgets/DebtWidget";
-import ChartWidget from "./widgets/ChartWidget";
+import ExpenseWidget from "../features/Dashboard/widgets/ExpenseWidget";
+import BudgetWidget from "../features/Dashboard/widgets/BudgetWidget";
+import SavingsWidget from "../features/Dashboard/widgets/SavingsWidget"; // Importez le nouveau composant
+import DebtWidget from "../features/Dashboard/widgets/DebtWidget";
+import ChartWidget from "../features/Dashboard/widgets/ChartWidget";
 
 const Dashboard = () => {
   const { user } = useAuthContext();
-  const {totalExpense, globalBalance } = useBudgetContext();
+  const { totalExpense, globalBalance } = useBudgetContext();
 
   // Données pour le graphique
   const chartData = {

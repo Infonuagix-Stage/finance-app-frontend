@@ -1,62 +1,36 @@
 // components/BudgetingPage.js
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import {
-  createCategoryForUser,
-  getCategoriesForUser,
-} from "../services/categoryService";
-import { getCategoryTotal } from "../services/totalService";
-import { useAuthContext } from "../context/AuthContext";
-import { useBudgetContext } from "../context/BudgetContext"; // Importez useBudgetContext
+import { useAuthContext } from "../../context/AuthContext";
+import { useBudgetContext } from "../../context/BudgetContext";
+import useCategories from "../../hooks/useCategories"; // Custom hook
 
 const BudgetingPage = () => {
   const { user } = useAuthContext();
   const { setTotalIncome, setTotalExpense, setGlobalBalance } =
-    useBudgetContext(); // Utilisez useBudgetContext
-  const userId = user ? user.id : null;
+    useBudgetContext();
+  const userId = user ? user.userId : null;
 
-  const [categories, setCategories] = useState([]);
-  const [totalsMap, setTotalsMap] = useState({});
-  const [isExpenseModalVisible, setIsExpenseModalVisible] = useState(false);
-  const [isIncomeModalVisible, setIsIncomeModalVisible] = useState(false);
+  const {
+    categories,
+    totalsMap,
+    newExpenseCategoryName,
+    setNewExpenseCategoryName,
+    newExpenseCategoryDesc,
+    setNewExpenseCategoryDesc,
+    newIncomeCategoryName,
+    setNewIncomeCategoryName,
+    newIncomeCategoryDesc,
+    setNewIncomeCategoryDesc,
+    addCategory,
+    isExpenseModalVisible,
+    setIsExpenseModalVisible,
+    isIncomeModalVisible,
+    setIsIncomeModalVisible,
+  } = useCategories(userId);
 
-  const [newExpenseCategoryName, setNewExpenseCategoryName] = useState("");
-  const [newExpenseCategoryDesc, setNewExpenseCategoryDesc] = useState("");
-  const [newIncomeCategoryName, setNewIncomeCategoryName] = useState("");
-  const [newIncomeCategoryDesc, setNewIncomeCategoryDesc] = useState("");
-
-  useEffect(() => {
-    if (!userId) return;
-    const fetchCategories = async () => {
-      try {
-        const fetchedCategories = await getCategoriesForUser(userId);
-        setCategories(fetchedCategories);
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      }
-    };
-    fetchCategories();
-  }, [userId]);
-
-  useEffect(() => {
-    if (categories.length === 0 || !userId) return;
-    const fetchTotals = async () => {
-      const newTotalsMap = {};
-      await Promise.all(
-        categories.map(async (cat) => {
-          try {
-            const total = await getCategoryTotal(userId, cat.id, cat.type);
-            newTotalsMap[cat.id] = total;
-          } catch {
-            newTotalsMap[cat.id] = 0;
-          }
-        })
-      );
-      setTotalsMap(newTotalsMap);
-    };
-    fetchTotals();
-  }, [categories, userId]);
-
+  // Calculate totals
   const totalIncome = categories.reduce(
     (acc, cat) =>
       cat.type === "INCOME" ? acc + (totalsMap[cat.id] || 0) : acc,
@@ -73,33 +47,7 @@ const BudgetingPage = () => {
     setTotalIncome(totalIncome);
     setTotalExpense(totalExpense);
     setGlobalBalance(globalBalance);
-  }, [totalIncome, totalExpense, globalBalance, setTotalIncome, setTotalExpense, setGlobalBalance]);
-  const addCategory = async (type) => {
-    const name =
-      type === "EXPENSE" ? newExpenseCategoryName : newIncomeCategoryName;
-    const desc =
-      type === "EXPENSE" ? newExpenseCategoryDesc : newIncomeCategoryDesc;
-
-    if (name.trim() === "") return;
-
-    try {
-      const categoryData = { name, description: desc, type };
-      const created = await createCategoryForUser(userId, categoryData);
-      setCategories([...categories, created]);
-
-      if (type === "EXPENSE") {
-        setNewExpenseCategoryName("");
-        setNewExpenseCategoryDesc("");
-        setIsExpenseModalVisible(false);
-      } else {
-        setNewIncomeCategoryName("");
-        setNewIncomeCategoryDesc("");
-        setIsIncomeModalVisible(false);
-      }
-    } catch (error) {
-      console.error(`Error adding ${type} category:`, error);
-    }
-  };
+  }, [totalIncome, totalExpense, globalBalance]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-gray-100 px-6 py-12">
@@ -140,11 +88,11 @@ const BudgetingPage = () => {
               .filter((cat) => cat.type === "EXPENSE")
               .map((cat) => (
                 <Link
-                  key={cat.id}
+                  key={cat.categoryId}
                   to={`/category/${encodeURIComponent(cat.name)}`}
                   state={{
                     categoryName: cat.name,
-                    categoryId: cat.id,
+                    categoryId: cat.categoryId,
                     categoryType: cat.type,
                   }}
                   className="block p-4 bg-gray-800 rounded-lg shadow border border-gray-700 hover:bg-gray-700"
@@ -174,18 +122,18 @@ const BudgetingPage = () => {
               .filter((cat) => cat.type === "INCOME")
               .map((cat) => (
                 <Link
-                  key={cat.id}
+                  key={cat.categoryId}
                   to={`/category/${encodeURIComponent(cat.name)}`}
                   state={{
                     categoryName: cat.name,
-                    categoryId: cat.id,
+                    categoryId: cat.categoryId,
                     categoryType: cat.type,
                   }}
                   className="block p-4 bg-gray-800 rounded-lg shadow border border-gray-700 hover:bg-gray-700"
                 >
                   <h4 className="text-lg font-semibold">{cat.name}</h4>
                   <p className="text-sm text-gray-300 mt-2">
-                    Total : ${totalsMap[cat.id] || 0}
+                    Total : ${totalsMap[cat.categoryId] || 0}
                   </p>
                 </Link>
               ))}
