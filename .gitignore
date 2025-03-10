@@ -13,31 +13,31 @@ Thumbs.db
 # ==========================
 
 # Node modules et builds
-frontend/node_modules/
-frontend/.cache/
-frontend/dist/
-frontend/build/
+node_modules/
+.cache/
+dist/
+build/
 
 
 # Variables d'environnement (sensibles)
-frontend/.env
-frontend/.env.local
-frontend/.env.development
-frontend/.env.production
-frontend/.env.test
-backend/.env
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
 
 # Logs et erreurs
-frontend/npm-debug.log*
-frontend/yarn-debug.log*
-frontend/yarn-error.log*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 # ==========================
 # 🧪  TESTS & COUVERTURE
 # ==========================
 /test/
-backend/coverage/
-frontend/coverage/
+coverage/
+coverage/
 
 # ==========================
 # 🔍  DIVERS
