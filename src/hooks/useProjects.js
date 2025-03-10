@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { useAuthContext } from "../context/AuthContext";
+import { useAuth0 } from "@auth0/auth0-react";
 import {
   createProjectForUser,
   deleteProjectForUser,
@@ -8,18 +8,19 @@ import {
 } from "../services/projectService";
 
 export const useProjects = () => {
-  const { user, token } = useAuthContext();
+  const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0(); // Use Auth0
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [currentProject, setCurrentProject] = useState(null);
 
   const fetchProjects = useCallback(async () => {
-    if (!user) return;
+    if (!isAuthenticated || !user) return;
 
     setLoading(true);
     try {
-      const fetchedProjects = await getProjectsForUser(user.userId, token);
+      const token = await getAccessTokenSilently(); // Get Auth0 token
+      const fetchedProjects = await getProjectsForUser(user.sub, token); // Use Auth0 user ID
       setProjects(fetchedProjects);
       setError(null);
     } catch (err) {
@@ -27,11 +28,12 @@ export const useProjects = () => {
     } finally {
       setLoading(false);
     }
-  }, [user, token]);
+  }, [user, isAuthenticated, getAccessTokenSilently]);
 
   const createProject = async (projectData) => {
     try {
-      const newProject = await createProjectForUser(user.userId, projectData);
+      const token = await getAccessTokenSilently();
+      const newProject = await createProjectForUser(user.sub, projectData, token);
       setProjects((prev) => [...prev, newProject]);
       return newProject;
     } catch (err) {
@@ -42,15 +44,10 @@ export const useProjects = () => {
 
   const updateProject = async (projectId, projectData) => {
     try {
-      const updatedProject = await updateProjectForUser(
-        user.id,
-        projectId,
-        projectData
-      );
+      const token = await getAccessTokenSilently();
+      const updatedProject = await updateProjectForUser(user.sub, projectId, projectData, token);
       setProjects((prev) =>
-        prev.map((project) =>
-          project.id === projectId ? updatedProject : project
-        )
+        prev.map((project) => (project.id === projectId ? updatedProject : project))
       );
       return updatedProject;
     } catch (err) {
@@ -61,7 +58,8 @@ export const useProjects = () => {
 
   const deleteProject = async (projectId) => {
     try {
-      await deleteProjectForUser(user.userId, projectId);
+      const token = await getAccessTokenSilently();
+      await deleteProjectForUser(user.sub, projectId, token);
       setProjects((prev) => prev.filter((project) => project.id !== projectId));
     } catch (err) {
       setError(err);
@@ -69,10 +67,12 @@ export const useProjects = () => {
     }
   };
 
-  // Load projects on component mount
+  // Load projects on component mount if authenticated
   useEffect(() => {
-    fetchProjects();
-  }, [fetchProjects]);
+    if (isAuthenticated) {
+      fetchProjects();
+    }
+  }, [fetchProjects, isAuthenticated]);
 
   return {
     projects,

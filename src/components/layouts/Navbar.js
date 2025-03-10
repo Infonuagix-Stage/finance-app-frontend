@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useAuthContext } from "../../context/AuthContext";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Navbar = () => {
-  const { user, logout } = useAuthContext();
+  const { isAuthenticated, user, loginWithRedirect, logout } = useAuth0();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -15,60 +15,56 @@ const Navbar = () => {
         <Link to="/" className="text-white text-2xl font-extrabold">
           Finance<span className="text-blue-400">App</span>
         </Link>
-        {/* Desktop Navigation Links */}
-        <div className="hidden md:flex space-x-6">
-          {user && (
-            <>
-              <Link to="/dashboard" className="text-gray-300 hover:text-white transition">
-                Vue d'ensemble
-              </Link>
-              <Link to="/budgeting" className="text-gray-300 hover:text-white transition">
-                Mon Budget
-              </Link>
-              <Link to="/project" className="text-gray-300 hover:text-white transition">
-                Mes Projets
-              </Link>
-              <Link to="/payment" className="text-gray-300 hover:text-white transition">
-                Mes Paiements
-              </Link>
-              <Link to="/about" className="text-gray-300 hover:text-white transition">
-                À propos
-              </Link>
-            </>
-          )}
+
+        {/* Navigation Links */}
+        <div className="hidden md:flex space-x-9">
+          {/* Always visible links */}
+          <Link to="/" className="text-gray-300 hover:text-white">Accueil</Link>
+          <Link to="/about" className="text-gray-300 hover:text-white">À propos</Link>
+
+          {/* Authenticated-only links */}
+          {isAuthenticated && <Link to="/dashboard" className="text-gray-300 hover:text-white">Vue d'ensemble</Link>}
+          {isAuthenticated && <Link to="/budgeting" className="text-gray-300 hover:text-white">Mon Budget</Link>}
+          {isAuthenticated && <Link to="/project" className="text-gray-300 hover:text-white">Mes Projets</Link>}
+          {isAuthenticated && <Link to="/payment" className="text-gray-300 hover:text-white">Mes Paiements</Link>}
         </div>
-        {/* Auth Buttons for Desktop */}
+
+        {/* Auth Buttons */}
         <div className="hidden md:flex space-x-4">
-          {!user ? (
+          {!isAuthenticated ? (
             <>
-              <Link
-                to="/login"
+              <button
+                onClick={() => loginWithRedirect()}
                 className="px-4 py-2 text-white border border-gray-500 rounded-md hover:bg-gray-700 transition"
               >
                 Login
-              </Link>
-              <Link
-                to="/signup"
+              </button>
+              <button
+                onClick={() => loginWithRedirect({ screen_hint: "signup" })}
                 className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition shadow-md"
               >
                 Sign Up
-              </Link>
+              </button>
             </>
           ) : (
-            <button
-              onClick={logout}
-              className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition shadow-md"
-            >
-              Logout
-            </button>
+            <>
+              <span className="text-white">Bienvenue, {user?.name}!</span>
+              <button
+                onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}
+                className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition shadow-md"
+              >
+                Logout
+              </button>
+            </>
           )}
         </div>
+
         {/* Mobile Menu Button and Logout */}
         <div className="md:hidden flex items-center space-x-4">
-          {user && (
+          {isAuthenticated && (
             <button
-              onClick={logout}
-              className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition shadow-md"
+              onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}
+              className="px-2 py-1 text-gray-300 border border-red-500 rounded-md hover:bg-red-500 hover:text-white transition"
             >
               Logout
             </button>
@@ -101,11 +97,12 @@ const Navbar = () => {
           </button>
         </div>
       </div>
+
       {/* Mobile Navigation Menu */}
       {isMobileMenuOpen && (
         <div className="md:hidden bg-gray-800 border-t border-gray-700">
           <div className="px-4 pt-4 pb-2 space-y-2">
-            {user && (
+            {isAuthenticated && (
               <>
                 <Link
                   to="/dashboard"
@@ -144,12 +141,11 @@ const Navbar = () => {
                 </Link>
               </>
             )}
-            {!user && (
+            {!isAuthenticated && (
               <div className="space-y-2">
                 <Link
                   to="/login"
                   className="block px-4 py-2 text-white border border-gray-500 rounded-md hover:bg-gray-700 transition"
-                  
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Login
