@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
-import { useAuthContext } from "../../context/AuthContext";
+import { useAuth0 } from "@auth0/auth0-react"; // Use Auth0 hook
 import RecordActions from "../RecordActions";
 import useRecords from "../../hooks/useRecords";
 
 const CategoryPage = () => {
   const { categoryName } = useParams();
   const location = useLocation();
-  const { user } = useAuthContext();
-  const userId = user ? user.userId : null;
+  const { user, isAuthenticated, isLoading } = useAuth0(); // Destructure the Auth0 hook
+  const userId = user ? user.sub : null; // Auth0 user ID is typically stored in 'sub'
   const { categoryId, categoryType } = location.state || {};
 
   // ✅ Add these state variables for form inputs
@@ -22,6 +22,14 @@ const CategoryPage = () => {
     handleDeleteRecord,
     handleEditRecord,
   } = useRecords(userId, categoryId, categoryType);
+
+  if (isLoading) {
+    return <div>Loading...</div>; // Optionally show a loading indicator while Auth0 is loading
+  }
+
+  if (!isAuthenticated) {
+    return <div>Please log in to view this page.</div>; // Optionally show a login prompt if the user is not authenticated
+  }
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-200 p-8">
@@ -69,7 +77,8 @@ const CategoryPage = () => {
               description: newRecord.description,
               amount: newRecord.amount,
               [dateField]: new Date().toISOString().split("T")[0],
-              // userId and categoryId are already handled in the hook
+              userId: userId, // Ensure userId is included
+              categoryId: categoryId, // Ensure categoryId is included
             };
             addRecord(recordData); // Pass the record data
             setNewRecord({ description: "", amount: "" });
@@ -102,8 +111,8 @@ const CategoryPage = () => {
                   </p>
                 </div>
                 <RecordActions
-                  onEdit={() => setEditingRecord(rec)} // Ouvrir le formulaire de modification
-                  onDelete={() => handleDeleteRecord(rec.id)} // Supprimer l'enregistrement
+                  onEdit={() => setEditingRecord(rec)} // Open the edit form
+                  onDelete={() => handleDeleteRecord(rec.id)} // Delete record
                 />
               </li>
             ))}
@@ -151,14 +160,14 @@ const CategoryPage = () => {
               <button
                 onClick={() => {
                   const updatedData = {
-                    ...editingRecord, // Copie toutes les propriétés de editingRecord
-                    categoryId: categoryId, // Assure-toi que categoryId est inclus
-                    userId: userId, // Assure-toi que userId est inclus
+                    ...editingRecord,
+                    categoryId: categoryId, // Ensure categoryId is included
+                    userId: userId, // Ensure userId is included
                     expenseDate:
                       editingRecord.expenseDate ||
-                      new Date().toISOString().split("T")[0], // Ajoute expenseDate avec une valeur par défaut si nécessaire
+                      new Date().toISOString().split("T")[0], // Add expenseDate with default value
                   };
-                  console.log("Updated Data:", updatedData); // Log pour déboguer
+                  console.log("Updated Data:", updatedData); // Log for debugging
                   handleEditRecord(editingRecord.id, updatedData);
                 }}
                 className="px-4 py-2 bg-blue-600 text-white rounded-lg"
