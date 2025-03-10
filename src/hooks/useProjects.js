@@ -19,7 +19,7 @@ export const useProjects = () => {
 
     setLoading(true);
     try {
-      const fetchedProjects = await getProjectsForUser(user.id, token);
+      const fetchedProjects = await getProjectsForUser(user.userId, token);
       setProjects(fetchedProjects);
       setError(null);
     } catch (err) {
@@ -31,7 +31,7 @@ export const useProjects = () => {
 
   const createProject = async (projectData) => {
     try {
-      const newProject = await createProjectForUser(user.id, projectData);
+      const newProject = await createProjectForUser(user.userId, projectData);
       setProjects((prev) => [...prev, newProject]);
       return newProject;
     } catch (err) {
@@ -61,7 +61,7 @@ export const useProjects = () => {
 
   const deleteProject = async (projectId) => {
     try {
-      await deleteProjectForUser(user.id, projectId);
+      await deleteProjectForUser(user.userId, projectId);
       setProjects((prev) => prev.filter((project) => project.id !== projectId));
     } catch (err) {
       setError(err);
