@@ -1,17 +1,15 @@
-// components/BudgetingPage.js
-import React from "react";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useAuthContext } from "../../context/AuthContext";
+import { useAuth0 } from "@auth0/auth0-react"; // Import Auth0 hook
 import { useBudgetContext } from "../../context/BudgetContext";
 import useCategories from "../../hooks/useCategories"; // Custom hook
 
 const BudgetingPage = () => {
-  const { user } = useAuthContext();
-  const { setTotalIncome, setTotalExpense, setGlobalBalance } =
-    useBudgetContext();
-  const userId = user ? user.userId : null;
-
+  const { user, isAuthenticated, isLoading } = useAuth0(); // Using Auth0 hook
+  const { setTotalIncome, setTotalExpense, setGlobalBalance } = useBudgetContext();
+  
+  // Call useCategories unconditionally
+  const userId = user ? user.sub : null; // Auth0 gives user ID as 'sub'
   const {
     categories,
     totalsMap,
@@ -32,22 +30,29 @@ const BudgetingPage = () => {
 
   // Calculate totals
   const totalIncome = categories.reduce(
-    (acc, cat) =>
-      cat.type === "INCOME" ? acc + (totalsMap[cat.id] || 0) : acc,
+    (acc, cat) => (cat.type === "INCOME" ? acc + (totalsMap[cat.id] || 0) : acc),
     0
   );
   const totalExpense = categories.reduce(
-    (acc, cat) =>
-      cat.type === "EXPENSE" ? acc + (totalsMap[cat.id] || 0) : acc,
+    (acc, cat) => (cat.type === "EXPENSE" ? acc + (totalsMap[cat.id] || 0) : acc),
     0
   );
   const globalBalance = totalIncome - totalExpense;
 
+  // useEffect unconditionally
   useEffect(() => {
     setTotalIncome(totalIncome);
     setTotalExpense(totalExpense);
     setGlobalBalance(globalBalance);
   }, [totalIncome, totalExpense, globalBalance]);
+
+  if (isLoading) {
+    return <div>Loading...</div>; // Loading state
+  }
+
+  if (!isAuthenticated) {
+    return <div>Please log in to view your budget.</div>; // If not authenticated
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-gray-100 px-6 py-12">
@@ -148,6 +153,7 @@ const BudgetingPage = () => {
       </div>
 
       {/* Modals */}
+      {/* Expense Modal */}
       {isExpenseModalVisible && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50">
           <div className="bg-gradient-to-br from-gray-800 to-gray-700 rounded-2xl shadow-2xl p-8 w-96 border border-gray-700/50">
@@ -185,6 +191,7 @@ const BudgetingPage = () => {
         </div>
       )}
 
+      {/* Income Modal */}
       {isIncomeModalVisible && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50">
           <div className="bg-gradient-to-br from-gray-800 to-gray-700 rounded-2xl shadow-2xl p-8 w-96 border border-gray-700/50">

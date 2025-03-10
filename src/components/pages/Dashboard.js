@@ -1,6 +1,5 @@
-// components/Dashboard/Dashboard.js
 import React from "react";
-import { useAuthContext } from "../../context/AuthContext";
+import { useAuth0 } from "@auth0/auth0-react";
 import { useBudgetContext } from "../../context/BudgetContext";
 import ExpenseWidget from "../features/Dashboard/widgets/ExpenseWidget";
 import BudgetWidget from "../features/Dashboard/widgets/BudgetWidget";
@@ -9,7 +8,7 @@ import DebtWidget from "../features/Dashboard/widgets/DebtWidget";
 import ChartWidget from "../features/Dashboard/widgets/ChartWidget";
 
 const Dashboard = () => {
-  const { user } = useAuthContext();
+  const { user, isAuthenticated, isLoading } = useAuth0(); // Destructure the Auth0 hook
   const { totalExpense, globalBalance } = useBudgetContext();
 
   // Données pour le graphique
@@ -68,6 +67,14 @@ const Dashboard = () => {
       },
     },
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>; // Optionally show a loading indicator while Auth0 is loading
+  }
+
+  if (!isAuthenticated) {
+    return <div>Please log in to view your dashboard.</div>; // Optionally show a login prompt if the user is not authenticated
+  }
 
   return (
     <div className="min-h-screen bg-gray-900 text-white pt-20 pb-0">

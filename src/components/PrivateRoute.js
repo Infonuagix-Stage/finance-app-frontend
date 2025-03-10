@@ -1,25 +1,13 @@
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { useAuthContext } from "../context/AuthContext";
-import Navbar from "./layouts/Navbar";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const PrivateRoute = () => {
-  const { user, loading } = useAuthContext();
+  const { isAuthenticated, isLoading } = useAuth0();
 
-  if (loading) {
-    return <Navigate to="/loadingpage" replace />; // Afficher un loader temporaire
-  }
+  if (isLoading) return <div>Loading...</div>; // Prevents flickering when checking authentication state
 
-  if (!user) {
-    return <Navigate to="/login" replace />;
-  }
-
-  return (
-    <>
-      <Navbar />
-      <Outlet />
-    </>
-  );
+  return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
 };
 
 export default PrivateRoute;
