@@ -35,7 +35,6 @@ const Navbar = () => {
           {isAuthenticated ? (
             <>
               <span className="hidden md:inline text-white font-medium flex items-center">
-                
                 Bienvenue, {user?.name || user?.nickname}!
               </span>
               <button
@@ -65,7 +64,7 @@ const Navbar = () => {
           {/* Mobile Menu Button */}
           <button
             onClick={toggleMobileMenu}
-            className="md:hidden text-gray-300 hover:text-white focus:outline-none transition"
+            className="md:hidden text-gray-300 hover:text-white focus:outline-none transition z-50"
           >
             {isMobileMenuOpen ? (
               <svg className="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -81,7 +80,7 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Navigation */}
-      <div className={`md:hidden bg-gray-800 border-t border-gray-700 py-4 transition-all duration-300 ${isMobileMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full'}`}>
+      <div className={`md:hidden bg-gray-800 border-t border-gray-700 py-4 transition-all duration-300 ${isMobileMenuOpen ? 'block' : 'hidden'}`}>
         <div className="px-6 space-y-4">
           <Link to="/" className="block text-gray-300 hover:text-blue-400 transition" onClick={() => setIsMobileMenuOpen(false)}>Accueil</Link>
           <Link to="/about" className="block text-gray-300 hover:text-blue-400 transition" onClick={() => setIsMobileMenuOpen(false)}>À propos</Link>
