@@ -1,11 +1,13 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const ProjectForm = ({ onCreate }) => {
   const [name, setName] = useState("");
   const [targetAmount, setTargetAmount] = useState("");
   const [savedAmount, setSavedAmount] = useState("");
   const [deadline, setDeadline] = useState("");
-  const [priority, setPriority] = useState("Moyenne");
+  const [priority, setPriority] = useState("medium"); // Utilisez "medium" au lieu de "Moyenne" pour correspondre aux clés JSON
+  const { t } = useTranslation("project");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -26,7 +28,7 @@ const ProjectForm = ({ onCreate }) => {
     setTargetAmount("");
     setSavedAmount("");
     setDeadline("");
-    setPriority("Moyenne");
+    setPriority("medium"); // Réinitialiser à "medium"
   };
 
   return (
@@ -35,28 +37,28 @@ const ProjectForm = ({ onCreate }) => {
       className="bg-gradient-to-br from-gray-800 to-gray-900 p-8 rounded-2xl shadow-2xl w-full max-w-md mx-auto border border-gray-700/50 backdrop-blur-sm"
     >
       <h2 className="text-3xl font-bold text-center bg-gradient-to-r from-teal-400 to-blue-500 bg-clip-text text-transparent mb-8">
-        Créer un projet
+        {t("add_project")}
       </h2>
-  
+
       {/* Nom du projet */}
       <div className="mb-6">
         <label className="block text-sm font-medium text-gray-300 mb-2">
-          Nom du projet
+          {t("project_name")}
         </label>
         <input
           type="text"
-          placeholder="Ex: Achat Maison"
+          placeholder={t("project_name_placeholder")}
           value={name}
           onChange={(e) => setName(e.target.value)}
           className="w-full p-3 bg-gray-700/50 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400/50 border border-gray-600/50 transition-all duration-200 hover:border-teal-400/50"
           required
         />
       </div>
-  
+
       {/* Montant cible */}
       <div className="mb-6">
         <label className="block text-sm font-medium text-gray-300 mb-2">
-          Montant cible ($)
+          {t("target_amount")}
         </label>
         <input
           type="number"
@@ -67,11 +69,11 @@ const ProjectForm = ({ onCreate }) => {
           required
         />
       </div>
-  
+
       {/* Montant déjà économisé */}
       <div className="mb-6">
         <label className="block text-sm font-medium text-gray-300 mb-2">
-          Montant déjà économisé ($)
+          {t("saved_amount")}
         </label>
         <input
           type="number"
@@ -81,11 +83,11 @@ const ProjectForm = ({ onCreate }) => {
           className="w-full p-3 bg-gray-700/50 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400/50 border border-gray-600/50 transition-all duration-200 hover:border-teal-400/50"
         />
       </div>
-  
+
       {/* Date limite */}
       <div className="mb-6">
         <label className="block text-sm font-medium text-gray-300 mb-2">
-          Date limite
+          {t("project_deadline")}
         </label>
         <input
           type="date"
@@ -95,29 +97,35 @@ const ProjectForm = ({ onCreate }) => {
           required
         />
       </div>
-  
+
       {/* Priorité */}
       <div className="mb-8">
         <label className="block text-sm font-medium text-gray-300 mb-2">
-          Priorité
+          {t("priority_level")}
         </label>
         <select
           value={priority}
           onChange={(e) => setPriority(e.target.value)}
           className="w-full p-3 bg-gray-700/50 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400/50 border border-gray-600/50 transition-all duration-200 hover:border-teal-400/50"
         >
-          <option value="Basse" className="bg-gray-800 rounded-2xl">Basse</option>
-          <option value="Moyenne" className="bg-gray-800 rounded-2xl">Moyenne</option>
-          <option value="Haute" className="bg-gray-800 rounded-2xl">Haute</option>
+          <option value="low" className="bg-gray-800 rounded-2xl">
+            {t("low")}
+          </option>
+          <option value="medium" className="bg-gray-800 rounded-2xl">
+            {t("medium")}
+          </option>
+          <option value="high" className="bg-gray-800 rounded-2xl">
+            {t("high")}
+          </option>
         </select>
       </div>
-  
+
       {/* Bouton de soumission */}
       <button
         type="submit"
         className="w-full bg-gradient-to-r from-teal-400 to-blue-500 hover:from-teal-500 hover:to-blue-600 transition-all duration-300 font-semibold text-white py-3 px-4 rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105"
       >
-        Ajouter le projet
+        {t("create_project")}
       </button>
     </form>
   );

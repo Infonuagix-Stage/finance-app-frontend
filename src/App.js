@@ -13,17 +13,8 @@ import Navbar from "./components/layouts/Navbar";
 import Payment from "./components/Payment";
 import { BudgetProvider } from "./context/BudgetContext";
 import FinanceHomePage from "./HomePage";
-import { useAuth0 } from "@auth0/auth0-react";
-
-
-const Footer = () => {
-  return (
-    <footer className="bg-gray-800 text-white text-center py-4 mt-auto">
-    <p>&copy; {new Date().getFullYear()} FinanceApp. Tous droits réservés.</p>
-    </footer>
-  );
-};
-
+import Footer from "./components/layouts/Footer";
+import "./i18n";
 const AppContent = () => {
   return (
     <div className="pt-16 flex flex-col min-h-screen">

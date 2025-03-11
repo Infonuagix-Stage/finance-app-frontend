@@ -77,7 +77,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white pt-20 pb-0">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white p-8">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <h1 className="text-3xl font-bold mb-8">Tableau de bord</h1>
 

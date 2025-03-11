@@ -1,8 +1,10 @@
 import React from "react";
 import RecordActions from "../../RecordActions";
 import { calculateProjectProgress } from "../../../utils/projectCalculations";
+import { useTranslation } from "react-i18next";
 
 const ProjectCard = ({ project, onEdit, onDelete }) => {
+  const { t } = useTranslation("project");
   const progressPercentage = calculateProjectProgress(
     project.savedAmount,
     project.targetAmount
@@ -25,26 +27,24 @@ const ProjectCard = ({ project, onEdit, onDelete }) => {
 
       <div className="space-y-2 text-gray-300">
         <div className="flex justify-between">
-          <span>Objectif:</span>
+          <span>{t("goal")}:</span>
           <strong>${project.targetAmount.toFixed(2)}</strong>
         </div>
         <div className="flex justify-between">
-          <span>Économisé:</span>
+          <span>{t("saved")}:</span>
           <strong>${project.savedAmount.toFixed(2)}</strong>
         </div>
         <div className="flex justify-between">
-          <span>Date limite:</span>
+          <span>{t("deadline")}:</span>
           <strong>{new Date(project.deadline).toLocaleDateString()}</strong>
         </div>
         <div className="flex justify-between">
-          <span>Priorité:</span>
-          <strong className="uppercase text-teal-400">
-            {project.priority}
-          </strong>
+          <span>{t("priority")}:</span>
+          <strong className="uppercase text-teal-400">{t(project.priority.toLowerCase())}</strong>
         </div>
         <div className="pt-4 mt-4 border-t border-gray-700">
           <p className="text-center text-sm">
-            Contribution mensuelle:
+            {t("monthly_contribution")}:
             <span className="block text-lg font-bold text-teal-400">
               ${(project.monthlyContribution || 0).toFixed(2)}
             </span>

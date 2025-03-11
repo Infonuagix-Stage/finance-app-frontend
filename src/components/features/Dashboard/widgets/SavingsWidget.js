@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next"; // Import i18n
 import { useAuth0 } from "@auth0/auth0-react"; // Import Auth0
 import { getProjectsForUser } from "../../../../services/projectService"; // Import service function
 
 const SavingsWidget = () => {
+  const { t } = useTranslation("dashboard"); 
   const { user, isAuthenticated, isLoading } = useAuth0(); // Use Auth0 hook
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true); // Loading state
@@ -30,8 +32,8 @@ const SavingsWidget = () => {
   if (isLoading) {
     return (
       <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
-        <h3 className="text-xl font-semibold mb-4">Projets et Épargne</h3>
-        <p className="text-gray-300">Chargement de l'utilisateur...</p>
+        <h3 className="text-xl font-semibold mb-4">{t("projects_savings")}</h3>
+        <p className="text-gray-300">{t("loading_user")}</p>
       </div>
     );
   }
@@ -39,8 +41,8 @@ const SavingsWidget = () => {
   if (!isAuthenticated) {
     return (
       <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
-        <h3 className="text-xl font-semibold mb-4">Projets et Épargne</h3>
-        <p className="text-gray-300">Veuillez vous connecter pour voir vos projets.</p>
+        <h3 className="text-xl font-semibold mb-4">{t("projects_savings")}</h3>
+        <p className="text-gray-300">{t("please_login")}</p>
       </div>
     );
   }
@@ -48,17 +50,17 @@ const SavingsWidget = () => {
   if (loading) {
     return (
       <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
-        <h3 className="text-xl font-semibold mb-4">Projets et Épargne</h3>
-        <p className="text-gray-300">Chargement des projets...</p>
+        <h3 className="text-xl font-semibold mb-4">{t("projects_savings")}</h3>
+        <p className="text-gray-300">{t("loading_projects")}</p>
       </div>
     );
   }
 
   return (
     <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
-      <h3 className="text-xl font-semibold mb-4">Projets et Épargne</h3>
+      <h3 className="text-xl font-semibold mb-4">{t("projects_savings")}</h3>
       {projects.length === 0 ? (
-        <p className="text-gray-300">Aucun projet en cours.</p>
+        <p className="text-gray-300">{t("no_projects")}</p>
       ) : (
         projects.map((project) => (
           <div key={project.id} className="mb-4">
@@ -72,12 +74,12 @@ const SavingsWidget = () => {
               ></div>
             </div>
             <p className="text-gray-300 mt-1">
-              {Math.min((project.savedAmount / project.targetAmount) * 100, 100).toFixed(2)}% de l'objectif atteint
+              {Math.min((project.savedAmount / project.targetAmount) * 100, 100).toFixed(2)}% {t("goal_reached")}
             </p>
             <div className="text-gray-400 text-sm">
-              <p>Objectif : ${project.targetAmount}</p>
-              <p>Économisé : ${project.savedAmount}</p>
-              <p>Priorité : {project.priority}</p>
+              <p>{t("goal")}: ${project.targetAmount}</p>
+              <p>{t("saved")}: ${project.savedAmount}</p>
+              <p>{t("priority")}: {project.priority}</p>
             </div>
           </div>
         ))
