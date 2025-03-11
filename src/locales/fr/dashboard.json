@@ -1,0 +1,16 @@
+{
+    "balance": "Balance du mois",
+    "revenue_vs_expenses": "Revenus vs Dépenses",
+    "debt_total" : "Dettes totales",
+    "expense_total" : "Dépenses totales",
+    "projects_savings": "Projets et Épargne",
+    "loading_user": "Chargement de l'utilisateur...",
+    "please_login": "Veuillez vous connecter pour voir vos projets.",
+    "loading_projects": "Chargement des projets...",
+    "no_projects": "Aucun projet en cours.",
+    "goal": "Objectif",
+    "saved": "Économisé",
+    "priority": "Priorité",
+    "goal_reached": "% de l'objectif atteint"
+
+}

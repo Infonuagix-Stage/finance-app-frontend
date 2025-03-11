@@ -1,0 +1,17 @@
+{
+    "balance": "Balance of the month",
+    "revenue_vs_expenses": "Revenue vs Expenses",
+    "debt_total" : "Total Debt",
+    "expense_total" : "Total Expenses",
+    "projects_savings": "Projects and Savings",
+    "loading_user": "Loading user...",
+    "please_login": "Please log in to view your projects.",
+    "loading_projects": "Loading projects...",
+    "no_projects": "No active projects.",
+    "goal": "Goal",
+    "saved": "Saved",
+    "priority": "Priority",
+    "goal_reached": "% of goal reached"
+
+    
+}

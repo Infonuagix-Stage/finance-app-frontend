@@ -1,0 +1,17 @@
+{
+    "header.title": "Budget Management",
+    "header.income": "Income",
+    "header.expenses": "Expenses",
+    "header.balance": "Balance",
+    "categories.expenses": "Expenses",
+    "categories.income": "Income",
+    "categories.total": "Total",
+    "modals.addExpense": "Add Expense",
+    "modals.addIncome": "Add Income",
+    "modals.name": "Name",
+    "modals.description": "Description",
+    "modals.cancel": "Cancel",
+    "modals.add": "Add",
+    "messages.loading": "Loading...",
+    "messages.loginRequired": "Please log in to view your budget."
+  }

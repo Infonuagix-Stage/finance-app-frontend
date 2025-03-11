@@ -1,0 +1,17 @@
+{
+    "header.title": "Gestion du Budget",
+    "header.income": "Revenus",
+    "header.expenses": "Dépenses",
+    "header.balance": "Balance",
+    "categories.expenses": "Dépenses",
+    "categories.income": "Revenus",
+    "categories.total": "Total",
+    "modals.addExpense": "Ajouter une Dépense",
+    "modals.addIncome": "Ajouter un Revenu",
+    "modals.name": "Nom",
+    "modals.description": "Description",
+    "modals.cancel": "Annuler",
+    "modals.add": "Ajouter",
+    "messages.loading": "Chargement...",
+    "messages.loginRequired": "Veuillez vous connecter pour voir votre budget."
+  }
