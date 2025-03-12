@@ -11,7 +11,11 @@
     "goal": "Goal",
     "saved": "Saved",
     "priority": "Priority",
-    "goal_reached": "% of goal reached"
-
+    "goal_reached": "% of goal reached",
+    "dashboard" : "Dashboard",
+    "welcome": "Welcome",
+    "welcomeMessage": "This is a preview of your financial situation.You can see your balance, revenue, expenses, debts, and projects. You can also set goals and priorities for your projects.",
+    "incomes": "Incomes",
+    "expenses": "Expenses"
     
 }

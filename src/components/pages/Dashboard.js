@@ -6,29 +6,30 @@ import BudgetWidget from "../features/Dashboard/widgets/BudgetWidget";
 import SavingsWidget from "../features/Dashboard/widgets/SavingsWidget"; // Importez le nouveau composant
 import DebtWidget from "../features/Dashboard/widgets/DebtWidget";
 import ChartWidget from "../features/Dashboard/widgets/ChartWidget";
-
+import { useTranslation } from "react-i18next";
 const Dashboard = () => {
-  const { user, isAuthenticated, isLoading } = useAuth0(); // Destructure the Auth0 hook
+  const { t } = useTranslation( "dashboard", "homepage"); 
+  const { user } = useAuth0(); // Destructure the Auth0 hook
   const { totalExpense, globalBalance } = useBudgetContext();
 
   // Données pour le graphique
   const chartData = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+    labels: [t("months.jan"), t("months.feb"), t("months.mar"), t("months.apr"), t("months.may"), t("months.jun")],
     datasets: [
       {
-        label: "Revenus",
+        label: `${t("incomes")}`,
         data: [2500, 1900, 3000, 2800, 2000, 3000],
-        backgroundColor: "rgba(75, 192, 192, 0.6)",
-        borderColor: "rgba(75, 192, 192, 1)",
-        borderWidth: 1,
+        backgroundColor: "rgba(40, 221, 79, 0.27)",
+        borderColor: "rgb(58, 202, 130)",
+        borderWidth: 2,
         borderRadius: 5,
       },
       {
-        label: "Dépenses",
+        label: `${t("expenses")}`,
         data: [1500, 1200, 1800, 1000, 2000, 1500],
-        backgroundColor: "rgba(255, 99, 132, 0.6)",
-        borderColor: "rgba(255, 99, 132, 1)",
-        borderWidth: 1,
+        backgroundColor: "rgba(255, 99, 99, 0.34)",
+        borderColor: "rgb(255, 99, 99)",
+        borderWidth: 2,
         borderRadius: 5,
       },
     ],
@@ -68,26 +69,19 @@ const Dashboard = () => {
     },
   };
 
-  if (isLoading) {
-    return <div>Loading...</div>; // Optionally show a loading indicator while Auth0 is loading
-  }
-
-  if (!isAuthenticated) {
-    return <div>Please log in to view your dashboard.</div>; // Optionally show a login prompt if the user is not authenticated
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white p-8">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
-        <h1 className="text-3xl font-bold mb-8">Tableau de bord</h1>
+        <h1 className="text-3xl font-bold mb-8">{t("dashboard")}</h1>
 
         {/* Section de bienvenue */}
         <div className="bg-gray-800 p-6 rounded-lg shadow-lg mb-8">
           <h2 className="text-2xl font-semibold mb-4">
-            Bienvenue, {user ? user.name : "Utilisateur"} !
+           {t("welcome")}, {user ? user.name: user.nickname} !
           </h2>
           <p className="text-gray-300">
-            Voici un aperçu de vos finances et de vos activités récentes.
+            {t("welcomeMessage")}
           </p>
         </div>
 

@@ -1,0 +1,14 @@
+{
+    "title": "Gestion des paiments",
+    "noDebt": "Aucune dette ajoutée.",
+    "totalAmount": "Montant total",
+    "remainingAmount": "Montant restant",
+    "progress": "Progression",
+    "addDebt": "Ajouter une Dette",
+    "debtNamePlaceholder": "Nom de la dette",
+    "totalAmountPlaceholder": "Montant total",
+    "cancel": "Annuler",
+    "add": "Ajouter",
+    "debt": "Dettes et paiments"
+  }
+  
