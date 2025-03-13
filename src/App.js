@@ -15,7 +15,9 @@ import { BudgetProvider } from "./context/BudgetContext";
 import FinanceHomePage from "./HomePage";
 import Footer from "./components/layouts/Footer";
 import "./i18n";
+import useSyncAuth0User  from "./hooks/useSyncAuth0User";
 const AppContent = () => {
+  useSyncAuth0User();
   return (
     <div className="pt-16 flex flex-col min-h-screen">
       <Navbar /> {/* Always show Navbar */}
