@@ -15,7 +15,7 @@ import { BudgetProvider } from "./context/BudgetContext";
 import FinanceHomePage from "./HomePage";
 import Footer from "./components/layouts/Footer";
 import "./i18n";
-import useSyncAuth0User  from "./hooks/useSyncAuth0User";
+import useSyncAuth0User from "./hooks/useSyncAuth0User";
 const AppContent = () => {
   useSyncAuth0User();
   return (
@@ -47,7 +47,6 @@ const AppContent = () => {
     </div>
   );
 };
-
 
 
 function App() {
