@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 
 import Login from "./components/Login";
 import Register from "./components/Signup";
@@ -7,6 +12,8 @@ import PrivateRoute from "./components/PrivateRoute";
 import BudgetingPage from "./components/pages/BudgetingPage";
 import CategoryPage from "./components/pages/CategoryPage";
 import DashboardPage from "./components/pages/Dashboard";
+import ProfilePage from "./components/pages/ProfilePage"; // Import the ProfilePage
+import SettingsPage from "./components/pages/SettingsPage"; // Import the SettingsPage
 import About from "./components/pages/About";
 import ProjectPage from "./components/pages/ProjectPage";
 import Navbar from "./components/layouts/Navbar";
@@ -15,11 +22,10 @@ import { BudgetProvider } from "./context/BudgetContext";
 import FinanceHomePage from "./HomePage";
 import { useAuth0 } from "@auth0/auth0-react";
 
-
 const Footer = () => {
   return (
     <footer className="bg-gray-800 text-white text-center py-4 mt-auto">
-    <p>&copy; {new Date().getFullYear()} FinanceApp. Tous droits réservés.</p>
+      <p>&copy; {new Date().getFullYear()} FinanceApp. Tous droits réservés.</p>
     </footer>
   );
 };
@@ -44,6 +50,8 @@ const AppContent = () => {
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/project" element={<ProjectPage />} />
             <Route path="/payment" element={<Payment />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/settings" element={<SettingsPage />} />
           </Route>
 
           {/* Fallback Route */}
@@ -55,15 +63,13 @@ const AppContent = () => {
   );
 };
 
-
-
 function App() {
   return (
-      <BudgetProvider>
-        <Router>
-          <AppContent />
-        </Router>
-      </BudgetProvider>
+    <BudgetProvider>
+      <Router>
+        <AppContent />
+      </Router>
+    </BudgetProvider>
   );
 }
 

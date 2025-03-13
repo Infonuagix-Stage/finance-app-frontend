@@ -15,10 +15,7 @@ const UserDropdown = () => {
         className="flex items-center text-white focus:outline-none"
       >
         <img
-          src={
-            user?.picture ||
-            "https://w7.pngwing.com/pngs/177/551/png-transparent-user-interface-design-computer-icons-default-stephen-salazar-graphy-user-interface-design-computer-wallpaper-sphere-thumbnail.png"
-          }
+          src={user?.picture || "https://via.placeholder.com/40"}
           alt="Profile"
           className="w-10 h-10 rounded-full"
         />
