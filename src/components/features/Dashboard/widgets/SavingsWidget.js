@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next"; // Import i18n
 import { useAuth0 } from "@auth0/auth0-react"; // Import Auth0
 import { getProjectsForUser } from "../../../../services/projectService"; // Import service function
-
 const SavingsWidget = () => {
   const { t } = useTranslation("dashboard"); 
-  const { user, isAuthenticated, isLoading } = useAuth0(); // Use Auth0 hook
+  const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0(); // Use Auth0 hook
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true); // Loading state
+  
 
   console.log("Auth0 User:", user);
 
@@ -16,7 +16,8 @@ const SavingsWidget = () => {
     if (isAuthenticated && user) {
       const fetchProjects = async () => {
         try {
-          const fetchedProjects = await getProjectsForUser(user.sub); // Use Auth0 user ID
+          const token = await getAccessTokenSilently(); 
+          const fetchedProjects = await getProjectsForUser(user.sub, token); // Use Auth0 user ID
           setProjects(fetchedProjects);
         } catch (error) {
           console.error("Erreur lors de la récupération des projets:", error);
@@ -24,10 +25,9 @@ const SavingsWidget = () => {
           setLoading(false);
         }
       };
-
       fetchProjects();
     }
-  }, [user, isAuthenticated]);
+  }, [user, isAuthenticated, getAccessTokenSilently]);
 
   if (isLoading) {
     return (
