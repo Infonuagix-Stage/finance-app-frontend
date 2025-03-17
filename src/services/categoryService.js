@@ -6,20 +6,14 @@ const api = axios.create({
   headers: { "Content-Type": "application/json" },
 });
 
-// Ajout de l'intercepteur pour le token si nécessaire
-api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
-export const getCategoryByName = async (userId, categoryName) => {
+export const getCategoryByName = async (userId, categoryName, token) => {
   const response = await api.get(
     `/users/${userId}/categories/${encodeURIComponent(categoryName)}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
     
   );
   return response.data;
@@ -30,8 +24,8 @@ export const getCategoryByName = async (userId, categoryName) => {
 
 export const getCategoriesForUser = async (userId, token) => {
   // Make the request with the Authorization header
-  const response = await axios.get(
-    `${process.env.REACT_APP_BACKEND_URL}/api/v1/users/${userId}/categories`,
+  const response = await api.get(
+    `users/${userId}/categories`,
     {
       headers: {
         Authorization: `Bearer ${token}`,

@@ -8,19 +8,20 @@ import {
 } from "../services/projectService";
 
 export const useProjects = () => {
-  const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0(); // Use Auth0
+  const { user, isAuthenticated, getAccessTokenSilently } = useAuth0(); // Use Auth0
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [currentProject, setCurrentProject] = useState(null);
 
+  
   const fetchProjects = useCallback(async () => {
     if (!isAuthenticated || !user) return;
 
     setLoading(true);
     try {
-      const token = await getAccessTokenSilently(); // Get Auth0 token
-      const fetchedProjects = await getProjectsForUser(user.sub, token); // Use Auth0 user ID
+      const token = await getAccessTokenSilently(); 
+      const fetchedProjects = await getProjectsForUser(user.sub, token); 
       setProjects(fetchedProjects);
       setError(null);
     } catch (err) {

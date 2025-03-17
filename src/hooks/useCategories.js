@@ -1,12 +1,14 @@
 // hooks/useCategories.js
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 import {
   getCategoriesForUser,
   createCategoryForUser,
 } from "../services/categoryService";
 import { getCategoryTotal } from "../services/totalService";
 
-const useCategories = (userId) => {
+const useCategories = () => {
+  const { user, getAccessTokenSilently } = useAuth0(); 
   const [categories, setCategories] = useState([]);
   const [totalsMap, setTotalsMap] = useState({});
   const [newExpenseCategoryName, setNewExpenseCategoryName] = useState("");
@@ -25,8 +27,9 @@ const useCategories = (userId) => {
     if (name.trim() === "") return;
 
     try {
-      const categoryData = { name, description: desc, type };
-      const created = await createCategoryForUser(userId, categoryData);
+      const token = await getAccessTokenSilently(); 
+      const categoryData = { name, description: desc, type};
+      const created = await createCategoryForUser(user.sub, categoryData, token);
       setCategories((prev) => [...prev, created]); // Functional update for safety
 
       if (type === "EXPENSE") {
@@ -41,30 +44,32 @@ const useCategories = (userId) => {
     }
   };
 
+
   // Fetch categories
   useEffect(() => {
-    if (!userId) return;
+    if (!user) return;
     const fetchCategories = async () => {
       try {
-        const fetchedCategories = await getCategoriesForUser(userId);
+        const token = await getAccessTokenSilently(); 
+        const fetchedCategories = await getCategoriesForUser(user.sub, token);
         setCategories(fetchedCategories);
       } catch (error) {
         console.error("Error fetching categories:", error);
       }
     };
     fetchCategories();
-  }, [userId]);
+  }, [user, getAccessTokenSilently]);
 
   // Calculate totals
   useEffect(() => {
-    if (!userId || categories.length === 0) return;
+    if (!user.sub || categories.length === 0) return;
     const fetchTotals = async () => {
       const newTotalsMap = {};
       await Promise.all(
         categories.map(async (cat) => {
           try {
             const total = await getCategoryTotal(
-              userId,
+              user.sub,
               cat.categoryId,
               cat.type
             );
@@ -77,7 +82,7 @@ const useCategories = (userId) => {
       setTotalsMap(newTotalsMap);
     };
     fetchTotals();
-  }, [categories, userId]);
+  }, [categories, user.sub]);
 
   return {
     // Expose only what's needed

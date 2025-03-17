@@ -1,37 +1,66 @@
-// incomeService.js
-import useAxiosAuth from "../hooks/useAxiosAuth";
-const useIncomeService = () => {
-  const api = useAxiosAuth();
+// services/incomeService.js
+import axios from "axios";
 
-  const getIncomesForCategory = async (userId, categoryId) => {
-    const response = await api.get(`/users/${userId}/categories/${categoryId}/incomes`);
-    return response.data;
-  };
+const api = axios.create({
+  baseURL: `${process.env.REACT_APP_BACKEND_URL}/api/v1`,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
 
-  const createIncomeForCategory = async (userId, categoryId, income) => {
-    const response = await api.post(`/users/${userId}/categories/${categoryId}/incomes`, income);
-    return response.data;
-  };
 
-  const deleteIncomeForCategory = async (userId, categoryId, incomeId) => {
-    const response = await api.delete(`/users/${userId}/categories/${categoryId}/incomes/${incomeId}`);
-    return response.data;
-  };
-
-  const updateIncomeForCategory = async (userId, categoryId, incomeId, updatedIncome) => {
-    const response = await api.put(
-      `/users/${userId}/categories/${categoryId}/incomes/${incomeId}`,
-      updatedIncome
-    );
-    return response.data;
-  };
-
-  return {
-    getIncomesForCategory,
-    createIncomeForCategory,
-    deleteIncomeForCategory,
-    updateIncomeForCategory,
-  };
+// Modification ici pour appeler l'endpoint qui renvoie la liste complète des entrés
+export const getIncomesForCategory = async (userId, categoryId, token) => {
+  const response = await api.get(
+    `/users/${userId}/categories/${categoryId}/incomes`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response.data;
 };
 
-export default useIncomeService;
+export const createIncomeForCategory = async (userId, categoryId, income, token) => {
+  const response = await api.post(
+    `/users/${userId}/categories/${categoryId}/incomes`, income,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response.data;
+};
+
+export const deleteIncomeForCategory = async (userId, categoryId, incomeId, token) => {
+  const response = await api.delete(
+    `/users/${userId}/categories/${categoryId}/incomes/${incomeId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response.data;
+};
+
+export const updateIncomeForCategory = async (
+  userId,
+  categoryId,
+  incomeId,
+  updatedIncome,
+  token
+) => {
+  const response = await api.put(
+    `/users/${userId}/categories/${categoryId}/incomes/${incomeId}`,
+    updatedIncome,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response.data;
+};
