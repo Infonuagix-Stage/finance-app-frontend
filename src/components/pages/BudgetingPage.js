@@ -85,7 +85,7 @@ const BudgetingPage = () => {
         {/* Expenses */}
         <div>
           <h2 className="text-3xl font-bold bg-gradient-to-r from-red-400 to-pink-500 bg-clip-text text-transparent mb-8">
-            {t("categories.expenses")} {/* Dépenses traduites */}
+            {t("categories.expenses")} 
           </h2>
           <div className="space-y-6">
             {categories
@@ -157,7 +157,7 @@ const BudgetingPage = () => {
         <div className="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50">
           <div className="bg-gradient-to-br from-gray-800 to-gray-700 rounded-2xl shadow-2xl p-8 w-96 border border-gray-700/50">
             <h3 className="text-2xl font-bold bg-gradient-to-r from-red-400 to-pink-500 bg-clip-text text-transparent mb-6">
-              {t("modals.addExpense")} {/* Ajouter une Dépense traduit */}
+              {t("modals.addExpense")}
             </h3>
             <input
               type="text"
@@ -180,7 +180,10 @@ const BudgetingPage = () => {
                 {t("modals.cancel")}
               </button>
               <button
-                onClick={() => addCategory("EXPENSE")}
+                onClick={() => {
+                  addCategory("EXPENSE");
+                  setIsExpenseModalVisible(false);
+                }}
                 className="px-6 py-2 bg-gradient-to-r from-red-400 to-pink-500 hover:from-red-500 hover:to-pink-600 text-white rounded-lg transition-all duration-200"
               >
                 {t("modals.add")}
@@ -195,7 +198,7 @@ const BudgetingPage = () => {
         <div className="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50">
           <div className="bg-gradient-to-br from-gray-800 to-gray-700 rounded-2xl shadow-2xl p-8 w-96 border border-gray-700/50">
             <h3 className="text-2xl font-bold bg-gradient-to-r from-green-400 to-teal-500 bg-clip-text text-transparent mb-6">
-              {t("modals.addIncome")} {/* Ajouter un Revenu traduit */}
+              {t("modals.addIncome")} 
             </h3>
             <input
               type="text"
@@ -215,13 +218,13 @@ const BudgetingPage = () => {
                 onClick={() => setIsIncomeModalVisible(false)}
                 className="px-6 py-2 bg-gray-600/50 hover:bg-gray-500/50 text-white rounded-lg transition-all duration-200"
               >
-                {t("modals.cancel")} {/* Annuler traduit */}
+                {t("modals.cancel")} 
               </button>
               <button
                 onClick={() => addCategory("INCOME")}
                 className="px-6 py-2 bg-gradient-to-r from-green-400 to-teal-500 hover:from-green-500 hover:to-teal-600 text-white rounded-lg transition-all duration-200"
               >
-                {t("modals.add")} {/* Ajouter traduit */}
+                {t("modals.add")} 
               </button>
             </div>
           </div>

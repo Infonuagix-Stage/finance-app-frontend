@@ -9,8 +9,6 @@ const SavingsWidget = () => {
   const [loading, setLoading] = useState(true); // Loading state
   
 
-  console.log("Auth0 User:", user);
-
   // Fetch projects from backend
   useEffect(() => {
     if (isAuthenticated && user) {

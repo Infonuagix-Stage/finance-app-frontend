@@ -8,7 +8,7 @@ const CategoryPage = () => {
   const { categoryName } = useParams();
   const location = useLocation();
   const { user, isAuthenticated, isLoading } = useAuth0(); // Destructure the Auth0 hook
-  const userId = user ? user.sub : null; // Auth0 user ID is typically stored in 'sub'
+  const userId = user ? user.sub : null;
   const { categoryId, categoryType } = location.state || {};
   const [newRecord, setNewRecord] = useState({ description: "", amount: "" });
   const [editingRecord, setEditingRecord] = useState(null);
@@ -77,10 +77,10 @@ const CategoryPage = () => {
               description: newRecord.description,
               amount: newRecord.amount,
               [dateField]: new Date().toISOString().split("T")[0],
-              userId: userId, // Ensure userId is included
-              categoryId: categoryId, // Ensure categoryId is included
+              userId: userId, 
+              categoryId: categoryId, 
             };
-            addRecord(recordData); // Pass the record data
+            addRecord(recordData); 
             setNewRecord({ description: "", amount: "" });
           }}
           className="w-full py-3 rounded-lg bg-blue-600 hover:bg-blue-700 transition text-white font-semibold"
@@ -101,7 +101,7 @@ const CategoryPage = () => {
           <ul className="space-y-4">
             {records.map((rec) => (
               <li
-                key={rec.id}
+                key={rec.expenseId || rec.incomeId}
                 className="p-4 bg-gray-800 rounded-lg shadow border border-gray-700 flex justify-between items-center"
               >
                 <div>

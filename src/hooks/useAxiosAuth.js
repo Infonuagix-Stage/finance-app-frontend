@@ -16,7 +16,7 @@
              audience: process.env.REACT_APP_AUTH0_AUDIENCE, 
            },
          });
-         console.log("Token récupéré :", token);
+          //console.log("Token récupéré :", token);
          config.headers.Authorization = `Bearer ${token}`;
          return config;
        } catch (error) {
