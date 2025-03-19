@@ -8,15 +8,13 @@ const CategoryPage = () => {
   const { categoryName } = useParams();
   const location = useLocation();
   const { user, isAuthenticated, isLoading } = useAuth0(); // Destructure the Auth0 hook
-  const userId = user ? user.sub : null; // Auth0 user ID is typically stored in 'sub'
+  const userId = user ? user.sub : null;
   const { categoryId, categoryType } = location.state || {};
-
-  // ✅ Add these state variables for form inputs
   const [newRecord, setNewRecord] = useState({ description: "", amount: "" });
   const [editingRecord, setEditingRecord] = useState(null);
 
   const {
-    records,
+    records = [],
     currentTotal,
     addRecord,
     handleDeleteRecord,
@@ -40,7 +38,9 @@ const CategoryPage = () => {
       {/* Card for displaying current total */}
       <div className="max-w-md mx-auto mb-6 bg-gray-800 p-6 rounded-xl shadow border border-gray-700">
         <h2 className="text-2xl font-semibold text-center mb-2">Total</h2>
-        <p className="text-center text-xl">${currentTotal.toFixed(2)}</p>
+        <p className="text-center text-xl">
+        ${(currentTotal ?? 0).toFixed(2)}
+        </p>
       </div>
 
       {/* Form to add a record */}
@@ -62,7 +62,7 @@ const CategoryPage = () => {
         />
         <input
           type="number"
-          placeholder="Montant"
+          placeholder="Amount"
           value={newRecord.amount}
           onChange={(e) =>
             setNewRecord({ ...newRecord, amount: e.target.value })
@@ -77,10 +77,10 @@ const CategoryPage = () => {
               description: newRecord.description,
               amount: newRecord.amount,
               [dateField]: new Date().toISOString().split("T")[0],
-              userId: userId, // Ensure userId is included
-              categoryId: categoryId, // Ensure categoryId is included
+              userId: userId, 
+              categoryId: categoryId, 
             };
-            addRecord(recordData); // Pass the record data
+            addRecord(recordData); 
             setNewRecord({ description: "", amount: "" });
           }}
           className="w-full py-3 rounded-lg bg-blue-600 hover:bg-blue-700 transition text-white font-semibold"
@@ -97,17 +97,17 @@ const CategoryPage = () => {
             ? "Incomes"
             : "Expenses"}
         </h2>
-        {records.length > 0 ? (
+        {records && records.length  > 0 ? (
           <ul className="space-y-4">
             {records.map((rec) => (
               <li
-                key={rec.id}
+                key={rec.expenseId || rec.incomeId}
                 className="p-4 bg-gray-800 rounded-lg shadow border border-gray-700 flex justify-between items-center"
               >
                 <div>
                   <p className="text-lg font-semibold">{rec.description}</p>
                   <p className="text-gray-400">
-                    Montant : ${rec.montant || rec.amount}
+                    Amount : ${rec.amount}
                   </p>
                 </div>
                 <RecordActions
@@ -144,7 +144,7 @@ const CategoryPage = () => {
             <input
               type="number"
               placeholder="Montant"
-              value={editingRecord.amount || editingRecord.montant}
+              value={editingRecord.amount}
               onChange={(e) =>
                 setEditingRecord({ ...editingRecord, amount: e.target.value })
               }

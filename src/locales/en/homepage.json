@@ -1,0 +1,23 @@
+{
+    "manage_finances": "Manage Your Finances Easily",
+    "track_expenses": "Track your expenses, analyze trends, and grow your wealth.",
+    "total_balance": "Total Balance",
+    "monthly_income": "Monthly Income",
+    "monthly_expenses": "Monthly Expenses",
+    "expense_evolution": "Expense Evolution",
+
+    "months": {
+        "jan": "Jan",
+        "feb": "Feb",
+        "mar": "Mar",
+        "apr": "Apr",
+        "may": "May",
+        "jun": "Jun",
+        "jul": "Jul",
+        "aug": "Aug",
+        "sep": "Sep",
+        "oct": "Oct",
+        "nov": "Nov",
+        "dec": "Dec"
+      }
+  }

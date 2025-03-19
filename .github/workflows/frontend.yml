@@ -1,10 +1,10 @@
-name: Frontend CI/CD
+name: Frontend CI
 
 on:
   push:
-    branches: [main]
+    branches: [ "main" ]
   pull_request:
-    branches: [main]
+    branches: [ "main" ]
 
 jobs:
   build:
@@ -14,22 +14,38 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Set up Node
         uses: actions/setup-node@v4
         with:
           node-version: 18
 
+      - name: Clean environment
+        run: |
+          rm -rf node_modules package-lock.json
+          npm cache clean --force
+
       - name: Install dependencies
-        run: npm install
-        working-directory: .
+        run: |
+          # 1) Installer le projet en ignorant les conflits
+          npm install --legacy-peer-deps
+
+          # 2) Forcer Ajv et ajv-keywords sur des versions compatibles
+          npm install ajv@^8.0.0 ajv-keywords@^5.0.0 --save-dev --legacy-peer-deps
+
+          # 3) Downgrader TypeScript pour compatibilité avec CRA 5
+          npm install typescript@4.9.5 --save-dev --legacy-peer-deps
+
+          # 4) Installer @testing-library/dom qui manque, ainsi que jest-dom et react
+          npm install @testing-library/react @testing-library/jest-dom @testing-library/dom --save-dev --legacy-peer-deps
 
       - name: Run tests
         run: npm test
-        working-directory: .
 
       - name: Build the project
-        run: CI=false npm run build
-        working-directory: .
+        run: |
+          # Désactiver le mode CI pour ne pas bloquer sur les warnings
+          CI=false npm run build
+
 
   deploy:
     needs: build

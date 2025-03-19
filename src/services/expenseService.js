@@ -9,17 +9,6 @@ const api = axios.create({
   },
 });
 
-// Ajout d'un intercepteur pour inclure le token dans l'en-tête
-api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
 
 // Modification ici pour appeler l'endpoint qui renvoie la liste complète des dépenses
 export const getExpensesForCategory = async (userId, categoryId) => {
