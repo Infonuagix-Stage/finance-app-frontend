@@ -1,10 +1,10 @@
-name: Frontend CI/CD
+name: Frontend CI
 
 on:
   push:
-    branches: [main]
+    branches: [ "main" ]
   pull_request:
-    branches: [main]
+    branches: [ "main" ]
 
 jobs:
   build:
@@ -19,25 +19,31 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install dependencies (legacy mode)
-        run: npm install --legacy-peer-deps
-        working-directory: .
+      # 1) Nettoyage
+      - name: Clean environment
+        run: |
+          rm -rf node_modules package-lock.json
+          npm cache clean --force
 
-      - name: Downgrade TypeScript (to avoid conflicts)
-        run: npm install typescript@4.9.5 --save-dev
-        working-directory: .
+      # 2) Installation dépendances + forçage TypeScript 4.9.5
+      - name: Install dependencies
+        run: |
+          # Installe tout en ignorant les conflits
+          npm install --legacy-peer-deps
+          # Downgrade TypeScript
+          npm install typescript@4.9.5 --save-dev --legacy-peer-deps
+          # Installe tes libs de test
+          npm install @testing-library/react @testing-library/jest-dom @testing-library/dom --save-dev --legacy-peer-deps
 
-      - name: Install testing dependencies
-        run: npm install --save-dev @testing-library/react @testing-library/jest-dom @testing-library/dom --legacy-peer-deps
-        working-directory: .
-
+      # 3) Lancer les tests
       - name: Run tests
         run: npm test
-        working-directory: .
 
+      # 4) Construire l'app
       - name: Build the project
-        run: CI=false npm run build
-        working-directory: .
+        run: |
+          CI=false npm run build
+
 
   deploy:
     needs: build
