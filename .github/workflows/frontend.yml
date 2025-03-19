@@ -14,34 +14,30 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Set up Node
         uses: actions/setup-node@v4
         with:
           node-version: 18
 
-      # 1) Nettoyage
       - name: Clean environment
         run: |
           rm -rf node_modules package-lock.json
           npm cache clean --force
 
-      # 2) Installation dépendances + forçage TypeScript 4.9.5
       - name: Install dependencies
         run: |
-          # Installe tout en ignorant les conflits
+          # 1) Installer en ignorant les conflits pour TS/i18next/CRA
           npm install --legacy-peer-deps
-          # Downgrade TypeScript
-          npm install typescript@4.9.5 --save-dev --legacy-peer-deps
-          # Installe tes libs de test
-          npm install @testing-library/react @testing-library/jest-dom @testing-library/dom --save-dev --legacy-peer-deps
 
-      # 3) Lancer les tests
+          # 2) Forcer une version d'Ajv & Ajv-keywords compatible (8.x & 5.x)
+          npm install ajv@^8.0.0 ajv-keywords@^5.0.0 --save-dev --legacy-peer-deps
+
       - name: Run tests
         run: npm test
 
-      # 4) Construire l'app
       - name: Build the project
         run: |
+          # Désactiver le mode CI pour éviter l'arrêt sur warning
           CI=false npm run build
 
 
