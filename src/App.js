@@ -1,3 +1,5 @@
+// App.js
+import React, { useState } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -12,15 +14,15 @@ import PrivateRoute from "./components/PrivateRoute";
 import BudgetingPage from "./components/pages/BudgetingPage";
 import CategoryPage from "./components/pages/CategoryPage";
 import DashboardPage from "./components/pages/Dashboard";
-import ProfilePage from "./components/pages/ProfilePage"; // Import the ProfilePage
-import SettingsPage from "./components/pages/SettingsPage"; // Import the SettingsPage
+import ProfilePage from "./components/pages/ProfilePage";
+import SettingsPage from "./components/pages/SettingsPage";
 import About from "./components/pages/About";
 import ProjectPage from "./components/pages/ProjectPage";
 import Navbar from "./components/layouts/Navbar";
 import Payment from "./components/Payment";
 import { BudgetProvider } from "./context/BudgetContext";
 import FinanceHomePage from "./HomePage";
-import { useAuth0 } from "@auth0/auth0-react";
+import UserDropdown from "./components/UserDropdown"; // Assurez-vous que le chemin est correct
 
 const Footer = () => {
   return (
@@ -31,9 +33,19 @@ const Footer = () => {
 };
 
 const AppContent = () => {
+  // On gère l'ouverture/fermeture du dropdown ici
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
   return (
-    <div className="pt-16 flex flex-col min-h-screen">
-      <Navbar /> {/* Always show Navbar */}
+    // Le conteneur principal doit être en position relative pour que
+    // le UserDropdown (en absolute) puisse se positionner par rapport à lui
+    <div id="app-root" className="relative pt-16 flex flex-col min-h-screen">
+      <Navbar setIsDropdownOpen={setIsDropdownOpen} />
+      {/* Le menu latéral est rendu ici, et il occupe la hauteur totale du contenu */}
+      <UserDropdown
+        isDropdownOpen={isDropdownOpen}
+        setIsDropdownOpen={setIsDropdownOpen}
+      />
       <div className="flex-grow flex flex-col">
         <Routes>
           {/* Public Routes */}

@@ -1,9 +1,9 @@
+// Navbar.js
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-import UserDropdown from "../UserDropdown";
 
-const Navbar = () => {
+const Navbar = ({ setIsDropdownOpen }) => {
   const { isAuthenticated, user, loginWithRedirect, logout } = useAuth0();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -71,7 +71,17 @@ const Navbar = () => {
               <span className="hidden md:inline text-white font-medium">
                 Bienvenue, {user?.name || user?.nickname}!
               </span>
-              <UserDropdown />
+              {/* L'image de profil déclenche l'ouverture du menu */}
+              <button
+                onClick={() => setIsDropdownOpen((prev) => !prev)}
+                className="flex items-center text-white focus:outline-none"
+              >
+                <img
+                  src={user?.picture || "https://via.placeholder.com/40"}
+                  alt="Profile"
+                  className="w-10 h-10 rounded-full"
+                />
+              </button>
             </>
           ) : (
             <div className="hidden md:flex space-x-4">
