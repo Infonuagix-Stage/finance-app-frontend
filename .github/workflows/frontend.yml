@@ -19,12 +19,17 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install dependencies
+      - name: Install dependencies (legacy mode)
         run: npm install --legacy-peer-deps
         working-directory: .
 
+      - name: Downgrade TypeScript (to avoid conflicts)
+        run: npm install typescript@4.9.5 --save-dev
+        working-directory: .
+
       - name: Install testing dependencies
-        run: npm install --save-dev @testing-library/react @testing-library/jest-dom @testing-library/dom
+        run: npm install --save-dev @testing-library/react @testing-library/jest-dom @testing-library/dom --legacy-peer-deps
+        working-directory: .
 
       - name: Run tests
         run: npm test
