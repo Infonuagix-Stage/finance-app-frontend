@@ -20,7 +20,7 @@ jobs:
           node-version: 18
 
       - name: Install dependencies
-        run: npm install typescript@4.9.5
+        run: npm install --legacy-peer-deps
         working-directory: .
 
       - name: Run tests
