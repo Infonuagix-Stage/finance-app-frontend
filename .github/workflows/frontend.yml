@@ -26,18 +26,24 @@ jobs:
 
       - name: Install dependencies
         run: |
-          # 1) Installer en ignorant les conflits pour TS/i18next/CRA
+          # 1) Installer le projet en ignorant les conflits
           npm install --legacy-peer-deps
 
-          # 2) Forcer une version d'Ajv & Ajv-keywords compatible (8.x & 5.x)
+          # 2) Forcer Ajv et ajv-keywords sur des versions compatibles
           npm install ajv@^8.0.0 ajv-keywords@^5.0.0 --save-dev --legacy-peer-deps
+
+          # 3) Downgrader TypeScript pour compatibilité avec CRA 5
+          npm install typescript@4.9.5 --save-dev --legacy-peer-deps
+
+          # 4) Installer @testing-library/dom qui manque, ainsi que jest-dom et react
+          npm install @testing-library/react @testing-library/jest-dom @testing-library/dom --save-dev --legacy-peer-deps
 
       - name: Run tests
         run: npm test
 
       - name: Build the project
         run: |
-          # Désactiver le mode CI pour éviter l'arrêt sur warning
+          # Désactiver le mode CI pour ne pas bloquer sur les warnings
           CI=false npm run build
 
 
