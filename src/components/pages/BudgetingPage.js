@@ -221,7 +221,10 @@ const BudgetingPage = () => {
                 {t("modals.cancel")} 
               </button>
               <button
-                onClick={() => addCategory("INCOME")}
+                onClick={() => {
+                  addCategory("INCOME");
+                  setIsIncomeModalVisible(false);
+                }}
                 className="px-6 py-2 bg-gradient-to-r from-green-400 to-teal-500 hover:from-green-500 hover:to-teal-600 text-white rounded-lg transition-all duration-200"
               >
                 {t("modals.add")} 
