@@ -62,7 +62,7 @@ const CategoryPage = () => {
         />
         <input
           type="number"
-          placeholder="Montant"
+          placeholder="Amount"
           value={newRecord.amount}
           onChange={(e) =>
             setNewRecord({ ...newRecord, amount: e.target.value })
@@ -107,7 +107,7 @@ const CategoryPage = () => {
                 <div>
                   <p className="text-lg font-semibold">{rec.description}</p>
                   <p className="text-gray-400">
-                    Montant : ${rec.montant || rec.amount}
+                    Amount : ${rec.amount}
                   </p>
                 </div>
                 <RecordActions
@@ -144,7 +144,7 @@ const CategoryPage = () => {
             <input
               type="number"
               placeholder="Montant"
-              value={editingRecord.amount || editingRecord.montant}
+              value={editingRecord.amount}
               onChange={(e) =>
                 setEditingRecord({ ...editingRecord, amount: e.target.value })
               }

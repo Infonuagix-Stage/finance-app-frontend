@@ -30,11 +30,11 @@ const BudgetingPage = () => {
   } = useCategories(userId);
 
   const totalIncome = categories.reduce(
-    (acc, cat) => (cat.type === "INCOME" ? acc + (totalsMap[cat.id] || 0) : acc),
+    (acc, cat) => (cat.type === "INCOME" ? acc + (totalsMap[cat.categoryId] || 0) : acc),
     0
   );
   const totalExpense = categories.reduce(
-    (acc, cat) => (cat.type === "EXPENSE" ? acc + (totalsMap[cat.id] || 0) : acc),
+    (acc, cat) => (cat.type === "EXPENSE" ? acc + (totalsMap[cat.categoryId] || 0) : acc),
     0
   );
   const globalBalance = totalIncome - totalExpense;
@@ -43,7 +43,7 @@ const BudgetingPage = () => {
     setTotalIncome(totalIncome);
     setTotalExpense(totalExpense);
     setGlobalBalance(globalBalance);
-  }, [totalIncome, totalExpense, globalBalance]);
+  }, [totalIncome, totalExpense, globalBalance, setTotalIncome, setTotalExpense, setGlobalBalance]);
 
   if (isLoading) {
     return <div>{t("messages.loading")}</div>; // Traduction du message de chargement
@@ -67,7 +67,7 @@ const BudgetingPage = () => {
             </span>{" "}
             |{" "}
             <span className="text-red-400">
-              {t("header.expenses")}: ${totalExpense.toFixed(2)}
+              {t("header.expenses")}: ${Number(totalExpense || 0).toFixed(2)}
             </span>
           </p>
           <p
@@ -103,7 +103,7 @@ const BudgetingPage = () => {
                 >
                   <h4 className="text-lg font-semibold">{cat.name}</h4>
                   <p className="text-sm text-gray-300 mt-2">
-                    {t("categories.total")}: ${totalsMap[cat.id] || 0}
+                    {t("categories.total")}: ${totalsMap[cat.categoryId] || 0}
                   </p>
                 </Link>
               ))}
