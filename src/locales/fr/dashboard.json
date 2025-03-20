@@ -1,0 +1,22 @@
+{
+    "balance": "Solde du mois",
+    "revenue_vs_expenses": "Revenus vs Dépenses",
+    "debt_total" : "Dettes totales",
+    "expense_total" : "Dépenses totales",
+    "projects_savings": "Projets et Épargne",
+    "loading_user": "Chargement de l'utilisateur...",
+    "please_login": "Veuillez vous connecter pour voir vos projets.",
+    "loading_projects": "Chargement des projets...",
+    "no_projects": "Aucun projet en cours.",
+    "goal": "Objectif",
+    "saved": "Économisé",
+    "priority": "Priorité",
+    "goal_reached": "% de l'objectif atteint",
+    "dashboard" : "Tableau de bord",
+    "welcome": "Bienvenue",
+    "welcomeMessage": "Voici un aperçu de votre situation financière. Vous pouvez voir votre solde, vos revenus, vos dépenses, vos dettes et vos projets. Vous pouvez également définir des objectifs et des priorités pour vos projets.",
+    "incomes": "Revenus",
+    "expenses": "Dépenses"
+
+
+}

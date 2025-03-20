@@ -23,16 +23,11 @@ import Payment from "./components/Payment";
 import { BudgetProvider } from "./context/BudgetContext";
 import FinanceHomePage from "./HomePage";
 import UserDropdown from "./components/UserDropdown"; // Assurez-vous que le chemin est correct
-
-const Footer = () => {
-  return (
-    <footer className="bg-gray-800 text-white text-center py-4 mt-auto">
-      <p>&copy; {new Date().getFullYear()} FinanceApp. Tous droits réservés.</p>
-    </footer>
-  );
-};
-
+import Footer from "./components/layouts/Footer";
+import "./i18n";
+import useSyncAuth0User from "./hooks/useSyncAuth0User";
 const AppContent = () => {
+  useSyncAuth0User();
   // On gère l'ouverture/fermeture du dropdown ici
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 

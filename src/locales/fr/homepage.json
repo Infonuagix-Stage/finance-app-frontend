@@ -1,0 +1,23 @@
+{
+    "manage_finances": "Gérez Vos Finances Facilement",
+    "track_expenses": "Suivez vos dépenses, analysez les tendances et développez votre patrimoine.",
+    "total_balance": "Solde Total",
+    "monthly_income": "Revenu Mensuel",
+    "monthly_expenses": "Dépenses Mensuelles",
+    "expense_evolution": "Évolution des Dépenses",
+
+    "months": {
+        "jan": "Jan",
+        "feb": "Fév",
+        "mar": "Mar",
+        "apr": "Avr",
+        "may": "Mai",
+        "jun": "Juin",
+        "jul": "Juil",
+        "aug": "Août",
+        "sep": "Sep",
+        "oct": "Oct",
+        "nov": "Nov",
+        "dec": "Déc"
+      }
+  }

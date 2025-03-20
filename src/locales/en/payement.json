@@ -1,0 +1,13 @@
+{
+    "title": "Payment Management",
+    "noDebt": "No debts added.",
+    "totalAmount": "Total Amount",
+    "remainingAmount": "Remaining Amount",
+    "progress": "Progress",
+    "addDebt": "Add a Debt",
+    "debtNamePlaceholder": "Debt Name",
+    "totalAmountPlaceholder": "Total Amount",
+    "cancel": "Cancel",
+    "add": "Add",
+    "debt": "Debts and Payments"
+}

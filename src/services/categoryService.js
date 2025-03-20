@@ -6,20 +6,15 @@ const api = axios.create({
   headers: { "Content-Type": "application/json" },
 });
 
-// Ajout de l'intercepteur pour le token si nécessaire
-api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
-export const getCategoryByName = async (userId, categoryName) => {
+export const getCategoryByName = async (userId, categoryName, token) => {
   const response = await api.get(
-    `/users/${userId}/categories/${encodeURIComponent(categoryName)}`
+    `/users/${userId}/categories/${encodeURIComponent(categoryName)}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+    
   );
   return response.data;
 };
@@ -27,17 +22,13 @@ export const getCategoryByName = async (userId, categoryName) => {
 
 // Vous pouvez également avoir d'autres fonctions, par exemple pour créer une catégorie, etc.
 
-export const getCategoriesForUser = async (userId) => {
-  // Retrieve the token from localStorage
-  const yourJwtToken = localStorage.getItem("token");
-  console.log("Token envoyé dans l'en-tête Authorization :", yourJwtToken);
-
+export const getCategoriesForUser = async (userId, token) => {
   // Make the request with the Authorization header
-  const response = await axios.get(
-    `${process.env.REACT_APP_BACKEND_URL}/api/v1/users/${userId}/categories`,
+  const response = await api.get(
+    `users/${userId}/categories`,
     {
       headers: {
-        Authorization: `Bearer ${yourJwtToken}`,
+        Authorization: `Bearer ${token}`,
       },
     }
   );
@@ -45,16 +36,13 @@ export const getCategoriesForUser = async (userId) => {
   return response.data; // Return the categories array
 };
 
-export const createCategoryForUser = async (userId, categoryData) => {
-  const yourJwtToken = localStorage.getItem("token");
-  console.log("Token envoyé dans l'en-tête Authorization :", yourJwtToken);
-
+export const createCategoryForUser = async (userId, categoryData, token) => {
   const response = await api.post(
-    `/users/${userId}/categories`, // utilisation de la route relative
-    categoryData, // ici categoryData est un objet { name, description, type }
+    `/users/${userId}/categories`, 
+    categoryData, 
     {
       headers: {
-        Authorization: `Bearer ${yourJwtToken}`,
+        Authorization: `Bearer ${token}`,
       },
     }
   );

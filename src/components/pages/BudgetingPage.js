@@ -1,15 +1,16 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react"; // Import Auth0 hook
+import { useAuth0 } from "@auth0/auth0-react";
 import { useBudgetContext } from "../../context/BudgetContext";
-import useCategories from "../../hooks/useCategories"; // Custom hook
+import useCategories from "../../hooks/useCategories";
+import { useTranslation } from "react-i18next"; // Import useTranslation
 
 const BudgetingPage = () => {
-  const { user, isAuthenticated, isLoading } = useAuth0(); // Using Auth0 hook
+  const { user, isAuthenticated, isLoading } = useAuth0();
   const { setTotalIncome, setTotalExpense, setGlobalBalance } = useBudgetContext();
-  
-  // Call useCategories unconditionally
-  const userId = user ? user.sub : null; // Auth0 gives user ID as 'sub'
+  const { t } = useTranslation("budgeting"); // Utilisez le namespace "budgeting"
+
+  const userId = user ? user.sub : null;
   const {
     categories,
     totalsMap,
@@ -28,30 +29,28 @@ const BudgetingPage = () => {
     setIsIncomeModalVisible,
   } = useCategories(userId);
 
-  // Calculate totals
   const totalIncome = categories.reduce(
-    (acc, cat) => (cat.type === "INCOME" ? acc + (totalsMap[cat.id] || 0) : acc),
+    (acc, cat) => (cat.type === "INCOME" ? acc + (totalsMap[cat.categoryId] || 0) : acc),
     0
   );
   const totalExpense = categories.reduce(
-    (acc, cat) => (cat.type === "EXPENSE" ? acc + (totalsMap[cat.id] || 0) : acc),
+    (acc, cat) => (cat.type === "EXPENSE" ? acc + (totalsMap[cat.categoryId] || 0) : acc),
     0
   );
   const globalBalance = totalIncome - totalExpense;
 
-  // useEffect unconditionally
   useEffect(() => {
     setTotalIncome(totalIncome);
     setTotalExpense(totalExpense);
     setGlobalBalance(globalBalance);
-  }, [totalIncome, totalExpense, globalBalance]);
+  }, [totalIncome, totalExpense, globalBalance, setTotalIncome, setTotalExpense, setGlobalBalance]);
 
   if (isLoading) {
-    return <div>Loading...</div>; // Loading state
+    return <div>{t("messages.loading")}</div>; // Traduction du message de chargement
   }
 
   if (!isAuthenticated) {
-    return <div>Please log in to view your budget.</div>; // If not authenticated
+    return <div>{t("messages.loginRequired")}</div>; // Traduction du message de connexion
   }
 
   return (
@@ -59,16 +58,16 @@ const BudgetingPage = () => {
       {/* Header */}
       <div className="max-w-4xl mx-auto bg-gray-700 bg-opacity-80 rounded-xl shadow-lg p-8 border border-gray-600">
         <h1 className="text-4xl font-bold text-center text-gray-100 mb-4">
-          Gestion du Budget
+          {t("header.title")} {/* Titre traduit */}
         </h1>
         <div className="text-center space-y-2">
           <p className="text-lg font-medium">
             <span className="text-green-400">
-              Dépenses : ${Number(totalExpense || 0).toFixed(2)}
+              {t("header.income")}: ${Number(totalIncome || 0).toFixed(2)}
             </span>{" "}
             |{" "}
             <span className="text-red-400">
-              Dépenses : ${totalExpense.toFixed(2)}
+              {t("header.expenses")}: ${Number(totalExpense || 0).toFixed(2)}
             </span>
           </p>
           <p
@@ -76,7 +75,7 @@ const BudgetingPage = () => {
               globalBalance >= 0 ? "text-green-400" : "text-red-400"
             }`}
           >
-            Balance : ${globalBalance.toFixed(2)}
+            {t("header.balance")}: ${globalBalance.toFixed(2)}
           </p>
         </div>
       </div>
@@ -86,7 +85,7 @@ const BudgetingPage = () => {
         {/* Expenses */}
         <div>
           <h2 className="text-3xl font-bold bg-gradient-to-r from-red-400 to-pink-500 bg-clip-text text-transparent mb-8">
-            Dépenses
+            {t("categories.expenses")} 
           </h2>
           <div className="space-y-6">
             {categories
@@ -104,7 +103,7 @@ const BudgetingPage = () => {
                 >
                   <h4 className="text-lg font-semibold">{cat.name}</h4>
                   <p className="text-sm text-gray-300 mt-2">
-                    Total : ${totalsMap[cat.id] || 0}
+                    {t("categories.total")}: ${totalsMap[cat.categoryId] || 0}
                   </p>
                 </Link>
               ))}
@@ -120,7 +119,7 @@ const BudgetingPage = () => {
         {/* Income */}
         <div>
           <h2 className="text-3xl font-bold bg-gradient-to-r from-green-400 to-teal-500 bg-clip-text text-transparent mb-8">
-            Revenus
+            {t("categories.income")} {/* Revenus traduits */}
           </h2>
           <div className="space-y-6">
             {categories
@@ -138,7 +137,7 @@ const BudgetingPage = () => {
                 >
                   <h4 className="text-lg font-semibold">{cat.name}</h4>
                   <p className="text-sm text-gray-300 mt-2">
-                    Total : ${totalsMap[cat.categoryId] || 0}
+                    {t("categories.total")}: ${totalsMap[cat.categoryId] || 0}
                   </p>
                 </Link>
               ))}
@@ -158,17 +157,17 @@ const BudgetingPage = () => {
         <div className="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50">
           <div className="bg-gradient-to-br from-gray-800 to-gray-700 rounded-2xl shadow-2xl p-8 w-96 border border-gray-700/50">
             <h3 className="text-2xl font-bold bg-gradient-to-r from-red-400 to-pink-500 bg-clip-text text-transparent mb-6">
-              Ajouter une Dépense
+              {t("modals.addExpense")}
             </h3>
             <input
               type="text"
-              placeholder="Nom"
+              placeholder={t("modals.name")}
               value={newExpenseCategoryName}
               onChange={(e) => setNewExpenseCategoryName(e.target.value)}
               className="w-full mb-4 p-3 rounded-lg bg-gray-700/50 border border-gray-600/50 text-gray-100 focus:outline-none focus:ring-2 focus:ring-red-400/50"
             />
             <textarea
-              placeholder="Description"
+              placeholder={t("modals.description")} 
               value={newExpenseCategoryDesc}
               onChange={(e) => setNewExpenseCategoryDesc(e.target.value)}
               className="w-full mb-4 p-3 rounded-lg bg-gray-700/50 border border-gray-600/50 text-gray-100 focus:outline-none focus:ring-2 focus:ring-red-400/50"
@@ -178,13 +177,16 @@ const BudgetingPage = () => {
                 onClick={() => setIsExpenseModalVisible(false)}
                 className="px-6 py-2 bg-gray-600/50 hover:bg-gray-500/50 text-white rounded-lg transition-all duration-200"
               >
-                Annuler
+                {t("modals.cancel")}
               </button>
               <button
-                onClick={() => addCategory("EXPENSE")}
+                onClick={() => {
+                  addCategory("EXPENSE");
+                  setIsExpenseModalVisible(false);
+                }}
                 className="px-6 py-2 bg-gradient-to-r from-red-400 to-pink-500 hover:from-red-500 hover:to-pink-600 text-white rounded-lg transition-all duration-200"
               >
-                Ajouter
+                {t("modals.add")}
               </button>
             </div>
           </div>
@@ -196,17 +198,17 @@ const BudgetingPage = () => {
         <div className="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50">
           <div className="bg-gradient-to-br from-gray-800 to-gray-700 rounded-2xl shadow-2xl p-8 w-96 border border-gray-700/50">
             <h3 className="text-2xl font-bold bg-gradient-to-r from-green-400 to-teal-500 bg-clip-text text-transparent mb-6">
-              Ajouter un Revenu
+              {t("modals.addIncome")} 
             </h3>
             <input
               type="text"
-              placeholder="Nom"
+              placeholder={t("modals.name")} 
               value={newIncomeCategoryName}
               onChange={(e) => setNewIncomeCategoryName(e.target.value)}
               className="w-full mb-4 p-3 rounded-lg bg-gray-700/50 border border-gray-600/50 text-gray-100 focus:outline-none focus:ring-2 focus:ring-green-400/50"
             />
             <textarea
-              placeholder="Description"
+              placeholder={t("modals.description")} 
               value={newIncomeCategoryDesc}
               onChange={(e) => setNewIncomeCategoryDesc(e.target.value)}
               className="w-full mb-4 p-3 rounded-lg bg-gray-700/50 border border-gray-600/50 text-gray-100 focus:outline-none focus:ring-2 focus:ring-green-400/50"
@@ -216,13 +218,16 @@ const BudgetingPage = () => {
                 onClick={() => setIsIncomeModalVisible(false)}
                 className="px-6 py-2 bg-gray-600/50 hover:bg-gray-500/50 text-white rounded-lg transition-all duration-200"
               >
-                Annuler
+                {t("modals.cancel")} 
               </button>
               <button
-                onClick={() => addCategory("INCOME")}
+                onClick={() => {
+                  addCategory("INCOME");
+                  setIsIncomeModalVisible(false);
+                }}
                 className="px-6 py-2 bg-gradient-to-r from-green-400 to-teal-500 hover:from-green-500 hover:to-teal-600 text-white rounded-lg transition-all duration-200"
               >
-                Ajouter
+                {t("modals.add")} 
               </button>
             </div>
           </div>

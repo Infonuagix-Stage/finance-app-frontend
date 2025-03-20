@@ -1,0 +1,19 @@
+{
+    "title": "About FinanceApp",
+    "mission_title": "Our Mission",
+    "mission_text": "FinanceApp is an application designed to help you manage your personal finances easily and efficiently. Whether you want to track your expenses, plan your budget, or reach your savings goals, FinanceApp is here to assist you.",
+    "features_title": "Features",
+    "features": [
+      "Income and expense tracking",
+      "Personalized budget management",
+      "Savings goals and projects",
+      "Data visualization with charts",
+      "Debt management"
+    ],
+    "team_title": "Our Team",
+    "team_text": "FinanceApp is developed by a passionate team of developers and designers who believe in the power of technology to improve personal finance management.",
+    "contact_title": "Contact Us",
+    "contact_text": "Do you have any questions or suggestions? Feel free to reach out to us at: ",
+    "contact_email": "support@financeapp.com"
+
+}

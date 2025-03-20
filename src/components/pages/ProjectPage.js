@@ -5,6 +5,7 @@ import ProjectCard from "../features/Project/ProjectCard";
 import Confirmation from "../Confirmation";
 import { useProjects } from "../../hooks/useProjects";
 import { calculateMonthlyContribution } from "../../utils/projectCalculations";
+import { useTranslation } from "react-i18next";
 
 const ProjectPage = () => {
   const {
@@ -19,6 +20,7 @@ const ProjectPage = () => {
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [projectToDelete, setProjectToDelete] = useState(null);
+  const { t } = useTranslation("project");
 
   const handleCreateProject = async (projectData) => {
     const monthlyContribution = calculateMonthlyContribution(
@@ -63,10 +65,9 @@ const ProjectPage = () => {
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white p-8">
       <div className="max-w-6xl mx-auto">
         <h1 className="text-5xl font-extrabold text-center mb-16 bg-gradient-to-r from-teal-400 to-blue-500 bg-clip-text text-transparent">
-          Mes Projets Financiers
+          {t("myFinancialProjects")}
         </h1>
 
-        {/* Project Creation Section */}
         <div className="mb-20">
           {loading ? (
             <div className="animate-pulse flex justify-center items-center h-32">
@@ -77,15 +78,16 @@ const ProjectPage = () => {
           )}
         </div>
 
-        {/* Projects List */}
         <div className="space-y-8">
           <h2 className="text-3xl font-bold bg-gradient-to-r from-gray-200 to-gray-400 bg-clip-text text-transparent">
-            Projets en cours
+            {t("ongoingProjects")}
           </h2>
 
           {projects.length === 0 ? (
             <div className="text-center p-12 border-2 border-dashed border-gray-700 rounded-xl">
-              <p className="text-gray-400 text-lg">Aucun projet ajouté</p>
+              <p className="text-gray-400 text-lg">
+                {t("noProjectsAdded")}
+              </p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -101,7 +103,6 @@ const ProjectPage = () => {
           )}
         </div>
 
-        {/* Project Update Modal */}
         {currentProject && (
           <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
             <div className="bg-gray-900 p-6 rounded-lg w-full max-w-lg relative">
@@ -120,16 +121,17 @@ const ProjectPage = () => {
           </div>
         )}
 
-        {/* Confirmation Modal for Delete */}
         <Confirmation
           isOpen={isDeleteModalOpen}
-          title="Confirmation de suppression"
-          message="Voulez-vous vraiment supprimer ce projet ?"
+          title={t("deleteConfirmation")}
+          message={t("deleteMessage")}
           onConfirm={handleConfirmDelete}
           onCancel={() => {
             setIsDeleteModalOpen(false);
             setProjectToDelete(null);
           }}
+          confirmText={t("confirm")}
+          cancelText={t("cancel")}
         />
       </div>
     </div>

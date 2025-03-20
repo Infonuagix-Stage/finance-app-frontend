@@ -1,9 +1,10 @@
-// Navbar.js
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useTranslation } from "react-i18next";
 
 const Navbar = ({ setIsDropdownOpen }) => {
+  const { t } = useTranslation();
   const { isAuthenticated, user, loginWithRedirect, logout } = useAuth0();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -26,7 +27,7 @@ const Navbar = ({ setIsDropdownOpen }) => {
             to="/"
             className="text-gray-300 hover:text-blue-400 transition duration-300"
           >
-            Accueil
+            {t("home")}
           </Link>
           {isAuthenticated && (
             <>
@@ -34,25 +35,25 @@ const Navbar = ({ setIsDropdownOpen }) => {
                 to="/dashboard"
                 className="text-gray-300 hover:text-blue-400 transition duration-300"
               >
-                Vue d'ensemble
+                {t("dashboard")}
               </Link>
               <Link
                 to="/budgeting"
                 className="text-gray-300 hover:text-blue-400 transition duration-300"
               >
-                Mon Budget
+                {t("budget")}
               </Link>
               <Link
                 to="/project"
                 className="text-gray-300 hover:text-blue-400 transition duration-300"
               >
-                Mes Projets
+                {t("projects")}
               </Link>
               <Link
                 to="/payment"
                 className="text-gray-300 hover:text-blue-400 transition duration-300"
               >
-                Mes Paiements
+                {t("payments")}
               </Link>
             </>
           )}
@@ -60,16 +61,16 @@ const Navbar = ({ setIsDropdownOpen }) => {
             to="/about"
             className="text-gray-300 hover:text-blue-400 transition duration-300"
           >
-            À propos
+            {t("about")}
           </Link>
         </div>
 
-        {/* Auth & Mobile Button */}
-        <div className="flex items-center space-x-4">
+        {/* Right side: Auth */}
+        <div className="flex items-center space-x-6">
           {isAuthenticated ? (
             <>
               <span className="hidden md:inline text-white font-medium">
-                Bienvenue, {user?.name || user?.nickname}!
+                {t("welcome")}, {user?.name || user?.nickname}!
               </span>
               {/* L'image de profil déclenche l'ouverture du menu */}
               <button
@@ -82,20 +83,28 @@ const Navbar = ({ setIsDropdownOpen }) => {
                   className="w-10 h-10 rounded-full"
                 />
               </button>
+              <button
+                onClick={() =>
+                  logout({ logoutParams: { returnTo: window.location.origin } })
+                }
+                className="hidden md:inline px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300 text-sm"
+              >
+                {t("logout")}
+              </button>
             </>
           ) : (
             <div className="hidden md:flex space-x-4">
               <button
                 onClick={() => loginWithRedirect()}
-                className="px-4 py-2 text-white border border-gray-500 rounded-md hover:bg-gray-700 transition duration-300"
+                className="px-6 py-2 border border-gray-500 text-gray-200 rounded-md hover:bg-gray-700 transition duration-300 text-sm"
               >
-                Login
+                {t("login")}
               </button>
               <button
                 onClick={() => loginWithRedirect({ screen_hint: "signup" })}
-                className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300 shadow-md"
+                className="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300 text-sm"
               >
-                Sign Up
+                {t("signup")}
               </button>
             </div>
           )}
@@ -139,92 +148,85 @@ const Navbar = ({ setIsDropdownOpen }) => {
       </div>
 
       {/* Mobile Navigation */}
-      <div
-        className={`md:hidden bg-gray-800 border-t border-gray-700 py-4 transition-all duration-300 ${
-          isMobileMenuOpen ? "block" : "hidden"
-        }`}
-      >
-        <div className="px-6 space-y-4">
-          <Link
-            to="/"
-            className="block text-gray-300 hover:text-blue-400 transition"
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            Accueil
-          </Link>
-          <Link
-            to="/about"
-            className="block text-gray-300 hover:text-blue-400 transition"
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            À propos
-          </Link>
-          {isAuthenticated && (
-            <>
-              <Link
-                to="/dashboard"
-                className="block text-gray-300 hover:text-blue-400 transition"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Vue d'ensemble
-              </Link>
-              <Link
-                to="/budgeting"
-                className="block text-gray-300 hover:text-blue-400 transition"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Mon Budget
-              </Link>
-              <Link
-                to="/project"
-                className="block text-gray-300 hover:text-blue-400 transition"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Mes Projets
-              </Link>
-              <Link
-                to="/payment"
-                className="block text-gray-300 hover:text-blue-400 transition"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Mes Paiements
-              </Link>
-            </>
-          )}
-          {!isAuthenticated ? (
-            <>
+      {isMobileMenuOpen && (
+        <div className="md:hidden bg-gray-800 border-t border-gray-700 py-4 transition-all duration-300">
+          <div className="px-6 space-y-4">
+            {isAuthenticated && (
+              <>
+                <Link
+                  to="/dashboard"
+                  className="block text-gray-300 hover:text-blue-400 transition duration-300"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {t("dashboard")}
+                </Link>
+                <Link
+                  to="/budgeting"
+                  className="block text-gray-300 hover:text-blue-400 transition duration-300"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {t("budget")}
+                </Link>
+                <Link
+                  to="/project"
+                  className="block text-gray-300 hover:text-blue-400 transition duration-300"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {t("projects")}
+                </Link>
+                <Link
+                  to="/payment"
+                  className="block text-gray-300 hover:text-blue-400 transition duration-300"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {t("payments")}
+                </Link>
+              </>
+            )}
+            <Link
+              to="/about"
+              className="block text-gray-300 hover:text-blue-400 transition duration-300"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              {t("about")}
+            </Link>
+            {!isAuthenticated ? (
+              <>
+                <button
+                  onClick={() => {
+                    loginWithRedirect();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="block w-full text-center px-4 py-2 text-white border border-gray-500 rounded-md hover:bg-gray-700 transition"
+                >
+                  {t("login")}
+                </button>
+                <button
+                  onClick={() => {
+                    loginWithRedirect({ screen_hint: "signup" });
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="block w-full text-center px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition shadow-md"
+                >
+                  {t("signup")}
+                </button>
+              </>
+            ) : (
               <button
                 onClick={() => {
-                  loginWithRedirect();
-                  setIsMobileMenuOpen(false);
-                }}
-                className="block w-full text-center px-4 py-2 text-white border border-gray-500 rounded-md hover:bg-gray-700 transition"
-              >
-                Login
-              </button>
-              <button
-                onClick={() => {
-                  loginWithRedirect({ screen_hint: "signup" });
+                  logout({
+                    logoutParams: { returnTo: window.location.origin },
+                  });
                   setIsMobileMenuOpen(false);
                 }}
                 className="block w-full text-center px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition shadow-md"
               >
-                Sign Up
+                {t("logout")}
               </button>
-            </>
-          ) : (
-            <button
-              onClick={() => {
-                logout({ logoutParams: { returnTo: window.location.origin } });
-                setIsMobileMenuOpen(false);
-              }}
-              className="block w-full text-center px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition shadow-md"
-            >
-              Logout
-            </button>
-          )}
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </nav>
   );
 };

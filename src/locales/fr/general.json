@@ -1,0 +1,13 @@
+{
+    "app_name": "FinanceApp",
+    "home": "Accueil",
+    "dashboard": "Vue d'ensemble",
+    "budget": "Mon Budget",
+    "projects": "Mes Projets",
+    "payments": "Mes Paiements",
+    "about": "À propos",
+    "login": "Connexion",
+    "logout": "Déconnexion",
+    "signup": "S'inscrire",
+    "welcome": "Bienvenue, {{name}} !"
+}

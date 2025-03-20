@@ -10,6 +10,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { useTranslation } from "react-i18next";
 
 ChartJS.register(
   CategoryScale,
@@ -21,9 +22,10 @@ ChartJS.register(
 );
 
 const ChartWidget = ({ chartData, chartOptions }) => {
+  const { t } = useTranslation("dashboard");
   return (
     <div className="chart-container">
-      <h3 className="chart-title">Revenus vs Dépenses</h3>
+      <h3 className="chart-title">{t("revenue_vs_expenses")}</h3>
       <div style={{ height: "200px" }}>
         <Bar data={chartData} options={chartOptions} />
       </div>
