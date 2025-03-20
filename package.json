@@ -21,6 +21,7 @@
     "recharts": "^2.15.1"
   },
   "scripts": {
+    "prebuild": "npm install --legacy-peer-deps",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
