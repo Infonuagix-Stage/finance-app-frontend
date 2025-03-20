@@ -39,7 +39,10 @@ const AppContent = () => {
   return (
     // Le conteneur principal doit être en position relative pour que
     // le UserDropdown (en absolute) puisse se positionner par rapport à lui
-    <div id="app-root" className="relative pt-16 flex flex-col min-h-screen">
+    <div
+      id="app-root"
+      className="relative pt-16 flex flex-col min-h-screen overflow-x-hidden"
+    >
       <Navbar setIsDropdownOpen={setIsDropdownOpen} />
       {/* Le menu latéral est rendu ici, et il occupe la hauteur totale du contenu */}
       <UserDropdown
