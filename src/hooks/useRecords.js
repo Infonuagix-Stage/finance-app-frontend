@@ -15,7 +15,7 @@ const useRecords = (userId, categoryId, categoryType) => {
       setCurrentTotal(total);
     };
     fetchRecords();
-  }, [userId, categoryId, categoryType]);
+  }, [userId, categoryId, categoryType, records]);
 
   const addRecord = async (recordData) => {
     const response = await api.post(`/users/${userId}/categories/${categoryId}/${categoryType === "INCOME" ? "incomes" : "expenses"}`, recordData);
@@ -30,7 +30,8 @@ const useRecords = (userId, categoryId, categoryType) => {
 
   const handleEditRecord = async (recordId, updatedData) => {
     const response = await api.put(`/users/${userId}/categories/${categoryId}/${categoryType === "INCOME" ? "incomes" : "expenses"}/${recordId}`, updatedData);
-    setRecords((prev) => prev.map((rec) => (rec.id === recordId ? response.data : rec)));
+    const updatedExpense = response.data; 
+    setRecords((prevRecords) =>prevRecords.map((rec) => rec.expenseId === updatedExpense.expenseId ? updatedExpense : rec));
   };
 
   return {
