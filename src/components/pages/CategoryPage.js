@@ -7,7 +7,7 @@ import useRecords from "../../hooks/useRecords";
 const CategoryPage = () => {
   const { categoryName } = useParams();
   const location = useLocation();
-  const { user, isAuthenticated, isLoading } = useAuth0(); // Destructure the Auth0 hook
+  const { user, isAuthenticated, isLoading } = useAuth0();
   const userId = user ? user.sub : null;
   const { categoryId, categoryType } = location.state || {};
   const [newRecord, setNewRecord] = useState({ description: "", amount: "" });
@@ -111,8 +111,8 @@ const CategoryPage = () => {
                   </p>
                 </div>
                 <RecordActions
-                  onEdit={() => setEditingRecord(rec)} // Open the edit form
-                  onDelete={() => handleDeleteRecord(rec.id)} // Delete record
+                  onEdit={() => setEditingRecord(rec)}
+                  onDelete={() => handleDeleteRecord(categoryType === "INCOME" ? rec.incomeId : rec.expenseId)}
                 />
               </li>
             ))}
@@ -161,14 +161,21 @@ const CategoryPage = () => {
                 onClick={() => {
                   const updatedData = {
                     ...editingRecord,
-                    categoryId: categoryId, // Ensure categoryId is included
-                    userId: userId, // Ensure userId is included
-                    expenseDate:
-                      editingRecord.expenseDate ||
-                      new Date().toISOString().split("T")[0], // Add expenseDate with default value
+                    categoryId: categoryId,
+                    userId: userId,
+                    expenseDate: editingRecord.expenseDate || new Date().toISOString().split("T")[0],
                   };
-                  console.log("Updated Data:", updatedData); // Log for debugging
-                  handleEditRecord(editingRecord.id, updatedData);
+                  
+                  const recordUuid = categoryType === "INCOME"
+                    ? editingRecord.incomeId
+                    : editingRecord.expenseId;
+                  
+                  console.log("editingRecord:", editingRecord);
+                  console.log("recordUuid utilisé:", recordUuid);
+                  
+                  handleEditRecord(recordUuid, updatedData);
+                  setEditingRecord(null);
+
                 }}
                 className="px-4 py-2 bg-blue-600 text-white rounded-lg"
               >
