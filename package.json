@@ -20,7 +20,11 @@
     "react-scripts": "^5.0.1",
     "recharts": "^2.15.1"
   },
+  "resolutions": {
+    "typescript": "^4.9.5"
+  },
   "scripts": {
+    "preinstall": "npx npm-force-resolutions",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -49,6 +53,7 @@
     "@testing-library/react": "^16.2.0",
     "@testing-library/user-event": "^14.6.1",
     "autoprefixer": "^10.4.20",
+    "npm-force-resolutions": "^0.0.10",
     "postcss": "^8.5.1",
     "postcss-cli": "^11.0.0",
     "resize-observer-polyfill": "^1.5.1",
