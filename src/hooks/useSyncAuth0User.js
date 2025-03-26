@@ -9,6 +9,8 @@ const useSyncAuth0User = () => {
     const syncUser = async () => {
       if (isAuthenticated && user) {
         const token = await getAccessTokenSilently();
+        console.log("Token:", token);
+        console.log("User:", user.sub);
         await axios.post(
           `${process.env.REACT_APP_BACKEND_URL}/api/v1/auth/login`,
           {

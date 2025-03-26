@@ -1,16 +1,29 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import { useBudgetContext } from "../../context/BudgetContext";
 import useCategories from "../../hooks/useCategories";
-import { useTranslation } from "react-i18next"; // Import useTranslation
+import { useTranslation } from "react-i18next";
 
 const BudgetingPage = () => {
   const { user, isAuthenticated, isLoading } = useAuth0();
   const { setTotalIncome, setTotalExpense, setGlobalBalance } = useBudgetContext();
-  const { t } = useTranslation("budgeting"); // Utilisez le namespace "budgeting"
-
+  const { t } = useTranslation("budgeting");
+  const [currentDate, setCurrentDate] = useState(new Date());
   const userId = user ? user.sub : null;
+
+  const previousMonth = () =>
+    setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1));
+
+  const nextMonth = () =>
+    setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1));
+
+  const formattedMonth = currentDate.toLocaleString("default", {
+    month: "long",
+    year: "numeric",
+  });
+
   const {
     categories,
     totalsMap,
@@ -27,38 +40,45 @@ const BudgetingPage = () => {
     setIsExpenseModalVisible,
     isIncomeModalVisible,
     setIsIncomeModalVisible,
-  } = useCategories(userId);
+  } = useCategories(userId, currentDate);
 
   const totalIncome = categories.reduce(
     (acc, cat) => (cat.type === "INCOME" ? acc + (totalsMap[cat.categoryId] || 0) : acc),
     0
   );
+
   const totalExpense = categories.reduce(
     (acc, cat) => (cat.type === "EXPENSE" ? acc + (totalsMap[cat.categoryId] || 0) : acc),
     0
   );
+
   const globalBalance = totalIncome - totalExpense;
 
   useEffect(() => {
     setTotalIncome(totalIncome);
     setTotalExpense(totalExpense);
     setGlobalBalance(globalBalance);
-  }, [totalIncome, totalExpense, globalBalance, setTotalIncome, setTotalExpense, setGlobalBalance]);
+  }, [totalIncome, totalExpense, globalBalance, setTotalIncome, setTotalExpense, setGlobalBalance, currentDate]);
 
-  if (isLoading) {
-    return <div>{t("messages.loading")}</div>; // Traduction du message de chargement
-  }
-
-  if (!isAuthenticated) {
-    return <div>{t("messages.loginRequired")}</div>; // Traduction du message de connexion
-  }
+  if (isLoading) return <div>{t("messages.loading")}</div>;
+  if (!isAuthenticated) return <div>{t("messages.loginRequired")}</div>;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-gray-100 px-6 py-12">
+      <div className="flex items-center justify-center gap-4 mb-8">
+        <button onClick={previousMonth}>
+          <ChevronLeftIcon className="w-6 h-6 text-gray-300 hover:text-gray-100" />
+        </button>
+        <div className="text-2xl font-semibold capitalize">{formattedMonth}</div>
+        <button onClick={nextMonth}>
+          <ChevronRightIcon className="w-6 h-6 text-gray-300 hover:text-gray-100" />
+        </button>
+      </div>
+
       {/* Header */}
       <div className="max-w-4xl mx-auto bg-gray-700 bg-opacity-80 rounded-xl shadow-lg p-8 border border-gray-600">
         <h1 className="text-4xl font-bold text-center text-gray-100 mb-4">
-          {t("header.title")} {/* Titre traduit */}
+          {t("header.title")}
         </h1>
         <div className="text-center space-y-2">
           <p className="text-lg font-medium">
@@ -89,7 +109,7 @@ const BudgetingPage = () => {
           </h2>
           <div className="space-y-6">
             {categories
-              .filter((cat) => cat.type === "EXPENSE")
+              .filter((cat) => cat.type.toUpperCase() === "EXPENSE")
               .map((cat) => (
                 <Link
                   key={cat.categoryId}
@@ -98,6 +118,8 @@ const BudgetingPage = () => {
                     categoryName: cat.name,
                     categoryId: cat.categoryId,
                     categoryType: cat.type,
+                    year: currentDate.getFullYear(),
+                    month: currentDate.getMonth() + 1,
                   }}
                   className="block p-4 bg-gray-800 rounded-lg shadow border border-gray-700 hover:bg-gray-700"
                 >
@@ -119,7 +141,7 @@ const BudgetingPage = () => {
         {/* Income */}
         <div>
           <h2 className="text-3xl font-bold bg-gradient-to-r from-green-400 to-teal-500 bg-clip-text text-transparent mb-8">
-            {t("categories.income")} {/* Revenus traduits */}
+            {t("categories.income")}
           </h2>
           <div className="space-y-6">
             {categories
@@ -132,6 +154,8 @@ const BudgetingPage = () => {
                     categoryName: cat.name,
                     categoryId: cat.categoryId,
                     categoryType: cat.type,
+                    year: currentDate.getFullYear(),
+                    month: currentDate.getMonth() + 1,
                   }}
                   className="block p-4 bg-gray-800 rounded-lg shadow border border-gray-700 hover:bg-gray-700"
                 >
