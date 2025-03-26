@@ -7,12 +7,13 @@ const api = axios.create({
 });
 
 
-export const getCategoryTotal = async (userId, categoryId, type) => {
+export const getCategoryTotal = async (userId, categoryId, type, year, month) => {
   const response = await api.get(
     `/users/${userId}/categories/${categoryId}/total`,
     {
-      params: { type },
+      params: { type ,year, month },
     }
   );
   return response.data;
 };
+
