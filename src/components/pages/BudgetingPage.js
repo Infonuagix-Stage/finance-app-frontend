@@ -5,13 +5,21 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import { useBudgetContext } from "../../context/BudgetContext";
 import useCategories from "../../hooks/useCategories";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
 
 const BudgetingPage = () => {
   const { user, isAuthenticated, isLoading } = useAuth0();
   const { setTotalIncome, setTotalExpense, setGlobalBalance } = useBudgetContext();
   const { t } = useTranslation("budgeting");
-  const [currentDate, setCurrentDate] = useState(new Date());
   const userId = user ? user.sub : null;
+
+  const location = useLocation();
+  const { year: stateYear, month: stateMonth } = location.state || {};
+  const initialDate = stateYear && stateMonth
+    ? new Date(stateYear, stateMonth - 1)
+    : new Date();
+
+  const [currentDate, setCurrentDate] = useState(initialDate);
 
   const previousMonth = () =>
     setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1));
@@ -65,7 +73,12 @@ const BudgetingPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-gray-100 px-6 py-12">
-      <div className="flex items-center justify-center gap-4 mb-8">
+      {/* Header */}
+      <div className="max-w-4xl mx-auto bg-gray-700 bg-opacity-80 rounded-xl shadow-lg p-8 border border-gray-600">
+        <h1 className="text-4xl font-bold text-center text-gray-100 mb-4">
+          {t("header.title")}
+        </h1>
+         <div className="flex items-center justify-center gap-4 mb-8 mt-12">
         <button onClick={previousMonth}>
           <ChevronLeftIcon className="w-6 h-6 text-gray-300 hover:text-gray-100" />
         </button>
@@ -74,12 +87,6 @@ const BudgetingPage = () => {
           <ChevronRightIcon className="w-6 h-6 text-gray-300 hover:text-gray-100" />
         </button>
       </div>
-
-      {/* Header */}
-      <div className="max-w-4xl mx-auto bg-gray-700 bg-opacity-80 rounded-xl shadow-lg p-8 border border-gray-600">
-        <h1 className="text-4xl font-bold text-center text-gray-100 mb-4">
-          {t("header.title")}
-        </h1>
         <div className="text-center space-y-2">
           <p className="text-lg font-medium">
             <span className="text-green-400">
@@ -99,13 +106,48 @@ const BudgetingPage = () => {
           </p>
         </div>
       </div>
-
       {/* Categories */}
       <div className="max-w-6xl mx-auto mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
+      {/* Income */}
+        <div>
+          <h2 className="text-3xl font-bold bg-gradient-to-r from-green-400 to-teal-500 bg-clip-text text-transparent mb-8">
+            {t("categories.income")}
+          </h2>
+          <div className="space-y-6">
+            {categories
+              .filter((cat) => cat.type === "INCOME")
+              .map((cat) => (
+                <Link
+                  key={cat.categoryId}
+                  to={`/category/${encodeURIComponent(cat.name)}`}
+                  state={{
+                    categoryName: cat.name,
+                    categoryId: cat.categoryId,
+                    categoryType: cat.type,
+                    year: currentDate.getFullYear(),
+                    month: currentDate.getMonth() + 1,
+                  }}
+                  className="block p-4 bg-gray-800 rounded-lg shadow border border-gray-700 hover:bg-gray-700"
+                  >
+                  <h4 className="text-lg font-semibold">{cat.name}</h4>
+                  <p className="text-sm text-gray-300 mt-2">
+                    {t("categories.total")}: ${totalsMap[cat.categoryId] || 0}
+                  </p>
+                </Link>
+              ))}
+            <button
+              onClick={() => setIsIncomeModalVisible(true)}
+              className="w-full flex items-center justify-center py-6 bg-gradient-to-br from-gray-700 to-gray-600 hover:from-gray-600 hover:to-gray-500 text-gray-100 rounded-2xl shadow-lg border border-gray-600/50 transition-all duration-300 hover:scale-105"
+            >
+              <span className="text-4xl font-bold">+</span>
+            </button>
+          </div>
+        </div>
+
         {/* Expenses */}
         <div>
-          <h2 className="text-3xl font-bold bg-gradient-to-r from-red-400 to-pink-500 bg-clip-text text-transparent mb-8">
-            {t("categories.expenses")} 
+            <h2 className="text-3xl font-bold bg-gradient-to-r from-red-400 to-pink-500 bg-clip-text text-transparent mb-8">
+            {t("categories.expenses")}
           </h2>
           <div className="space-y-6">
             {categories
@@ -115,7 +157,7 @@ const BudgetingPage = () => {
                   key={cat.categoryId}
                   to={`/category/${encodeURIComponent(cat.name)}`}
                   state={{
-                    categoryName: cat.name,
+                  categoryName: cat.name,
                     categoryId: cat.categoryId,
                     categoryType: cat.type,
                     year: currentDate.getFullYear(),
@@ -137,43 +179,9 @@ const BudgetingPage = () => {
             </button>
           </div>
         </div>
-
-        {/* Income */}
-        <div>
-          <h2 className="text-3xl font-bold bg-gradient-to-r from-green-400 to-teal-500 bg-clip-text text-transparent mb-8">
-            {t("categories.income")}
-          </h2>
-          <div className="space-y-6">
-            {categories
-              .filter((cat) => cat.type === "INCOME")
-              .map((cat) => (
-                <Link
-                  key={cat.categoryId}
-                  to={`/category/${encodeURIComponent(cat.name)}`}
-                  state={{
-                    categoryName: cat.name,
-                    categoryId: cat.categoryId,
-                    categoryType: cat.type,
-                    year: currentDate.getFullYear(),
-                    month: currentDate.getMonth() + 1,
-                  }}
-                  className="block p-4 bg-gray-800 rounded-lg shadow border border-gray-700 hover:bg-gray-700"
-                >
-                  <h4 className="text-lg font-semibold">{cat.name}</h4>
-                  <p className="text-sm text-gray-300 mt-2">
-                    {t("categories.total")}: ${totalsMap[cat.categoryId] || 0}
-                  </p>
-                </Link>
-              ))}
-            <button
-              onClick={() => setIsIncomeModalVisible(true)}
-              className="w-full flex items-center justify-center py-6 bg-gradient-to-br from-gray-700 to-gray-600 hover:from-gray-600 hover:to-gray-500 text-gray-100 rounded-2xl shadow-lg border border-gray-600/50 transition-all duration-300 hover:scale-105"
-            >
-              <span className="text-4xl font-bold">+</span>
-            </button>
-          </div>
-        </div>
       </div>
+
+
 
       {/* Modals */}
       {/* Expense Modal */}

@@ -3,8 +3,11 @@ import { useParams, useLocation } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import RecordActions from "../RecordActions";
 import useRecords from "../../hooks/useRecords";
+import { useNavigate } from "react-router-dom";
+import { ArrowLeft } from "lucide-react"; 
 
 const CategoryPage = () => {
+  const navigate = useNavigate();
   const { categoryName } = useParams();
   const location = useLocation();
   const { user, isAuthenticated, isLoading } = useAuth0();
@@ -46,8 +49,16 @@ const CategoryPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-200 p-8">
+      <div className="mb-6">
+        <button
+          onClick={() => navigate("/budgeting", { state: { year: currentYear, month: currentMonth } })}
+          className="flex items-center text-blue-400 hover:text-blue-600 transition"
+        >
+          <ArrowLeft className="mr-2" /> Retour à Budgeting
+        </button>
+    </div>
       <h1 className="text-4xl font-bold mb-4 text-center">
-        Catégorie : {categoryName} ({categoryType})
+      Catégorie :  {categoryName}
       </h1>
 
       <div className="flex items-center justify-center gap-4 mb-8">
