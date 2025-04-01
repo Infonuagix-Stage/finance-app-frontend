@@ -1,17 +1,17 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* Ajoutez ces styles dans votre fichier CSS global ou dans un fichier de style dédié */
+/* Conteneur du graphique */
 .chart-container {
-  background-color: #2d3748; /* Couleur de fond du conteneur du graphique */
-  border-radius: 8px; /* Bordures arrondies */
+  background-color: #2d3748; /* Fond sombre */
+  border-radius: 8px; /* Bords arrondis */
   padding: 16px; /* Espacement intérieur */
+  max-width: 900px; /* Largeur max */
+  margin: 0 auto; /* Centrage */
 }
 
+/* Titre du graphique */
 .chart-title {
-  color: #fff; /* Couleur du titre */
+  color: #ffffff; /* Texte blanc */
   font-size: 1.25rem; /* Taille du texte */
-  font-weight: 600; /* Épaisseur du texte */
+  font-weight: 600; /* Épaisseur */
   margin-bottom: 16px; /* Espacement en bas */
+  text-align: center; /* Centrage */
 }

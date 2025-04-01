@@ -1,0 +1,74 @@
+/* Profile Page Styles */
+.profile-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #2d3748, #1a202c);
+    color: white;
+    padding: 48px 24px;
+  }
+  
+  /* Form Container */
+  .form-container {
+    margin-top: 32px;
+    padding: 24px;
+    background: linear-gradient(135deg, #2d3748, #1f2937);
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(55, 65, 81, 0.5);
+  }
+  
+  /* Title */
+  .form-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  
+  /* Form Fields */
+  .form-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .form-field {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-label {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  
+  .form-input {
+    width: 100%;
+    padding: 12px;
+    background-color: #1f2937;
+    border: 1px solid #4a5568;
+    border-radius: 8px;
+    color: white;
+    font-size: 1rem;
+    outline: none;
+  }
+  
+  .form-input:focus {
+    border-color: #3b82f6;
+  }
+  
+  /* Submit Button */
+  .submit-btn {
+    background-color: #3b82f6;
+    padding: 12px 24px;
+    border-radius: 8px;
+    color: white;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .submit-btn:hover {
+    background-color: #2563eb;
+  }
+  

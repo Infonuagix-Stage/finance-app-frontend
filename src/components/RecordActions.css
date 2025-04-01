@@ -1,0 +1,56 @@
+.record-actions {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .menu-button {
+    background: none;
+    border: none;
+    color: #a0aec0;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+  
+  .menu-button:hover {
+    color: #e2e8f0;
+  }
+  
+  .dropdown-menu {
+    position: absolute;
+    right: 0;
+    margin-top: 8px;
+    width: 12rem;
+    background: #2d3748;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    border: 1px solid #4a5568;
+    z-index: 10;
+    overflow: hidden;
+  }
+  
+  .dropdown-item {
+    display: block;
+    width: 100%;
+    padding: 10px 16px;
+    text-align: left;
+    color: #e2e8f0;
+    background: none;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .dropdown-item:hover {
+    background: #4a5568;
+  }
+  
+  .dropdown-item.delete {
+    color: #f56565;
+  }
+  
+  .dropdown-item.delete:hover {
+    background: #4a5568;
+  }
+  

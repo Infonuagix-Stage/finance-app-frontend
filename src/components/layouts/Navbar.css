@@ -1,0 +1,133 @@
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to right, #1a202c, #2d3748, #1a202c);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #4a5568;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 50;
+  }
+  
+  .navbar-container {
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 64px;
+  }
+  
+  .navbar-logo {
+    color: white;
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-decoration: none;
+  }
+  
+  .navbar-logo span {
+    color: #63b3ed;
+  }
+  
+  .navbar-links {
+    display: flex;
+    gap: 32px;
+    font-size: 18px;
+  }
+  
+  .navbar-link {
+    color: #d1d5db;
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
+  }
+  
+  .navbar-link:hover {
+    color: #63b3ed;
+  }
+  
+  .auth-buttons {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .auth-button {
+    padding: 8px 24px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+  }
+  
+  .auth-button.primary {
+    background-color: #63b3ed;
+    color: white;
+    border: none;
+  }
+  
+  .auth-button.primary:hover {
+    background-color: #4299e1;
+  }
+  
+  .auth-button.secondary {
+    background: none;
+    border: 1px solid #4a5568;
+    color: #d1d5db;
+  }
+  
+  .auth-button.secondary:hover {
+    background-color: #4a5568;
+  }
+  
+  .profile-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  
+  .mobile-menu-button {
+    display: none;
+    cursor: pointer;
+  }
+  
+  .mobile-menu {
+    display: none;
+    background-color: #2d3748;
+    border-top: 1px solid #4a5568;
+    padding: 16px;
+  }
+  
+  .mobile-menu .mobile-link {
+    display: block;
+    color: #d1d5db;
+    text-decoration: none;
+    margin-bottom: 12px;
+    transition: color 0.3s ease-in-out;
+  }
+  
+  .mobile-menu .mobile-link:hover {
+    color: #63b3ed;
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .navbar-links {
+      display: none;
+    }
+  
+    .mobile-menu-button {
+      display: block;
+      color: #d1d5db;
+      font-size: 24px;
+    }
+  
+    .mobile-menu {
+      display: block;
+    }
+  }
+  
