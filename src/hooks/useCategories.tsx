@@ -1,9 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import {
-  getCategoriesForUser,
-  createCategoryForUser,
-} from "../services/categoryService";
+import { getCategoriesForUser, createCategoryForUser } from "../services/categoryService";
 import { getCategoryTotal } from "../services/totalService";
 
 // Define types
@@ -16,8 +13,11 @@ interface Category {
 
 type TotalsMap = Record<string, number>;
 
-const useCategories = () => {
+const useCategories = (userId: string, currentDate: Date) => {
+  const currentYear = currentDate.getFullYear();
+  const currentMonth = currentDate.getMonth() + 1;
   const { user, getAccessTokenSilently } = useAuth0();
+
   const [categories, setCategories] = useState<Category[]>([]);
   const [totalsMap, setTotalsMap] = useState<TotalsMap>({});
   const [newExpenseCategoryName, setNewExpenseCategoryName] = useState<string>("");
@@ -36,7 +36,7 @@ const useCategories = () => {
     try {
       const token = await getAccessTokenSilently();
       const categoryData = { name, description: desc, type };
-      const created = await createCategoryForUser(user?.sub || "", categoryData, token);
+      const created = await createCategoryForUser(userId, categoryData, token);
       setCategories((prev) => [...prev, created]);
 
       if (type === "EXPENSE") {
@@ -53,29 +53,32 @@ const useCategories = () => {
 
   // Fetch categories
   useEffect(() => {
-    if (!user) return;
+    if (!userId || !currentYear || !currentMonth) return;
+
     const fetchCategories = async () => {
       try {
         const token = await getAccessTokenSilently();
-        const fetchedCategories = await getCategoriesForUser(user?.sub || "", token);
+        const fetchedCategories = await getCategoriesForUser(userId, token);
         setCategories(fetchedCategories);
       } catch (error) {
         console.error("Error fetching categories:", error);
       }
     };
-    fetchCategories();
-  }, [user, getAccessTokenSilently]);
 
-  // Calculate totals
+    fetchCategories();
+  }, [userId, currentYear, currentMonth, getAccessTokenSilently]);
+
+  // Fetch totals for each category
   useEffect(() => {
-    if (!user?.sub || categories.length === 0) return;
+    if (!userId || categories.length === 0 || !currentYear || !currentMonth) return;
+
     const fetchTotals = async () => {
       const newTotalsMap: TotalsMap = {};
       await Promise.all(
         categories.map(async (cat) => {
           try {
-            const total = await getCategoryTotal(user?.sub || "", cat.categoryId, cat.type);
-            newTotalsMap[cat.categoryId] = total.amount; // Assuming 'amount' is the numeric property in CategoryTotal
+            const total = await getCategoryTotal({ userId, categoryId: cat.categoryId }); // Pass the correct parameter object
+            newTotalsMap[cat.categoryId] = total.total; // Ensure 'amount' is correctly referenced
           } catch {
             newTotalsMap[cat.categoryId] = 0;
           }
@@ -83,8 +86,9 @@ const useCategories = () => {
       );
       setTotalsMap(newTotalsMap);
     };
+
     fetchTotals();
-  }, [categories, user?.sub]);
+  }, [userId, categories, currentYear, currentMonth]);
 
   return {
     categories,

@@ -1,29 +1,37 @@
 import axios from "axios";
 
-// Define response type for category total
-export interface CategoryTotal {
-  amount: number;
-  total: number;
-}
-
-// Axios instance with base URL
 const api = axios.create({
   baseURL: `${process.env.REACT_APP_BACKEND_URL}/api/v1`,
   headers: { "Content-Type": "application/json" },
 });
 
-// Fetch category total (income or expense)
-export const getCategoryTotal = async (
-  userId: string,
-  categoryId: string,
-  type: "INCOME" | "EXPENSE"
-): Promise<CategoryTotal> => {
-  const response = await api.get<CategoryTotal>(
+// Define types for request parameters
+interface GetCategoryTotalParams {
+  userId: string;
+  categoryId: string;
+  type?: string;
+  year?: number;
+  month?: number;
+}
+
+// Define type for the response (modify based on actual API response)
+interface CategoryTotalResponse {
+  total: number;  // Example: Assuming API returns a total amount
+}
+
+// Function to get category total
+export const getCategoryTotal = async ({
+  userId,
+  categoryId,
+  type,
+  year,
+  month,
+}: GetCategoryTotalParams): Promise<CategoryTotalResponse> => {
+  const response = await api.get<CategoryTotalResponse>(
     `/users/${userId}/categories/${categoryId}/total`,
     {
-      params: { type },
+      params: { type, year, month },
     }
   );
-
   return response.data;
 };

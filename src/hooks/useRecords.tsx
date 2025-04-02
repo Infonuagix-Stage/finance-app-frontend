@@ -1,83 +1,83 @@
 import { useState, useEffect } from "react";
 import useAxiosAuth from "./useAxiosAuth";
 
-// Define the types for the records
+// Define the types for a record
 interface Record {
-  id: string;
+  description: string;
+  incomeDate: any;
+  expenseDate: any;
   amount: number;
-  description?: string;
-  date?: string;
-  [key: string]: any; // Allow additional fields
+  incomeId?: string;
+  expenseId?: string;
 }
 
-interface RecordData {
-  amount: number;
-  description?: string;
-  date?: string;
-  [key: string]: any;
+// Props for the hook
+interface UseRecordsProps {
+  userId: string;
+  categoryId: string;
+  categoryType: "INCOME" | "EXPENSE";
+  year: number;
+  month: number;
 }
 
-const useRecords = (userId?: string, categoryId?: string, categoryType?: "INCOME" | "EXPENSE") => {
+const useRecords = ({ userId, categoryId, categoryType, year, month }: UseRecordsProps) => {
   const api = useAxiosAuth();
   const [records, setRecords] = useState<Record[]>([]);
   const [currentTotal, setCurrentTotal] = useState<number>(0);
 
   useEffect(() => {
     const fetchRecords = async () => {
-      if (!userId || !categoryId || !categoryType) return;
-      try {
-        const response = await api.get<Record[]>(
-          `/users/${userId}/categories/${categoryId}/${categoryType === "INCOME" ? "incomes" : "expenses"}`
-        );
-        setRecords(response.data);
-        const total = response.data.reduce((sum, rec) => sum + Number(rec.amount), 0);
-        setCurrentTotal(total);
-      } catch (error) {
-        console.error("Error fetching records:", error);
-      }
+      if (!userId || !categoryId || !categoryType || !year || !month) return;
+
+      const response = await api.get<Record[]>(
+        `/users/${userId}/categories/${categoryId}/${categoryType === "INCOME" ? "incomes" : "expenses"}?year=${year}&month=${month}`
+      );
+
+      setRecords(response.data);
+      const total = response.data.reduce((sum, rec) => sum + Number(rec.amount), 0);
+      setCurrentTotal(total);
     };
+
     fetchRecords();
-  }, [userId, categoryId, categoryType]);
+  }, [userId, categoryId, categoryType, year, month, api]);
 
-  const addRecord = async (recordData: RecordData) => {
-    if (!userId || !categoryId || !categoryType) return;
-    try {
-      const response = await api.post<Record>(
-        `/users/${userId}/categories/${categoryId}/${categoryType === "INCOME" ? "incomes" : "expenses"}`,
-        recordData
-      );
-      setRecords((prev) => [...prev, response.data]);
-      setCurrentTotal((prev) => Number(prev) + Number(response.data.amount));
-    } catch (error) {
-      console.error("Error adding record:", error);
-    }
+  const addRecord = async (recordData: Omit<Record, "incomeId" | "expenseId">) => {
+    const response = await api.post<Record>(
+      `/users/${userId}/categories/${categoryId}/${categoryType === "INCOME" ? "incomes" : "expenses"}`,
+      recordData
+    );
+
+    setRecords((prev) => [...prev, response.data]);
+    setCurrentTotal((prev) => prev + Number(response.data.amount));
   };
 
-  const handleDeleteRecord = async (recordId: string) => {
-    if (!userId || !categoryId || !categoryType) return;
-    try {
-      await api.delete(
-        `/users/${userId}/categories/${categoryId}/${categoryType === "INCOME" ? "incomes" : "expenses"}/${recordId}`
-      );
-      setRecords((prev) => prev.filter((rec) => rec.id !== recordId));
-    } catch (error) {
-      console.error("Error deleting record:", error);
-    }
+  const handleDeleteRecord = async (recordUuid: string) => {
+    await api.delete(
+      `/users/${userId}/categories/${categoryId}/${categoryType === "INCOME" ? "incomes" : "expenses"}/${recordUuid}`
+    );
+
+    setRecords((prev) =>
+      prev.filter((rec) =>
+        (categoryType === "INCOME" ? rec.incomeId : rec.expenseId) !== recordUuid
+      )
+    );
   };
 
-  const handleEditRecord = async (recordId: string, updatedData: RecordData) => {
-    if (!userId || !categoryId || !categoryType) return;
-    try {
-      const response = await api.put<Record>(
-        `/users/${userId}/categories/${categoryId}/${categoryType === "INCOME" ? "incomes" : "expenses"}/${recordId}`,
-        updatedData
-      );
-      setRecords((prevRecords) =>
-        prevRecords.map((rec) => (rec.id === response.data.id ? response.data : rec))
-      );
-    } catch (error) {
-      console.error("Error updating record:", error);
-    }
+  const handleEditRecord = async (recordUuid: string, updatedData: Partial<Record>) => {
+    const response = await api.put<Record>(
+      `/users/${userId}/categories/${categoryId}/${categoryType === "INCOME" ? "incomes" : "expenses"}/${recordUuid}`,
+      updatedData
+    );
+
+    const updatedRecord = response.data;
+
+    setRecords((prevRecords) =>
+      prevRecords.map((rec) =>
+        (categoryType === "INCOME" ? rec.incomeId : rec.expenseId) === recordUuid
+          ? updatedRecord
+          : rec
+      )
+    );
   };
 
   return {
