@@ -25,23 +25,37 @@ const Navbar: React.FC<NavbarProps> = ({ setIsDropdownOpen }) => {
 
         {/* Desktop Navigation */}
         <div className="navbar-links">
-          <Link to="/" className="navbar-link">{t("home")}</Link>
+          <Link to="/" className="navbar-link">
+            {t("home")}
+          </Link>
           {isAuthenticated && (
             <>
-              <Link to="/dashboard" className="navbar-link">{t("dashboard")}</Link>
-              <Link to="/budgeting" className="navbar-link">{t("budget")}</Link>
-              <Link to="/project" className="navbar-link">{t("projects")}</Link>
-              <Link to="/payment" className="navbar-link">{t("payments")}</Link>
+              <Link to="/dashboard" className="navbar-link">
+                {t("dashboard")}
+              </Link>
+              <Link to="/budgeting" className="navbar-link">
+                {t("budget")}
+              </Link>
+              <Link to="/project" className="navbar-link">
+                {t("projects")}
+              </Link>
+              <Link to="/payment" className="navbar-link">
+                {t("payments")}
+              </Link>
             </>
           )}
-          <Link to="/about" className="navbar-link">{t("about")}</Link>
+          <Link to="/about" className="navbar-link">
+            {t("about")}
+          </Link>
         </div>
 
         {/* Right side: Auth */}
         <div className="auth-buttons">
           {isAuthenticated ? (
             <>
-              <span className="navbar-link">{t("welcome")}, {user?.name || user?.nickname}!</span>
+              <span className="navbar-link">
+                {t("welcome", { name: user?.nickname })}!
+              </span>
               <button
                 onClick={() => setIsDropdownOpen((prev) => !prev)}
                 className="profile-image"
@@ -52,7 +66,9 @@ const Navbar: React.FC<NavbarProps> = ({ setIsDropdownOpen }) => {
                 />
               </button>
               <button
-                onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}
+                onClick={() =>
+                  logout({ logoutParams: { returnTo: window.location.origin } })
+                }
                 className="auth-button primary"
               >
                 {t("logout")}
@@ -67,7 +83,9 @@ const Navbar: React.FC<NavbarProps> = ({ setIsDropdownOpen }) => {
                 {t("login")}
               </button>
               <button
-                onClick={() => loginWithRedirect({ screen_hint: "signup" } as any)}
+                onClick={() =>
+                  loginWithRedirect({ screen_hint: "signup" } as any)
+                }
                 className="auth-button primary"
               >
                 {t("signup")}
@@ -87,20 +105,74 @@ const Navbar: React.FC<NavbarProps> = ({ setIsDropdownOpen }) => {
         <div className="mobile-menu">
           {isAuthenticated && (
             <>
-              <Link to="/dashboard" className="mobile-link" onClick={() => setIsMobileMenuOpen(false)}>{t("dashboard")}</Link>
-              <Link to="/budgeting" className="mobile-link" onClick={() => setIsMobileMenuOpen(false)}>{t("budget")}</Link>
-              <Link to="/project" className="mobile-link" onClick={() => setIsMobileMenuOpen(false)}>{t("projects")}</Link>
-              <Link to="/payment" className="mobile-link" onClick={() => setIsMobileMenuOpen(false)}>{t("payments")}</Link>
+              <Link
+                to="/dashboard"
+                className="mobile-link"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {t("dashboard")}
+              </Link>
+              <Link
+                to="/budgeting"
+                className="mobile-link"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {t("budget")}
+              </Link>
+              <Link
+                to="/project"
+                className="mobile-link"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {t("projects")}
+              </Link>
+              <Link
+                to="/payment"
+                className="mobile-link"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {t("payments")}
+              </Link>
             </>
           )}
-          <Link to="/about" className="mobile-link" onClick={() => setIsMobileMenuOpen(false)}>{t("about")}</Link>
+          <Link
+            to="/about"
+            className="mobile-link"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            {t("about")}
+          </Link>
           {!isAuthenticated ? (
             <>
-              <button onClick={() => { loginWithRedirect(); setIsMobileMenuOpen(false); }} className="auth-button secondary">{t("login")}</button>
-              <button onClick={() => { loginWithRedirect({ screen_hint: "signup" } as any); setIsMobileMenuOpen(false); }} className="auth-button primary">{t("signup")}</button>
+              <button
+                onClick={() => {
+                  loginWithRedirect();
+                  setIsMobileMenuOpen(false);
+                }}
+                className="auth-button secondary"
+              >
+                {t("login")}
+              </button>
+              <button
+                onClick={() => {
+                  loginWithRedirect({ screen_hint: "signup" } as any);
+                  setIsMobileMenuOpen(false);
+                }}
+                className="auth-button primary"
+              >
+                {t("signup")}
+              </button>
             </>
           ) : (
-            <button onClick={() => { logout({ logoutParams: { returnTo: window.location.origin } }); setIsMobileMenuOpen(false); }} className="auth-button primary">{t("logout")}</button>
+            <button
+              onClick={() => {
+                logout({ logoutParams: { returnTo: window.location.origin } });
+                setIsMobileMenuOpen(false);
+              }}
+              className="auth-button primary"
+            >
+              {t("logout")}
+            </button>
           )}
         </div>
       )}
