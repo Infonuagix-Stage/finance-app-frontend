@@ -5,9 +5,7 @@ import App from "./App";
 
 test("renders login page", () => {
   render(
-    <MemoryRouter initialEntries={["/login"]}>
       <App />
-    </MemoryRouter>
   );
 
   // Look for the Login page heading or button
