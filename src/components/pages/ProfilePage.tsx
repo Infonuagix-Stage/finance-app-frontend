@@ -25,7 +25,7 @@ const ProfilePage: React.FC = () => {
             auth0UserId: user.sub,
             email: newEmail || undefined,
             password: undefined,
-            username: undefined,
+            name: undefined,
           }),
         }
       );
@@ -55,7 +55,7 @@ const ProfilePage: React.FC = () => {
             auth0UserId: user.sub,
             email: undefined,
             password: newPassword || undefined,
-            username: undefined,
+            name: undefined,
           }),
         }
       );
@@ -85,7 +85,7 @@ const ProfilePage: React.FC = () => {
             auth0UserId: user.sub,
             email: undefined,
             password: undefined,
-            username: newUsername || undefined,
+            name: newUsername || undefined,
           }),
         }
       );
