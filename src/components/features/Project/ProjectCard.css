@@ -1,0 +1,77 @@
+.project-card {
+    position: relative;
+    background-color: rgba(45, 55, 72, 0.5); /* bg-gray-800/50 */
+    padding: 24px; /* p-6 */
+    border-radius: 16px; /* rounded-2xl */
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2); /* shadow-2xl */
+    border: 1px solid #374151; /* border-gray-700 */
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .project-card:hover {
+    border-color: #38b2ac; /* hover:border-teal-400 */
+    transform: translateY(-8px); /* hover:-translate-y-2 */
+  }
+  
+  .progress-bar-container {
+    height: 8px; /* h-2 */
+    background-color: #4a5568; /* bg-gray-700 */
+    border-radius: 9999px; /* rounded-full */
+    margin-bottom: 16px; /* mb-4 */
+  }
+  
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(to right, #38b2ac, #4299e1); /* from-teal-400 to-blue-500 */
+    border-radius: 9999px; /* rounded-full */
+    transition: width 0.5s ease-in-out;
+  }
+  
+  .project-title {
+    font-size: 1.25rem; /* text-xl */
+    font-weight: 700; /* font-bold */
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px; /* mb-3 */
+  }
+  
+  .project-title span {
+    margin-right: 8px; /* mr-2 */
+  }
+  
+  .project-details {
+    color: #d1d5db; /* text-gray-300 */
+  }
+  
+  .detail-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  
+  .priority-text {
+    text-transform: uppercase;
+    color: #38b2ac; /* text-teal-400 */
+  }
+  
+  .monthly-contribution {
+    padding-top: 16px; /* pt-4 */
+    margin-top: 16px; /* mt-4 */
+    border-top: 1px solid #374151; /* border-gray-700 */
+    text-align: center;
+    font-size: 0.875rem; /* text-sm */
+  }
+  
+  .contribution-value {
+    display: block;
+    font-size: 1.25rem; /* text-lg */
+    font-weight: 700; /* font-bold */
+    color: #38b2ac; /* text-teal-400 */
+  }
+  
+  .actions-menu {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+  }
+  

@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "lib": ["DOM", "DOM.Iterable", "ES2020"],
+    "jsx": "react-jsx",
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "baseUrl": "./src",
+    "paths": {
+      "@components/*": ["components/*"],
+      "@utils/*": ["utils/*"],
+      "@styles/*": ["styles/*"]
+    },
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "removeComments": true,
+    "skipLibCheck": true,
+    "noEmitOnError": true,
+    
+    /* ✅ Add this to fix Jest issues */
+    "types": ["jest", "node", "react-icons"]
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
+}

@@ -1,0 +1,68 @@
+/* Page container */
+.homepage-container {
+    min-height: 100vh;
+    background-color: #1a202c; /* bg-gray-900 */
+    color: white;
+    padding: 2rem;
+  }
+  
+  /* Header */
+  .homepage-header {
+    text-align: center;
+    padding: 4rem 0;
+  }
+  
+  .homepage-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+  }
+  
+  .homepage-subtitle {
+    margin-top: 1rem;
+    font-size: 1.25rem;
+    color: #a0aec0; /* text-gray-400 */
+  }
+  
+  /* Statistics grid */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    padding: 0 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  
+  .stats-card {
+    background-color: #2d3748; /* bg-gray-800 */
+    padding: 1.5rem;
+    border-radius: 8px;
+    text-align: center;
+  }
+  
+  .stats-value {
+    font-size: 1.75rem;
+    font-weight: bold;
+  }
+  
+  .stats-label {
+    color: #a0aec0; /* text-gray-400 */
+  }
+  
+  /* Chart Section */
+  .chart-section {
+    margin-top: 3rem;
+    padding: 0 2rem;
+  }
+  
+  .chart-container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  
+  .chart-title {
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
