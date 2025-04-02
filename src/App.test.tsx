@@ -1,13 +1,13 @@
 import { render } from "@testing-library/react";
 import { screen } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom"; // Use BrowserRouter or any other Router
 import App from "./App";
 
 test("renders login page", () => {
   render(
-    <MemoryRouter initialEntries={["/login"]}>
+    <BrowserRouter> {/* Use BrowserRouter instead of MemoryRouter */}
       <App />
-    </MemoryRouter>
+    </BrowserRouter>
   );
 
   // Look for the Login page heading or button
