@@ -9,7 +9,7 @@ interface NavbarProps {
 }
 
 const Navbar: React.FC<NavbarProps> = ({ setIsDropdownOpen }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("general");
   const { isAuthenticated, user, loginWithRedirect, logout } = useAuth0();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
 

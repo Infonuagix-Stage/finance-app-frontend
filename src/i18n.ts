@@ -25,7 +25,6 @@ import frProject from "./locales/fr/project.json";
 // ✅ Correctly structure `resources`
 const resources: Resource = {
   en: {
-    translation: {
       about: enAbout,
       budgeting: enBudgeting,
       dashboard: enDashboard,
@@ -34,10 +33,8 @@ const resources: Resource = {
       layouts: enLayouts,
       payement: enPayement,
       project: enProject,
-    },
   },
   fr: {
-    translation: {
       about: frAbout,
       budgeting: frBudgeting,
       dashboard: frDashboard,
@@ -46,7 +43,6 @@ const resources: Resource = {
       layouts: frLayouts,
       payement: frPayement,
       project: frProject,
-    },
   },
 };
 

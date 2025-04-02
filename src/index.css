@@ -2,8 +2,7 @@
 .chart-container {
   background-color: #2d3748; /* Fond sombre */
   border-radius: 8px; /* Bords arrondis */
-  padding: 16px; /* Espacement intérieur */
-  max-width: 900px; /* Largeur max */
+  max-width: 100%; /* Largeur max */
   margin: 0 auto; /* Centrage */
 }
 
@@ -12,6 +11,26 @@
   color: #ffffff; /* Texte blanc */
   font-size: 1.25rem; /* Taille du texte */
   font-weight: 600; /* Épaisseur */
-  margin-bottom: 16px; /* Espacement en bas */
   text-align: center; /* Centrage */
+}
+
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Prevents horizontal scrollbar */
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.main-content {
+  flex: 1; /* Pushes footer down */
+  width: 100%;
 }
