@@ -1,94 +1,127 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import "./Payment.css"; // Import the CSS file
-
-interface Debt {
-  id: number;
-  name: string;
-  totalAmount: number;
-  remainingAmount: number;
-}
+import { useDebts } from "../hooks/useDebts";
+import "./Payment.css"; // Assure-toi que le style existe
 
 const Payment: React.FC = () => {
   const { t } = useTranslation("payement");
-  const [debts, setDebts] = useState<Debt[]>([]);
-  const [newDebtName, setNewDebtName] = useState<string>("");
-  const [newDebtTotalAmount, setNewDebtTotalAmount] = useState<number>(0);
-  const [isDebtModalVisible, setIsDebtModalVisible] = useState<boolean>(false);
+  const { debts, loading, error, createDebt, deleteDebt, updateDebt } =
+    useDebts();
 
-  const addDebt = () => {
-    if (!newDebtName.trim() || newDebtTotalAmount <= 0) return;
+  const [newCreditor, setNewCreditor] = useState("");
+  const [newAmount, setNewAmount] = useState<number>(0);
+  const [newDueDate, setNewDueDate] = useState("");
+  const [newMonthly, setNewMonthly] = useState<number>(0);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
-    const newDebt: Debt = {
-      id: Date.now(),
-      name: newDebtName,
-      totalAmount: newDebtTotalAmount,
-      remainingAmount: newDebtTotalAmount,
-    };
+  const handleAddDebt = async () => {
+    if (!newCreditor.trim() || newAmount <= 0 || !newDueDate || newMonthly <= 0)
+      return;
 
-    setDebts((prevDebts) => [...prevDebts, newDebt]);
-    setIsDebtModalVisible(false);
-    setNewDebtName("");
-    setNewDebtTotalAmount(0);
+    try {
+      await createDebt({
+        creditor: newCreditor,
+        amountOwed: newAmount,
+        amountPaid: 0,
+        dueDate: newDueDate,
+        monthlyPayment: newMonthly,
+        status: "Pending",
+      });
+
+      setNewCreditor("");
+      setNewAmount(0);
+      setNewDueDate("");
+      setNewMonthly(0);
+      setIsModalVisible(false);
+    } catch (err) {
+      console.error("Erreur lors de l'ajout de la dette", err);
+    }
   };
 
   return (
     <div className="payment-container">
-      {/* Header */}
       <div className="header">
         <h1>{t("title")}</h1>
       </div>
 
-      {/* Debts Section */}
       <div className="debt-section">
         <h2>{t("debt")}</h2>
-        <div className="debt-list">
-          {debts.length === 0 ? (
-            <p className="no-debt">{t("noDebt")}</p>
-          ) : (
-            debts.map((debt) => (
-              <div key={debt.id} className="debt-card">
-                <h4>{debt.name}</h4>
-                <p>{t("totalAmount")}: ${debt.totalAmount.toFixed(2)}</p>
-                <p>{t("remainingAmount")}: ${debt.remainingAmount.toFixed(2)}</p>
+
+        {loading ? (
+          <p>Chargement...</p>
+        ) : error ? (
+          <p className="error">{error}</p>
+        ) : debts.length === 0 ? (
+          <p className="no-debt">{t("noDebt")}</p>
+        ) : (
+          debts.map((debt) => {
+            const progress = 100 * (debt.amountPaid / debt.amountOwed);
+            return (
+              <div key={debt.debtId} className="debt-card">
+                <h4>{debt.creditor}</h4>
+                <p>
+                  {t("totalAmount")}: ${debt.amountOwed.toFixed(2)}
+                </p>
+                <p>
+                  {t("remainingAmount")}: $
+                  {(debt.amountOwed - debt.amountPaid).toFixed(2)}
+                </p>
                 <p>
                   {t("progress")}:{" "}
-                  <span className="progress">
-                    {((1 - debt.remainingAmount / debt.totalAmount) * 100).toFixed(2)}%
-                  </span>
+                  <span className="progress">{progress.toFixed(2)}%</span>
+                </p>
+                <p>
+                  {t("dueDate")}: {new Date(debt.dueDate).toLocaleDateString()}
                 </p>
               </div>
-            ))
-          )}
-          {/* Add Debt Button */}
-          <button className="add-debt-btn" onClick={() => setIsDebtModalVisible(true)}>
-            <span>+</span>
-          </button>
-        </div>
+            );
+          })
+        )}
+
+        <button
+          className="add-debt-btn"
+          onClick={() => setIsModalVisible(true)}
+        >
+          <span>+</span>
+        </button>
       </div>
 
-      {/* Add Debt Modal */}
-      {isDebtModalVisible && (
+      {isModalVisible && (
         <div className="modal-overlay">
           <div className="modal">
             <h3>{t("addDebt")}</h3>
             <input
               type="text"
               placeholder={t("debtNamePlaceholder")}
-              value={newDebtName}
-              onChange={(e) => setNewDebtName(e.target.value)}
+              value={newCreditor}
+              onChange={(e) => setNewCreditor(e.target.value)}
             />
             <input
               type="number"
               placeholder={t("totalAmountPlaceholder")}
-              value={newDebtTotalAmount}
-              onChange={(e) => setNewDebtTotalAmount(Number(e.target.value))}
+              value={newAmount}
+              onChange={(e) => setNewAmount(Number(e.target.value))}
+            />
+            <input
+              type="number"
+              placeholder={t("monthlyAmountPlaceholder")}
+              value={newMonthly}
+              onChange={(e) => setNewMonthly(Number(e.target.value))}
+            />
+            <input
+              type="date"
+              placeholder={t("dueDate")}
+              value={newDueDate}
+              onChange={(e) => setNewDueDate(e.target.value)}
             />
             <div className="modal-buttons">
-              <button className="cancel-btn" onClick={() => setIsDebtModalVisible(false)}>
+              <button
+                className="cancel-btn"
+                onClick={() => setIsModalVisible(false)}
+              >
                 {t("cancel")}
               </button>
-              <button className="confirm-btn" onClick={addDebt}>
+              <button className="confirm-btn" onClick={handleAddDebt}>
                 {t("add")}
               </button>
             </div>
