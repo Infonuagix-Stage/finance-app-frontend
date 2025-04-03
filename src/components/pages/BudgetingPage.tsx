@@ -5,6 +5,7 @@ import { useBudgetContext } from "../../context/BudgetContext";
 import useCategories from "../../hooks/useCategories";
 import { useTranslation } from "react-i18next";
 import "./BudgetingPage.css";
+import { useLocation } from "react-router-dom";
 
 // Define Category Type
 interface Category {
@@ -17,10 +18,20 @@ const BudgetingPage: React.FC = () => {
   const { user, isAuthenticated, isLoading } = useAuth0();
   const { setTotalIncome, setTotalExpense, setGlobalBalance } = useBudgetContext();
   const { t } = useTranslation("budgeting");
-  const [currentDate, setCurrentDate] = useState(new Date());
+  const location = useLocation();
+  const state = location.state as { year?: number; month?: number } | null;
+
+const [currentDate, setCurrentDate] = useState(() => {
+  if (state?.year && state?.month) {
+    return new Date(state.year, state.month - 1);
+  }
+  return new Date();
+});
 
   const userId = user?.sub || "";
 
+  
+  // Navigation du mois (précédent/suivant)
   const previousMonth = () =>
     setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1));
 
@@ -32,6 +43,7 @@ const BudgetingPage: React.FC = () => {
     year: "numeric",
   });
 
+  // Hook personnalisé pour gérer les catégories et états
   const {
     categories,
     totalsMap,
@@ -63,6 +75,7 @@ const BudgetingPage: React.FC = () => {
 
   const globalBalance = totalIncome - totalExpense;
 
+  // Mise à jour du contexte Budget (totalIncome, totalExpense, etc.)
   useEffect(() => {
     setTotalIncome(totalIncome);
     setTotalExpense(totalExpense);
@@ -74,20 +87,26 @@ const BudgetingPage: React.FC = () => {
 
   return (
     <div className="budgeting-container">
-      {/* Month Selector */}
+      
+      {/* Sélecteur de mois */}
       <div className="month-selector">
         <button onClick={previousMonth} className="month-button">{"<"}</button>
         <span className="month-text">{formattedMonth}</span>
         <button onClick={nextMonth} className="month-button">{">"}</button>
       </div>
 
-      {/* Header */}
-      <div className="header">
+      {/* Header principal */}
+      <div className="header-container">
         <h1 className="header-title">{t("header.title")}</h1>
         <div className="header-stats">
-          <p className="income-expenses">
-            <span className="income">{t("header.income")}: ${totalIncome.toFixed(2)}</span> |{" "}
-            <span className="expenses">{t("header.expenses")}: ${totalExpense.toFixed(2)}</span>
+          <p className="header-income-expenses">
+            <span className="income">
+              {t("header.income")}: ${totalIncome.toFixed(2)}
+            </span> 
+            {" | "}
+            <span className="expenses">
+              {t("header.expenses")}: ${totalExpense.toFixed(2)}
+            </span>
           </p>
           <p className={`balance ${globalBalance >= 0 ? "positive" : "negative"}`}>
             {t("header.balance")}: ${globalBalance.toFixed(2)}
@@ -95,9 +114,10 @@ const BudgetingPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Categories */}
+      {/* Catégories */}
       <div className="categories-container">
-        {/* Expenses */}
+        
+        {/* Partie Dépenses */}
         <div>
           <h2 className="category-title expenses-title">{t("categories.expenses")}</h2>
           <div className="category-list">
@@ -128,7 +148,7 @@ const BudgetingPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Income */}
+        {/* Partie Revenus */}
         <div>
           <h2 className="category-title income-title">{t("categories.income")}</h2>
           <div className="category-list">
@@ -161,7 +181,7 @@ const BudgetingPage: React.FC = () => {
       </div>
 
       {/* ============================== */}
-      {/* Expense Modal (Add Expense)   */}
+      {/* Modal "Dépenses"              */}
       {/* ============================== */}
       {isExpenseModalVisible && (
         <div className="modal-overlay">
@@ -181,7 +201,10 @@ const BudgetingPage: React.FC = () => {
               className="modal-textarea"
             />
             <div className="modal-buttons">
-              <button onClick={() => setIsExpenseModalVisible(false)} className="modal-btn cancel-btn">
+              <button
+                onClick={() => setIsExpenseModalVisible(false)}
+                className="modal-btn cancel-btn"
+              >
                 {t("modals.cancel")}
               </button>
               <button
@@ -199,7 +222,7 @@ const BudgetingPage: React.FC = () => {
       )}
 
       {/* ============================== */}
-      {/* Income Modal (Add Income)     */}
+      {/* Modal "Revenus"               */}
       {/* ============================== */}
       {isIncomeModalVisible && (
         <div className="modal-overlay">
@@ -219,7 +242,10 @@ const BudgetingPage: React.FC = () => {
               className="modal-textarea"
             />
             <div className="modal-buttons">
-              <button onClick={() => setIsIncomeModalVisible(false)} className="modal-btn cancel-btn">
+              <button
+                onClick={() => setIsIncomeModalVisible(false)}
+                className="modal-btn cancel-btn"
+              >
                 {t("modals.cancel")}
               </button>
               <button

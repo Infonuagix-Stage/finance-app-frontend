@@ -39,7 +39,7 @@ const useRecords = ({ userId, categoryId, categoryType, year, month }: UseRecord
     };
 
     fetchRecords();
-  }, [userId, categoryId, categoryType, year, month, api]);
+  }, [userId, categoryId, categoryType, year, month]);
 
   const addRecord = async (recordData: Omit<Record, "incomeId" | "expenseId">) => {
     const response = await api.post<Record>(
