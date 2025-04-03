@@ -3,6 +3,8 @@ import { useParams, useLocation } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import RecordActions from "../RecordActions";
 import useRecords from "../../hooks/useRecords";
+import { ChevronLeft } from "lucide-react"; 
+import { Link } from "react-router-dom";
 import "./CategoryPage.css";
 
 interface TransactionRecord {
@@ -69,10 +71,22 @@ const CategoryPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-200 p-8">
+      
       <h1 className="text-4xl font-bold mb-4 text-center">
         Category: {categoryName} ({categoryType})
       </h1>
 
+
+      <div className="mb-6">
+      <Link
+        to="/budgeting"
+        state={{ year: initialYear, month: initialMonth }}
+        className="flex items-center text-blue-400 hover:text-blue-300 transition"
+      >
+        <ChevronLeft className="w-5 h-5 mr-2" />
+        Back to Budgeting
+      </Link>
+    </div>
       <div className="flex items-center justify-center gap-4 mb-8">
         <div className="text-2xl font-semibold capitalize">
           {currentDate.toLocaleString("default", { month: "long", year: "numeric" })}
