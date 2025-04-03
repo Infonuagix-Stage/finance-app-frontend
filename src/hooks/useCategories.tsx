@@ -3,7 +3,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { getCategoriesForUser, createCategoryForUser } from "../services/categoryService";
 import { getCategoryTotal } from "../services/totalService";
 
-// Define types
 interface Category {
   categoryId: string;
   name: string;
@@ -16,16 +15,19 @@ type TotalsMap = Record<string, number>;
 const useCategories = (userId: string, currentDate: Date) => {
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.getMonth() + 1;
-  const { user, getAccessTokenSilently } = useAuth0();
+  const { getAccessTokenSilently } = useAuth0();
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [totalsMap, setTotalsMap] = useState<TotalsMap>({});
-  const [newExpenseCategoryName, setNewExpenseCategoryName] = useState<string>("");
-  const [newExpenseCategoryDesc, setNewExpenseCategoryDesc] = useState<string>("");
-  const [newIncomeCategoryName, setNewIncomeCategoryName] = useState<string>("");
-  const [newIncomeCategoryDesc, setNewIncomeCategoryDesc] = useState<string>("");
-  const [isExpenseModalVisible, setIsExpenseModalVisible] = useState<boolean>(false);
-  const [isIncomeModalVisible, setIsIncomeModalVisible] = useState<boolean>(false);
+
+  const [newExpenseCategoryName, setNewExpenseCategoryName] = useState("");
+  const [newExpenseCategoryDesc, setNewExpenseCategoryDesc] = useState("");
+  const [newIncomeCategoryName, setNewIncomeCategoryName] = useState("");
+  const [newIncomeCategoryDesc, setNewIncomeCategoryDesc] = useState("");
+
+  const [isExpenseModalVisible, setIsExpenseModalVisible] = useState(false);
+  const [isIncomeModalVisible, setIsIncomeModalVisible] = useState(false);
+
 
   const addCategory = async (type: "EXPENSE" | "INCOME") => {
     const name = type === "EXPENSE" ? newExpenseCategoryName : newIncomeCategoryName;
@@ -37,6 +39,7 @@ const useCategories = (userId: string, currentDate: Date) => {
       const token = await getAccessTokenSilently();
       const categoryData = { name, description: desc, type };
       const created = await createCategoryForUser(userId, categoryData, token);
+
       setCategories((prev) => [...prev, created]);
 
       if (type === "EXPENSE") {
@@ -51,7 +54,6 @@ const useCategories = (userId: string, currentDate: Date) => {
     }
   };
 
-  // Fetch categories
   useEffect(() => {
     if (!userId || !currentYear || !currentMonth) return;
 
@@ -68,43 +70,61 @@ const useCategories = (userId: string, currentDate: Date) => {
     fetchCategories();
   }, [userId, currentYear, currentMonth, getAccessTokenSilently]);
 
-  // Fetch totals for each category
-  useEffect(() => {
-    if (!userId || categories.length === 0 || !currentYear || !currentMonth) return;
-
-    const fetchTotals = async () => {
+  const fetchTotals = async () => {
+    try {
+      const token = await getAccessTokenSilently();
       const newTotalsMap: TotalsMap = {};
+
       await Promise.all(
         categories.map(async (cat) => {
           try {
-            const total = await getCategoryTotal({ userId, categoryId: cat.categoryId }); // Pass the correct parameter object
-            newTotalsMap[cat.categoryId] = total.total; // Ensure 'amount' is correctly referenced
+            const total = await getCategoryTotal(
+              {
+                userId,
+                categoryId: cat.categoryId,
+                type: cat.type,
+                year: currentYear,
+                month: currentMonth,
+              },
+              token
+            );
+            newTotalsMap[cat.categoryId] = total; 
           } catch {
             newTotalsMap[cat.categoryId] = 0;
           }
         })
       );
-      setTotalsMap(newTotalsMap);
-    };
 
+      setTotalsMap(newTotalsMap);
+    } catch (error) {
+      console.error("Error fetching totals:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (!userId || categories.length === 0 || !currentYear || !currentMonth) return;
     fetchTotals();
   }, [userId, categories, currentYear, currentMonth]);
 
   return {
     categories,
     totalsMap,
+
     newExpenseCategoryName,
     setNewExpenseCategoryName,
     newExpenseCategoryDesc,
     setNewExpenseCategoryDesc,
+
     newIncomeCategoryName,
     setNewIncomeCategoryName,
     newIncomeCategoryDesc,
     setNewIncomeCategoryDesc,
+
     isExpenseModalVisible,
     setIsExpenseModalVisible,
     isIncomeModalVisible,
     setIsIncomeModalVisible,
+
     addCategory,
   };
 };

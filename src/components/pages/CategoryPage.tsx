@@ -3,6 +3,7 @@ import { useParams, useLocation } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import RecordActions from "../RecordActions";
 import useRecords from "../../hooks/useRecords";
+import "./CategoryPage.css";
 
 interface TransactionRecord {
   expenseId?: string;
