@@ -50,6 +50,7 @@ const BudgetingPage: React.FC = () => {
     setIsIncomeModalVisible,
   } = useCategories(userId, currentDate);
 
+  // Calcul des totaux
   const totalIncome = categories.reduce(
     (acc: number, cat: Category) => (cat.type === "INCOME" ? acc + (totalsMap[cat.categoryId] || 0) : acc),
     0
@@ -116,7 +117,9 @@ const BudgetingPage: React.FC = () => {
                   className="category-card"
                 >
                   <h4 className="category-name">{cat.name}</h4>
-                  <p className="category-total">{t("categories.total")}: ${totalsMap[cat.categoryId] || 0}</p>
+                  <p className="category-total">
+                    {t("categories.total")}: ${totalsMap[cat.categoryId] || 0}
+                  </p>
                 </Link>
               ))}
             <button onClick={() => setIsExpenseModalVisible(true)} className="add-category-button">
@@ -145,7 +148,9 @@ const BudgetingPage: React.FC = () => {
                   className="category-card"
                 >
                   <h4 className="category-name">{cat.name}</h4>
-                  <p className="category-total">{t("categories.total")}: ${totalsMap[cat.categoryId] || 0}</p>
+                  <p className="category-total">
+                    {t("categories.total")}: ${totalsMap[cat.categoryId] || 0}
+                  </p>
                 </Link>
               ))}
             <button onClick={() => setIsIncomeModalVisible(true)} className="add-category-button">
@@ -154,6 +159,82 @@ const BudgetingPage: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* ============================== */}
+      {/* Expense Modal (Add Expense)   */}
+      {/* ============================== */}
+      {isExpenseModalVisible && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3 className="modal-title">{t("modals.addExpense")}</h3>
+            <input
+              type="text"
+              placeholder={t("modals.name") || "Name"}
+              value={newExpenseCategoryName}
+              onChange={(e) => setNewExpenseCategoryName(e.target.value)}
+              className="modal-input"
+            />
+            <textarea
+              placeholder={t("modals.description") || "Description"}
+              value={newExpenseCategoryDesc}
+              onChange={(e) => setNewExpenseCategoryDesc(e.target.value)}
+              className="modal-textarea"
+            />
+            <div className="modal-buttons">
+              <button onClick={() => setIsExpenseModalVisible(false)} className="modal-btn cancel-btn">
+                {t("modals.cancel")}
+              </button>
+              <button
+                onClick={() => {
+                  addCategory("EXPENSE");
+                  setIsExpenseModalVisible(false);
+                }}
+                className="modal-btn add-btn"
+              >
+                {t("modals.add")}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ============================== */}
+      {/* Income Modal (Add Income)     */}
+      {/* ============================== */}
+      {isIncomeModalVisible && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3 className="modal-title">{t("modals.addIncome")}</h3>
+            <input
+              type="text"
+              placeholder={t("modals.name") || "Name"}
+              value={newIncomeCategoryName}
+              onChange={(e) => setNewIncomeCategoryName(e.target.value)}
+              className="modal-input"
+            />
+            <textarea
+              placeholder={t("modals.description") || "Description"}
+              value={newIncomeCategoryDesc}
+              onChange={(e) => setNewIncomeCategoryDesc(e.target.value)}
+              className="modal-textarea"
+            />
+            <div className="modal-buttons">
+              <button onClick={() => setIsIncomeModalVisible(false)} className="modal-btn cancel-btn">
+                {t("modals.cancel")}
+              </button>
+              <button
+                onClick={() => {
+                  addCategory("INCOME");
+                  setIsIncomeModalVisible(false);
+                }}
+                className="modal-btn add-btn"
+              >
+                {t("modals.add")}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
