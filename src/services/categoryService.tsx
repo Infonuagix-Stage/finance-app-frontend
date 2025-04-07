@@ -60,3 +60,33 @@ export const createCategoryForUser = async (
   );
   return response.data;
 };
+
+export const updateCategoryForUser = async (
+  userId: string,
+  categoryId: string,
+  updatedData: Partial<Category>,
+  token: string
+): Promise<Category> => {
+  const response = await api.put<Category>(
+    `/users/${userId}/categories/${categoryId}`,
+    updatedData,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response.data;
+};
+
+export const deleteCategoryForUser = async (
+  userId: string,
+  categoryId: string,
+  token: string
+): Promise<void> => {
+  await api.delete(`/users/${userId}/categories/${categoryId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};

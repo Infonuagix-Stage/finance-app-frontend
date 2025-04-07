@@ -12,7 +12,7 @@ interface Category {
 
 type TotalsMap = Record<string, number>;
 
-const useCategories = (userId: string, currentDate: Date) => {
+function useCategories(userId: string, currentDate: Date) {
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.getMonth() + 1;
   const { getAccessTokenSilently } = useAuth0();
@@ -28,55 +28,34 @@ const useCategories = (userId: string, currentDate: Date) => {
   const [isExpenseModalVisible, setIsExpenseModalVisible] = useState(false);
   const [isIncomeModalVisible, setIsIncomeModalVisible] = useState(false);
 
-
-  const addCategory = async (type: "EXPENSE" | "INCOME") => {
-    const name = type === "EXPENSE" ? newExpenseCategoryName : newIncomeCategoryName;
-    const desc = type === "EXPENSE" ? newExpenseCategoryDesc : newIncomeCategoryDesc;
-
-    if (!name.trim()) return;
-
+  // ---- fetchCategories ----
+  // Exportée pour pouvoir recharger dynamiquement sans reload la page
+  const fetchCategories = async () => {
     try {
       const token = await getAccessTokenSilently();
-      const categoryData = { name, description: desc, type };
-      const created = await createCategoryForUser(userId, categoryData, token);
-
-      setCategories((prev) => [...prev, created]);
-
-      if (type === "EXPENSE") {
-        setNewExpenseCategoryName("");
-        setNewExpenseCategoryDesc("");
-      } else {
-        setNewIncomeCategoryName("");
-        setNewIncomeCategoryDesc("");
-      }
+      const fetchedCategories = await getCategoriesForUser(userId, token);
+      setCategories(fetchedCategories);
     } catch (error) {
-      console.error(`Error adding ${type} category:`, error);
+      console.error("Error fetching categories:", error);
     }
   };
 
+  // ---- useEffect initial ----
+  // Charge les catégories au montage, quand userId ou date changent
   useEffect(() => {
     if (!userId || !currentYear || !currentMonth) return;
-
-    const fetchCategories = async () => {
-      try {
-        const token = await getAccessTokenSilently();
-        const fetchedCategories = await getCategoriesForUser(userId, token);
-        setCategories(fetchedCategories);
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      }
-    };
-
     fetchCategories();
   }, [userId, currentYear, currentMonth, getAccessTokenSilently]);
 
-  const fetchTotals = async () => {
+  // ---- fetchTotals ----
+  // Calcule les totaux pour chaque catégorie
+  const fetchTotals = async (updatedCategories: Category[]) => {
     try {
       const token = await getAccessTokenSilently();
       const newTotalsMap: TotalsMap = {};
 
       await Promise.all(
-        categories.map(async (cat) => {
+        updatedCategories.map(async (cat) => {
           try {
             const total = await getCategoryTotal(
               {
@@ -88,7 +67,7 @@ const useCategories = (userId: string, currentDate: Date) => {
               },
               token
             );
-            newTotalsMap[cat.categoryId] = total; 
+            newTotalsMap[cat.categoryId] = total;
           } catch {
             newTotalsMap[cat.categoryId] = 0;
           }
@@ -101,10 +80,40 @@ const useCategories = (userId: string, currentDate: Date) => {
     }
   };
 
+  // ---- useEffect pour mettre à jour les totaux quand les catégories changent ----
   useEffect(() => {
     if (!userId || categories.length === 0 || !currentYear || !currentMonth) return;
-    fetchTotals();
+    fetchTotals(categories);
   }, [userId, categories, currentYear, currentMonth]);
+
+  // ---- addCategory ----
+  // Ajoute une nouvelle catégorie (INCOME ou EXPENSE)
+  const addCategory = async (type: "EXPENSE" | "INCOME") => {
+    const name = type === "EXPENSE" ? newExpenseCategoryName : newIncomeCategoryName;
+    const desc = type === "EXPENSE" ? newExpenseCategoryDesc : newIncomeCategoryDesc;
+
+    if (!name.trim()) return;
+
+    try {
+      const token = await getAccessTokenSilently();
+      const categoryData = { name, description: desc, type };
+      const created = await createCategoryForUser(userId, categoryData, token);
+
+      // On l'insère dans le tableau existant
+      setCategories((prev) => [...prev, created]);
+
+      // Reset du formulaire
+      if (type === "EXPENSE") {
+        setNewExpenseCategoryName("");
+        setNewExpenseCategoryDesc("");
+      } else {
+        setNewIncomeCategoryName("");
+        setNewIncomeCategoryDesc("");
+      }
+    } catch (error) {
+      console.error(`Error adding ${type} category:`, error);
+    }
+  };
 
   return {
     categories,
@@ -126,7 +135,9 @@ const useCategories = (userId: string, currentDate: Date) => {
     setIsIncomeModalVisible,
 
     addCategory,
+    // On expose aussi la méthode fetchCategories pour rafraîchir manuellement
+    fetchCategories,
   };
-};
+}
 
 export default useCategories;
