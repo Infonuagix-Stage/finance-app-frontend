@@ -32,7 +32,7 @@ const UserDropdown: React.FC<UserDropdownProps> = ({
             className="profile-picture"
           />
           <div className="profile-name">
-            {user?.name || "Utilisateur"}
+            {user?.nickname || "Utilisateur"}
           </div>
         </div>
           <button className="close-btn" onClick={() => setIsDropdownOpen(false)}>
