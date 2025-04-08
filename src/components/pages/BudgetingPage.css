@@ -166,3 +166,17 @@
   .add-icon {
     font-size: 2.25rem;
   }
+
+
+  .three-dot-btn {
+    background: transparent;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 4px 8px;
+    /* etc. */
+  }
+  .three-dot-btn:hover {
+    background-color: #333;
+  }
+  

@@ -70,36 +70,40 @@ const CategoryPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-200 p-8">
-      
-      <h1 className="text-4xl font-bold mb-4 text-center">
+    <div className="category-page-container">
+      {/* Titre principal */}
+      <h1 className="category-page-title">
         Category: {categoryName} ({categoryType})
       </h1>
 
+      {/* Lien de retour */}
+      <div className="back-link-wrapper">
+        <Link
+          to="/budgeting"
+          state={{ year: initialYear, month: initialMonth }}
+          className="back-link"
+        >
+          <ChevronLeft className="icon" />
+          Back to Budgeting
+        </Link>
+      </div>
 
-      <div className="mb-6">
-      <Link
-        to="/budgeting"
-        state={{ year: initialYear, month: initialMonth }}
-        className="flex items-center text-blue-400 hover:text-blue-300 transition"
-      >
-        <ChevronLeft className="w-5 h-5 mr-2" />
-        Back to Budgeting
-      </Link>
-    </div>
-      <div className="flex items-center justify-center gap-4 mb-8">
-        <div className="text-2xl font-semibold capitalize">
+      {/* Affichage du mois */}
+      <div className="month-display-wrapper">
+        <div className="month-display-text">
           {currentDate.toLocaleString("default", { month: "long", year: "numeric" })}
         </div>
       </div>
 
-      <div className="max-w-md mx-auto mb-6 bg-gray-800 p-6 rounded-xl shadow border border-gray-700">
-        <h2 className="text-2xl font-semibold text-center mb-2">Total</h2>
-        <p className="text-center text-xl">${(currentTotal ?? 0).toFixed(2)}</p>
+      {/* Encadré du total */}
+      <div className="total-card">
+        <h2 className="total-card-title">Total</h2>
+        <p className="total-card-amount">${(currentTotal ?? 0).toFixed(2)}</p>
       </div>
 
-      <div className="max-w-md mx-auto mb-8 bg-gray-800 p-6 rounded-xl shadow border border-gray-700">
-        <h2 className="text-2xl font-semibold text-center mb-4">
+      {/* Formulaire pour ajouter une transaction */}
+      <div className="add-record-card">
+        <h2 className="add-record-title">
           Add {categoryType === "INCOME" ? "Income" : "Expense"}
         </h2>
         <input
@@ -109,7 +113,7 @@ const CategoryPage: React.FC = () => {
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
             setNewRecord({ ...newRecord, description: e.target.value })
           }
-          className="w-full px-4 py-3 rounded-lg bg-gray-700 border border-gray-600 text-gray-200 mb-4"
+          className="input-field"
         />
         <input
           type="number"
@@ -118,11 +122,10 @@ const CategoryPage: React.FC = () => {
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
             setNewRecord({ ...newRecord, amount: e.target.value })
           }
-          className="w-full px-4 py-3 rounded-lg bg-gray-700 border border-gray-600 text-gray-200 mb-4"
+          className="input-field"
         />
         <button
           onClick={() => {
-            const dateField = categoryType === "INCOME" ? "incomeDate" : "expenseDate";
             const recordData = {
               description: newRecord.description,
               amount: parseFloat(newRecord.amount),
@@ -134,52 +137,58 @@ const CategoryPage: React.FC = () => {
             addRecord(recordData);
             setNewRecord({ description: "", amount: "" });
           }}
-          className="w-full py-3 rounded-lg bg-blue-600 hover:bg-blue-700 transition text-white font-semibold"
+          className="add-button"
         >
           Add
         </button>
       </div>
 
-      <div className="max-w-4xl mx-auto">
-        <h2 className="text-2xl font-semibold mb-4">
+      {/* Liste des transactions */}
+      <div className="records-container">
+        <h2 className="records-title">
           {categoryType === "INCOME" ? "Income" : "Expense"} List
         </h2>
         {filteredRecords.length > 0 ? (
-          <ul className="space-y-4">
+          <ul className="records-list">
             {filteredRecords.map((rec) => (
               <li
                 key={rec.expenseId || rec.incomeId}
-                className="p-4 bg-gray-800 rounded-lg shadow border border-gray-700 flex justify-between items-center"
+                className="record-item"
               >
-                <div>
-                  <p className="text-lg font-semibold">{rec.description ?? "No description"}</p>
-                  <p className="text-gray-400">Amount: ${rec.amount}</p>
+                <div className="record-info">
+                  <p className="record-description">
+                    {rec.description ?? "No description"}
+                  </p>
+                  <p className="record-amount">Amount: ${rec.amount}</p>
                 </div>
                 <RecordActions
                   onEdit={() => setEditingRecord({ ...rec })}
                   onDelete={() =>
-                    handleDeleteRecord(categoryType === "INCOME" ? rec.incomeId! : rec.expenseId!)
+                    handleDeleteRecord(
+                      categoryType === "INCOME" ? rec.incomeId! : rec.expenseId!
+                    )
                   }
                 />
               </li>
             ))}
           </ul>
         ) : (
-          <p className="text-center text-gray-400">No records found.</p>
+          <p className="no-records">No records found.</p>
         )}
       </div>
 
+      {/* Modal d'édition */}
       {editingRecord && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-gray-800 p-6 rounded-lg shadow-lg w-96">
-            <h2 className="text-2xl font-semibold mb-4">Edit Record</h2>
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h2 className="modal-title">Edit Record</h2>
             <input
               type="text"
               value={editingRecord.description}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 setEditingRecord({ ...editingRecord, description: e.target.value })
               }
-              className="w-full px-4 py-3 rounded-lg bg-gray-700 border border-gray-600 text-gray-200 mb-4"
+              className="input-field"
             />
             <input
               type="number"
@@ -187,18 +196,24 @@ const CategoryPage: React.FC = () => {
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 setEditingRecord({ ...editingRecord, amount: parseFloat(e.target.value) })
               }
-              className="w-full px-4 py-3 rounded-lg bg-gray-700 border border-gray-600 text-gray-200 mb-4"
+              className="input-field"
             />
-            <div className="flex justify-end space-x-4">
-              <button onClick={() => setEditingRecord(null)} className="px-4 py-2 bg-gray-600 text-white rounded-lg">
+            <div className="modal-actions">
+              <button
+                onClick={() => setEditingRecord(null)}
+                className="cancel-button"
+              >
                 Cancel
               </button>
               <button
                 onClick={() => {
-                  handleEditRecord(editingRecord.expenseId ?? editingRecord.incomeId ?? "", editingRecord);
+                  handleEditRecord(
+                    editingRecord.expenseId ?? editingRecord.incomeId ?? "",
+                    editingRecord
+                  );
                   setEditingRecord(null);
                 }}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg"
+                className="save-button"
               >
                 Save
               </button>
