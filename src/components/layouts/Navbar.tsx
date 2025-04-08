@@ -2,7 +2,17 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useTranslation } from "react-i18next";
-import "./Navbar.css"; // Import CSS file
+import {
+  FiMenu,
+  FiX,
+  FiHome,
+  FiGrid,
+  FiPieChart,
+  FiFolder,
+  FiCreditCard,
+  FiInfo,
+} from "react-icons/fi";
+import "./Navbar.css";
 
 interface NavbarProps {
   setIsDropdownOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -13,21 +23,22 @@ const Navbar: React.FC<NavbarProps> = ({ setIsDropdownOpen }) => {
   const { isAuthenticated, user, loginWithRedirect, logout } = useAuth0();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
 
-  const toggleMobileMenu = (): void => setIsMobileMenuOpen((prev) => !prev);
+  const toggleMobileMenu = () => setIsMobileMenuOpen(prev => !prev);
 
   return (
     <nav className="navbar">
       <div className="navbar-container">
         {/* Logo */}
-        <Link to="/" className="navbar-logo">
-          Finance<span>App</span>
+        <Link
+          to="/home"
+          className="navbar-logo"
+          onClick={() => setIsMobileMenuOpen(false)}
+        >
+          Budget<span>ly</span>
         </Link>
 
-        {/* Desktop Navigation */}
+        {/* Menu desktop */}
         <div className="navbar-links">
-          <Link to="/" className="navbar-link">
-            {t("home")}
-          </Link>
           {isAuthenticated && (
             <>
               <Link to="/dashboard" className="navbar-link">
@@ -48,16 +59,22 @@ const Navbar: React.FC<NavbarProps> = ({ setIsDropdownOpen }) => {
             {t("about")}
           </Link>
         </div>
-
-        {/* Right side: Auth */}
+        {/* Zone de droite */}
         <div className="auth-buttons">
           {isAuthenticated ? (
             <>
-              <span className="navbar-link">
-                {t("welcome", { name: user?.nickname })}!
-              </span>
+            <button
+              onClick={toggleMobileMenu}
+              className="mobile-menu-button"
+              aria-label="Toggle Menu"
+              >
+            {isMobileMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+          </button>
               <button
-                onClick={() => setIsDropdownOpen((prev) => !prev)}
+                onClick={() => {
+                  setIsDropdownOpen(prev => !prev);
+                  setIsMobileMenuOpen(false);
+                }}
                 className="profile-image"
               >
                 <img
@@ -65,84 +82,8 @@ const Navbar: React.FC<NavbarProps> = ({ setIsDropdownOpen }) => {
                   alt="Profile"
                 />
               </button>
-              <button
-                onClick={() =>
-                  logout({ logoutParams: { returnTo: window.location.origin } })
-                }
-                className="auth-button primary"
-              >
-                {t("logout")}
-              </button>
             </>
           ) : (
-            <>
-              <button
-                onClick={() => loginWithRedirect()}
-                className="auth-button secondary"
-              >
-                {t("login")}
-              </button>
-              <button
-                onClick={() =>
-                  loginWithRedirect({ screen_hint: "signup" } as any)
-                }
-                className="auth-button primary"
-              >
-                {t("signup")}
-              </button>
-            </>
-          )}
-
-          {/* Mobile Menu Button */}
-          <button onClick={toggleMobileMenu} className="mobile-menu-button">
-            {isMobileMenuOpen ? "✖" : "☰"}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Navigation */}
-      {isMobileMenuOpen && (
-        <div className="mobile-menu">
-          {isAuthenticated && (
-            <>
-              <Link
-                to="/dashboard"
-                className="mobile-link"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {t("dashboard")}
-              </Link>
-              <Link
-                to="/budgeting"
-                className="mobile-link"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {t("budget")}
-              </Link>
-              <Link
-                to="/project"
-                className="mobile-link"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {t("projects")}
-              </Link>
-              <Link
-                to="/payment"
-                className="mobile-link"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {t("payments")}
-              </Link>
-            </>
-          )}
-          <Link
-            to="/about"
-            className="mobile-link"
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            {t("about")}
-          </Link>
-          {!isAuthenticated ? (
             <>
               <button
                 onClick={() => {
@@ -163,11 +104,62 @@ const Navbar: React.FC<NavbarProps> = ({ setIsDropdownOpen }) => {
                 {t("signup")}
               </button>
             </>
+          )}
+        </div>
+      </div>
+
+      {/* Mobile menu */}
+      {isMobileMenuOpen && (
+        <div className="mobile-menu">
+          <Link to="/" className="mobile-link" onClick={toggleMobileMenu}>
+            <FiHome /> {t("home")}
+          </Link>
+          {isAuthenticated && (
+            <>
+              <Link to="/dashboard" className="mobile-link" onClick={toggleMobileMenu}>
+                <FiGrid /> {t("dashboard")}
+              </Link>
+              <Link to="/budgeting" className="mobile-link" onClick={toggleMobileMenu}>
+                <FiPieChart /> {t("budget")}
+              </Link>
+              <Link to="/project" className="mobile-link" onClick={toggleMobileMenu}>
+                <FiFolder /> {t("projects")}
+              </Link>
+              <Link to="/payment" className="mobile-link" onClick={toggleMobileMenu}>
+                <FiCreditCard /> {t("payments")}
+              </Link>
+            </>
+          )}
+          <Link to="/about" className="mobile-link" onClick={toggleMobileMenu}>
+            <FiInfo /> {t("about")}
+          </Link>
+
+          {!isAuthenticated ? (
+            <>
+              <button
+                onClick={() => {
+                  loginWithRedirect();
+                  toggleMobileMenu();
+                }}
+                className="auth-button secondary"
+              >
+                {t("login")}
+              </button>
+              <button
+                onClick={() => {
+                  loginWithRedirect({ screen_hint: "signup" } as any);
+                  toggleMobileMenu();
+                }}
+                className="auth-button primary"
+              >
+                {t("signup")}
+              </button>
+            </>
           ) : (
             <button
               onClick={() => {
                 logout({ logoutParams: { returnTo: window.location.origin } });
-                setIsMobileMenuOpen(false);
+                toggleMobileMenu();
               }}
               className="auth-button primary"
             >
