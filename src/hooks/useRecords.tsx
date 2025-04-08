@@ -66,11 +66,14 @@ const useRecords = ({ userId, categoryId, categoryType, year, month }: UseRecord
   const handleEditRecord = async (recordUuid: string, updatedData: Partial<Record>) => {
     const response = await api.put<Record>(
       `/users/${userId}/categories/${categoryId}/${categoryType === "INCOME" ? "incomes" : "expenses"}/${recordUuid}`,
-      updatedData
+      {
+        ...updatedData,
+        categoryId, // <-- Ce champ est requis côté backend
+      },
     );
-
+  
     const updatedRecord = response.data;
-
+  
     setRecords((prevRecords) =>
       prevRecords.map((rec) =>
         (categoryType === "INCOME" ? rec.incomeId : rec.expenseId) === recordUuid
@@ -79,6 +82,7 @@ const useRecords = ({ userId, categoryId, categoryType, year, month }: UseRecord
       )
     );
   };
+  
 
   return {
     records,
