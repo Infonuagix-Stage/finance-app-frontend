@@ -73,6 +73,7 @@
     border: none;
     cursor: pointer;
     transition: transform 0.3s, background 0.3s;
+    margin-top: 2rem;
   }
   
   .add-debt-btn:hover {
@@ -152,5 +153,24 @@
   
   .confirm-btn:hover {
     background: linear-gradient(to right, #805ad5, #5a67d8);
+  }
+  
+  .debt-actions {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+  }
+  
+  .debt-actions button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+  }
+  
+  .debt-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem; /* Increase spacing between cards */
   }
   
