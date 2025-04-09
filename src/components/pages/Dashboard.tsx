@@ -7,7 +7,7 @@ import SavingsWidget from "../features/Dashboard/widgets/SavingsWidget";
 import DebtWidget from "../features/Dashboard/widgets/DebtWidget";
 import ChartWidget from "../features/Dashboard/widgets/ChartWidget";
 import { useTranslation } from "react-i18next";
-import "./Dashboard.css";
+import styles from "./Dashboard.module.css";
 
 // Type definitions
 interface ChartData {
@@ -27,7 +27,6 @@ const Dashboard: React.FC = () => {
   const { user } = useAuth0();
   const { totalExpense, globalBalance } = useBudgetContext();
 
-  // Define chart data
   const chartData: ChartData = {
     labels: [
       t("months.jan"),
@@ -80,32 +79,32 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <div className="dashboard-container">
-      <div className="dashboard-content">
-        <h1 className="dashboard-title">{t("dashboard")}</h1>
+    <div className={styles.dashboardContainer}>
+      <div className={styles.dashboardContent}>
+        <h1 className={styles.dashboardTitle}>{t("dashboard")}</h1>
 
         {/* Welcome Section */}
-        <div className="welcome-section">
-          <h2 className="welcome-title">
+        <div className={styles.welcomeSection}>
+          <h2 className={styles.welcomeTitle}>
             {t("welcome")}, {user?.name || user?.nickname || "User"}!
           </h2>
-          <p className="welcome-message">{t("welcomeMessage")}</p>
+          <p className={styles.welcomeMessage}>{t("welcomeMessage")}</p>
         </div>
 
         {/* Widgets Grid */}
-        <div className="widgets-grid">
+        <div className={styles.widgetsGrid}>
           <ExpenseWidget totalExpenses={totalExpense} />
           <BudgetWidget remainingBudget={globalBalance} />
           <DebtWidget totalDebt={500} />
         </div>
 
         {/* Chart Widget */}
-        <div className="chart-widget">
+        <div className={styles.chartWidget}>
           <ChartWidget chartData={chartData} chartOptions={chartOptions} />
         </div>
 
         {/* Savings Widget */}
-        <div className="savings-widget">
+        <div className={styles.savingsWidget}>
           <SavingsWidget />
         </div>
       </div>

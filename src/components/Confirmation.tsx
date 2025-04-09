@@ -1,5 +1,5 @@
 import React from "react";
-import "./Confirmation.css";
+import styles from "./Confirmation.module.css";
 
 interface ConfirmationProps {
   isOpen: boolean;
@@ -16,18 +16,18 @@ const Confirmation: React.FC<ConfirmationProps> = ({
   onConfirm,
   onCancel,
 }) => {
-  if (!isOpen) return null; // Do not render if modal is closed
+  if (!isOpen) return null;
 
   return (
-    <div className="confirmation-overlay">
-      <div className="confirmation-modal">
-        <h2 className="confirmation-title">{title}</h2>
-        <p className="confirmation-message">{message}</p>
-        <div className="confirmation-buttons">
-          <button className="cancel-button" onClick={onCancel}>
+    <div className={styles.confirmationOverlay}>
+      <div className={styles.confirmationModal}>
+        <h2 className={styles.confirmationTitle}>{title}</h2>
+        <p className={styles.confirmationMessage}>{message}</p>
+        <div className={styles.confirmationButtons}>
+          <button className={styles.cancelButton} onClick={onCancel}>
             Annuler
           </button>
-          <button className="confirm-button" onClick={onConfirm}>
+          <button className={styles.confirmButton} onClick={onConfirm}>
             Confirmer
           </button>
         </div>
