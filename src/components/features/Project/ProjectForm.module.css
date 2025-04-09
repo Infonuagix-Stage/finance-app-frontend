@@ -1,0 +1,80 @@
+/* ProjectForm.module.css */
+
+.projectForm {
+  background: linear-gradient(to bottom right, #2d3748, #1a202c);
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  border: 1px solid rgba(55, 65, 81, 0.5);
+  backdrop-filter: blur(10px);
+}
+
+.projectForm h2 {
+  font-size: 1.875rem;
+  font-weight: 700;
+  text-align: center;
+  background: linear-gradient(to right, #38b2ac, #4299e1);
+  -webkit-background-clip: text;
+  color: transparent;
+  margin-bottom: 32px;
+}
+
+.formGroup {
+  margin-bottom: 24px;
+}
+
+.formLabel {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #d1d5db;
+  margin-bottom: 8px;
+}
+
+.formInput,
+.formSelect {
+  width: 100%;
+  padding: 12px;
+  background: rgba(55, 65, 81, 0.5);
+  color: white;
+  border-radius: 8px;
+  border: 1px solid rgba(75, 85, 99, 0.5);
+  transition: all 0.2s ease-in-out;
+}
+
+.formInput:hover,
+.formSelect:hover {
+  border-color: rgba(56, 178, 172, 0.5);
+}
+
+.formInput:focus,
+.formSelect:focus {
+  outline: none;
+  border-color: rgba(56, 178, 172, 0.5);
+  box-shadow: 0px 0px 5px rgba(56, 178, 172, 0.5);
+}
+
+.priorityOption {
+  background: #2d3748;
+  border-radius: 8px;
+}
+
+.submitButton {
+  width: 100%;
+  background: linear-gradient(to right, #38b2ac, #4299e1);
+  font-weight: 600;
+  color: white;
+  padding: 12px 16px;
+  border-radius: 8px;
+  box-shadow: 0px 5px 15px rgba(56, 178, 172, 0.3);
+  transition: all 0.3s ease-in-out;
+}
+
+.submitButton:hover {
+  background: linear-gradient(to right, #319795, #3182ce);
+  box-shadow: 0px 10px 20px rgba(56, 178, 172, 0.5);
+  transform: scale(1.05);
+}

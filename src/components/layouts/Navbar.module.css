@@ -1,0 +1,154 @@
+/* Navbar.module.css */
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(to right, #1a202c, #2d3748, #1a202c);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid #4a5568;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 50;
+}
+
+.navbarContainer {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 64px;
+}
+
+.navbarLogo {
+  color: white;
+  font-size: 27px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-decoration: none;
+}
+
+.navbarLogo span {
+  color: #63b3ed;
+}
+
+.navbarLinks {
+  display: flex;
+  gap: 20px;
+  font-size: 16px;
+}
+
+.navbarLink {
+  color: #d1d5db;
+  text-decoration: none;
+  transition: color 0.3s ease-in-out;
+}
+
+.navbarLink:hover {
+  color: #63b3ed;
+}
+
+.authButtons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-right: 50px;
+}
+
+.authButton {
+  padding: 8px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  transition: background 0.3s ease-in-out;
+}
+
+.primary {
+  background-color: #63b3ed;
+  color: white;
+}
+
+.primary:hover {
+  background-color: #4299e1;
+}
+
+.secondary {
+  background: none;
+  border: 1px solid #4a5568;
+  color: #d1d5db;
+}
+
+.secondary:hover {
+  background-color: #4a5568;
+}
+
+.profileImage {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+  margin: auto;
+}
+
+.profileImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.mobileMenuButton {
+  display: none;
+  color: #d1d5db;
+  font-size: 22px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  align-items: center;
+  justify-content: right;
+}
+
+.mobileMenu {
+  display: none;
+  background-color: #2d3748;
+  border-top: 1px solid #4a5568;
+  padding: 16px;
+  margin-top: 64px;
+}
+
+.mobileLink {
+  display: block;
+  color: #d1d5db;
+  text-decoration: none;
+  margin-bottom: 12px;
+  font-size: 16px;
+  transition: color 0.3s ease-in-out;
+}
+
+.mobileLink:hover {
+  color: #63b3ed;
+}
+
+@media (max-width: 850px) {
+  .navbarLinks {
+    display: none;
+  }
+
+  .mobileMenuButton {
+    display: block;
+  }
+
+  .mobileMenu {
+    display: block;
+  }
+}
