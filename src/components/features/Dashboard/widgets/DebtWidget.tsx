@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import "./DebtWidget.css"; // Import CSS file
+import styles from "./DebtWidget.module.css";
 
 interface DebtWidgetProps {
   totalDebt: number;
@@ -10,9 +10,9 @@ const DebtWidget: React.FC<DebtWidgetProps> = ({ totalDebt }) => {
   const { t } = useTranslation("dashboard");
 
   return (
-    <div className="debt-widget">
-      <h3 className="debt-widget-title">{t("debt_total")}</h3>
-      <p className="debt-widget-amount">${totalDebt.toFixed(2)}</p>
+    <div className={styles.debtWidget}>
+      <h3 className={styles.debtWidgetTitle}>{t("debt_total")}</h3>
+      <p className={styles.debtWidgetAmount}>${totalDebt.toFixed(2)}</p>
     </div>
   );
 };

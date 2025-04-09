@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { useTranslation } from "react-i18next";
-import "./BudgetWidget.css"; // Import the CSS file
+import styles from "./BudgetWidget.module.css"; // nouveau style
 
 interface BudgetWidgetProps {
   remainingBudget: number;
@@ -10,9 +10,9 @@ const BudgetWidget: FC<BudgetWidgetProps> = ({ remainingBudget }) => {
   const { t } = useTranslation("dashboard");
 
   return (
-    <div className="budget-widget">
-      <h3 className="budget-widget-title">{t("balance")}</h3>
-      <p className="budget-widget-balance">${remainingBudget.toFixed(2)}</p>
+    <div className={styles.budgetWidget}>
+      <h3 className={styles.budgetWidgetTitle}>{t("balance")}</h3>
+      <p className={styles.budgetWidgetBalance}>${remainingBudget.toFixed(2)}</p>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./RecordActions.css"; // Import the CSS file
+import styles from './RecordActions.module.css';
 
 interface RecordActionsProps {
   onEdit: () => void;
@@ -10,21 +10,21 @@ const RecordActions: React.FC<RecordActionsProps> = ({ onEdit, onDelete }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
-    <div className="record-actions">
+    <div className={styles.recordActions}>
       {/* Button for actions menu */}
-      <button onClick={() => setIsOpen(!isOpen)} className="menu-button">
+      <button onClick={() => setIsOpen(!isOpen)} className={styles.menuButton}>
         &#8942; {/* Unicode for vertical ellipsis */}
       </button>
 
       {/* Dropdown menu */}
       {isOpen && (
-        <div className="dropdown-menu">
+        <div className={styles.dropdownMenu}>
           <button
             onClick={() => {
               onEdit();
               setIsOpen(false);
             }}
-            className="dropdown-item"
+            className={styles.dropdownItem}
           >
             Modifier
           </button>
@@ -33,7 +33,7 @@ const RecordActions: React.FC<RecordActionsProps> = ({ onEdit, onDelete }) => {
               onDelete();
               setIsOpen(false);
             }}
-            className="dropdown-item delete"
+            className={`${styles.dropdownItem} ${styles.delete}`}
           >
             Supprimer
           </button>

@@ -12,7 +12,7 @@ import {
   FiCreditCard,
   FiInfo,
 } from "react-icons/fi";
-import "./Navbar.css";
+import styles from "./Navbar.module.css";
 
 interface NavbarProps {
   setIsDropdownOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -21,66 +21,48 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ setIsDropdownOpen }) => {
   const { t } = useTranslation("general");
   const { isAuthenticated, user, loginWithRedirect, logout } = useAuth0();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(prev => !prev);
 
   return (
-    <nav className="navbar">
-      <div className="navbar-container">
-        {/* Logo */}
-        <Link
-          to="/home"
-          className="navbar-logo"
-          onClick={() => setIsMobileMenuOpen(false)}
-        >
+    <nav className={styles.navbar}>
+      <div className={styles.navbarContainer}>
+        <Link to="/home" className={styles.navbarLogo} onClick={() => setIsMobileMenuOpen(false)}>
           Budget<span>ly</span>
         </Link>
 
-        {/* Menu desktop */}
-        <div className="navbar-links">
+        <div className={styles.navbarLinks}>
           {isAuthenticated && (
             <>
-              <Link to="/dashboard" className="navbar-link">
-                {t("dashboard")}
-              </Link>
-              <Link to="/budgeting" className="navbar-link">
-                {t("budget")}
-              </Link>
-              <Link to="/project" className="navbar-link">
-                {t("projects")}
-              </Link>
-              <Link to="/payment" className="navbar-link">
-                {t("payments")}
-              </Link>
+              <Link to="/dashboard" className={styles.navbarLink}>{t("dashboard")}</Link>
+              <Link to="/budgeting" className={styles.navbarLink}>{t("budget")}</Link>
+              <Link to="/project" className={styles.navbarLink}>{t("projects")}</Link>
+              <Link to="/payment" className={styles.navbarLink}>{t("payments")}</Link>
             </>
           )}
-          <Link to="/about" className="navbar-link">
-            {t("about")}
-          </Link>
+          <Link to="/about" className={styles.navbarLink}>{t("about")}</Link>
         </div>
-        {/* Zone de droite */}
-        <div className="auth-buttons">
+
+        <div className={styles.authButtons}>
           {isAuthenticated ? (
             <>
-            <button
-              onClick={toggleMobileMenu}
-              className="mobile-menu-button"
-              aria-label="Toggle Menu"
+              <button
+                onClick={toggleMobileMenu}
+                className={styles.mobileMenuButton}
+                aria-label="Toggle Menu"
               >
-            {isMobileMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
-          </button>
+                {isMobileMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+              </button>
+
               <button
                 onClick={() => {
                   setIsDropdownOpen(prev => !prev);
                   setIsMobileMenuOpen(false);
                 }}
-                className="profile-image"
+                className={styles.profileImage}
               >
-                <img
-                  src={user?.picture || "https://via.placeholder.com/40"}
-                  alt="Profile"
-                />
+                <img src={user?.picture || "https://via.placeholder.com/40"} alt="Profile" />
               </button>
             </>
           ) : (
@@ -90,7 +72,7 @@ const Navbar: React.FC<NavbarProps> = ({ setIsDropdownOpen }) => {
                   loginWithRedirect();
                   setIsMobileMenuOpen(false);
                 }}
-                className="auth-button secondary"
+                className={`${styles.authButton} ${styles.secondary}`}
               >
                 {t("login")}
               </button>
@@ -99,7 +81,7 @@ const Navbar: React.FC<NavbarProps> = ({ setIsDropdownOpen }) => {
                   loginWithRedirect({ screen_hint: "signup" } as any);
                   setIsMobileMenuOpen(false);
                 }}
-                className="auth-button primary"
+                className={`${styles.authButton} ${styles.primary}`}
               >
                 {t("signup")}
               </button>
@@ -108,29 +90,28 @@ const Navbar: React.FC<NavbarProps> = ({ setIsDropdownOpen }) => {
         </div>
       </div>
 
-      {/* Mobile menu */}
       {isMobileMenuOpen && (
-        <div className="mobile-menu">
-          <Link to="/" className="mobile-link" onClick={toggleMobileMenu}>
+        <div className={styles.mobileMenu}>
+          <Link to="/" className={styles.mobileLink} onClick={toggleMobileMenu}>
             <FiHome /> {t("home")}
           </Link>
           {isAuthenticated && (
             <>
-              <Link to="/dashboard" className="mobile-link" onClick={toggleMobileMenu}>
+              <Link to="/dashboard" className={styles.mobileLink} onClick={toggleMobileMenu}>
                 <FiGrid /> {t("dashboard")}
               </Link>
-              <Link to="/budgeting" className="mobile-link" onClick={toggleMobileMenu}>
+              <Link to="/budgeting" className={styles.mobileLink} onClick={toggleMobileMenu}>
                 <FiPieChart /> {t("budget")}
               </Link>
-              <Link to="/project" className="mobile-link" onClick={toggleMobileMenu}>
+              <Link to="/project" className={styles.mobileLink} onClick={toggleMobileMenu}>
                 <FiFolder /> {t("projects")}
               </Link>
-              <Link to="/payment" className="mobile-link" onClick={toggleMobileMenu}>
+              <Link to="/payment" className={styles.mobileLink} onClick={toggleMobileMenu}>
                 <FiCreditCard /> {t("payments")}
               </Link>
             </>
           )}
-          <Link to="/about" className="mobile-link" onClick={toggleMobileMenu}>
+          <Link to="/about" className={styles.mobileLink} onClick={toggleMobileMenu}>
             <FiInfo /> {t("about")}
           </Link>
 
@@ -141,7 +122,7 @@ const Navbar: React.FC<NavbarProps> = ({ setIsDropdownOpen }) => {
                   loginWithRedirect();
                   toggleMobileMenu();
                 }}
-                className="auth-button secondary"
+                className={`${styles.authButton} ${styles.secondary}`}
               >
                 {t("login")}
               </button>
@@ -150,7 +131,7 @@ const Navbar: React.FC<NavbarProps> = ({ setIsDropdownOpen }) => {
                   loginWithRedirect({ screen_hint: "signup" } as any);
                   toggleMobileMenu();
                 }}
-                className="auth-button primary"
+                className={`${styles.authButton} ${styles.primary}`}
               >
                 {t("signup")}
               </button>
@@ -161,7 +142,7 @@ const Navbar: React.FC<NavbarProps> = ({ setIsDropdownOpen }) => {
                 logout({ logoutParams: { returnTo: window.location.origin } });
                 toggleMobileMenu();
               }}
-              className="auth-button primary"
+              className={`${styles.authButton} ${styles.primary}`}
             >
               {t("logout")}
             </button>
