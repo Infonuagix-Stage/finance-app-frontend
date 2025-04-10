@@ -1,0 +1,49 @@
+/* Footer.module.css */
+
+.footer {
+  background-color: #2d3748;
+  color: white;
+  padding: 16px 0;
+  margin-top: auto;
+}
+
+.footerContainer {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  height: 40px;
+}
+
+.footerText {
+  font-size: 0.875rem;
+  flex: 1;
+  text-align: center;
+}
+
+.langSelector {
+  display: flex;
+  gap: 12px;
+}
+
+.langButton {
+  color: #d1d5db;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+}
+
+.langButton:hover {
+  color: white;
+}
+
+.active {
+  font-weight: bold;
+}
+
+.langSeparator {
+  color: #6b7280;
+}

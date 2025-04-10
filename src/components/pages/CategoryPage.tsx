@@ -3,9 +3,9 @@ import { useParams, useLocation } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import RecordActions from "../RecordActions";
 import useRecords from "../../hooks/useRecords";
-import { ChevronLeft } from "lucide-react"; 
+import { ChevronLeft } from "lucide-react";
 import { Link } from "react-router-dom";
-import "./CategoryPage.css";
+import styles from "./CategoryPage.module.css";
 
 interface TransactionRecord {
   expenseId?: string;
@@ -34,7 +34,10 @@ const CategoryPage: React.FC = () => {
   const { categoryId, year: initialYear, month: initialMonth } = state || {};
   const categoryType: "INCOME" | "EXPENSE" = state?.categoryType ?? "EXPENSE";
 
-  const initialDate = initialYear && initialMonth ? new Date(initialYear, initialMonth - 1) : new Date();
+  const initialDate =
+    initialYear && initialMonth
+      ? new Date(initialYear, initialMonth - 1)
+      : new Date();
   const [currentDate] = useState<Date>(initialDate);
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.getMonth() + 1;
@@ -45,7 +48,13 @@ const CategoryPage: React.FC = () => {
     addRecord,
     handleDeleteRecord,
     handleEditRecord,
-  } = useRecords({ userId, categoryId: categoryId ?? "", categoryType, year: currentYear, month: currentMonth });
+  } = useRecords({
+    userId,
+    categoryId: categoryId ?? "",
+    categoryType,
+    year: currentYear,
+    month: currentMonth,
+  });
 
   const filteredRecords = records.filter((rec) => {
     const dateStr = rec.expenseDate || rec.incomeDate;
@@ -54,12 +63,17 @@ const CategoryPage: React.FC = () => {
     return year === currentYear && month === currentMonth;
   });
 
-  const [newRecord, setNewRecord] = useState<{ description: string; amount: string }>({
+  const [newRecord, setNewRecord] = useState<{
+    description: string;
+    amount: string;
+  }>({
     description: "",
     amount: "",
   });
 
-  const [editingRecord, setEditingRecord] = useState<TransactionRecord | null>(null);
+  const [editingRecord, setEditingRecord] = useState<TransactionRecord | null>(
+    null
+  );
 
   if (isLoading) return <div>Loading...</div>;
   if (!isAuthenticated) return <div>Please log in to view this page.</div>;
@@ -70,40 +84,45 @@ const CategoryPage: React.FC = () => {
   };
 
   return (
-    <div className="category-page-container">
+    <div className={styles.categoryPageContainer}>
       {/* Titre principal */}
-      <h1 className="category-page-title">
+      <h1 className={styles.categoryPageTitle}>
         Category: {categoryName} ({categoryType})
       </h1>
 
       {/* Lien de retour */}
-      <div className="back-link-wrapper">
+      <div className={styles.backLinkWrapper}>
         <Link
           to="/budgeting"
           state={{ year: initialYear, month: initialMonth }}
-          className="back-link"
+          className={styles.backLink}
         >
-          <ChevronLeft className="icon" />
+          <ChevronLeft className={styles.icon} />
           Back to Budgeting
         </Link>
       </div>
 
       {/* Affichage du mois */}
-      <div className="month-display-wrapper">
-        <div className="month-display-text">
-          {currentDate.toLocaleString("default", { month: "long", year: "numeric" })}
+      <div className={styles.monthDisplayWrapper}>
+        <div className={styles.monthDisplayText}>
+          {currentDate.toLocaleString("default", {
+            month: "long",
+            year: "numeric",
+          })}
         </div>
       </div>
 
       {/* Encadré du total */}
-      <div className="total-card">
-        <h2 className="total-card-title">Total</h2>
-        <p className="total-card-amount">${(currentTotal ?? 0).toFixed(2)}</p>
+      <div className={styles.totalCard}>
+        <h2 className={styles.totalCardTitle}>Total</h2>
+        <p className={styles.totalCardAmount}>
+          ${(currentTotal ?? 0).toFixed(2)}
+        </p>
       </div>
 
       {/* Formulaire pour ajouter une transaction */}
-      <div className="add-record-card">
-        <h2 className="add-record-title">
+      <div className={styles.addRecordCard}>
+        <h2 className={styles.addRecordTitle}>
           Add {categoryType === "INCOME" ? "Income" : "Expense"}
         </h2>
         <input
@@ -113,7 +132,7 @@ const CategoryPage: React.FC = () => {
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
             setNewRecord({ ...newRecord, description: e.target.value })
           }
-          className="input-field"
+          className={styles.inputField}
         />
         <input
           type="number"
@@ -122,7 +141,7 @@ const CategoryPage: React.FC = () => {
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
             setNewRecord({ ...newRecord, amount: e.target.value })
           }
-          className="input-field"
+          className={styles.inputField}
         />
         <button
           onClick={() => {
@@ -131,35 +150,34 @@ const CategoryPage: React.FC = () => {
               amount: parseFloat(newRecord.amount),
               userId,
               categoryId,
-              incomeDate: categoryType === "INCOME" ? toLocalISODate(currentDate) : undefined,
-              expenseDate: categoryType === "EXPENSE" ? toLocalISODate(currentDate) : undefined,
+              incomeDate:
+                categoryType === "INCOME" ? toLocalISODate(currentDate) : undefined,
+              expenseDate:
+                categoryType === "EXPENSE" ? toLocalISODate(currentDate) : undefined,
             };
             addRecord(recordData);
             setNewRecord({ description: "", amount: "" });
           }}
-          className="add-button"
+          className={styles.addButton}
         >
           Add
         </button>
       </div>
 
       {/* Liste des transactions */}
-      <div className="records-container">
-        <h2 className="records-title">
+      <div className={styles.recordsContainer}>
+        <h2 className={styles.recordsTitle}>
           {categoryType === "INCOME" ? "Income" : "Expense"} List
         </h2>
         {filteredRecords.length > 0 ? (
-          <ul className="records-list">
+          <ul className={styles.recordsList}>
             {filteredRecords.map((rec) => (
-              <li
-                key={rec.expenseId || rec.incomeId}
-                className="record-item"
-              >
-                <div className="record-info">
-                  <p className="record-description">
+              <li key={rec.expenseId || rec.incomeId} className={styles.recordItem}>
+                <div className={styles.recordInfo}>
+                  <p className={styles.recordDescription}>
                     {rec.description ?? "No description"}
                   </p>
-                  <p className="record-amount">Amount: ${rec.amount}</p>
+                  <p className={styles.recordAmount}>Amount: ${rec.amount}</p>
                 </div>
                 <RecordActions
                   onEdit={() => setEditingRecord({ ...rec })}
@@ -173,22 +191,22 @@ const CategoryPage: React.FC = () => {
             ))}
           </ul>
         ) : (
-          <p className="no-records">No records found.</p>
+          <p className={styles.noRecords}>No records found.</p>
         )}
       </div>
 
       {/* Modal d'édition */}
       {editingRecord && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h2 className="modal-title">Edit Record</h2>
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <h2 className={styles.modalTitle}>Edit Record</h2>
             <input
               type="text"
               value={editingRecord.description}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 setEditingRecord({ ...editingRecord, description: e.target.value })
               }
-              className="input-field"
+              className={styles.inputField}
             />
             <input
               type="number"
@@ -196,12 +214,12 @@ const CategoryPage: React.FC = () => {
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 setEditingRecord({ ...editingRecord, amount: parseFloat(e.target.value) })
               }
-              className="input-field"
+              className={styles.inputField}
             />
-            <div className="modal-actions">
+            <div className={styles.modalActions}>
               <button
                 onClick={() => setEditingRecord(null)}
-                className="cancel-button"
+                className={styles.cancelButton}
               >
                 Cancel
               </button>
@@ -213,7 +231,7 @@ const CategoryPage: React.FC = () => {
                   );
                   setEditingRecord(null);
                 }}
-                className="save-button"
+                className={styles.saveButton}
               >
                 Save
               </button>

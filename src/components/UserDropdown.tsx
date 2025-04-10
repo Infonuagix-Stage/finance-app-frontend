@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { FiX, FiUser, FiSettings, FiLogOut } from "react-icons/fi";
-import "./UserDropdown.css";
+import styles from "./UserDropdown.module.css";
 
 interface UserDropdownProps {
   isDropdownOpen: boolean;
@@ -11,15 +11,18 @@ interface UserDropdownProps {
 
 const UserDropdown: React.FC<UserDropdownProps> = ({
   isDropdownOpen,
-  setIsDropdownOpen
+  setIsDropdownOpen,
 }) => {
   const { user, logout } = useAuth0();
 
   return (
     <>
-      {/* Overlay (click pour fermer) */}
+      {/* Overlay (clique pour fermer) */}
       {isDropdownOpen && (
-        <div className="overlay" onClick={() => setIsDropdownOpen(false)} />
+        <div
+          className={styles.overlay}
+          onClick={() => setIsDropdownOpen(false)}
+        />
       )}
 
       {/* Menu latéral */}
@@ -34,42 +37,44 @@ const UserDropdown: React.FC<UserDropdownProps> = ({
           <div className="profile-name">
             {user?.nickname || "Utilisateur"}
           </div>
-        </div>
-          <button className="close-btn" onClick={() => setIsDropdownOpen(false)}>
+          <button
+            className={styles.closeBtn}
+            onClick={() => setIsDropdownOpen(false)}
+          >
             <FiX size={22} />
           </button>
         </div>
 
         {/* Liens dans le menu */}
-        <div className="menu-content">
+        <div className={styles.menuContent}>
           <Link
             to="/profile"
-            className="menu-item"
+            className={styles.menuItem}
             onClick={() => setIsDropdownOpen(false)}
           >
-            <FiUser className="menu-icon" />
+            <FiUser className={styles.menuIcon} />
             Profil
           </Link>
           <Link
             to="/settings"
-            className="menu-item"
+            className={styles.menuItem}
             onClick={() => setIsDropdownOpen(false)}
           >
-            <FiSettings className="menu-icon" />
+            <FiSettings className={styles.menuIcon} />
             Paramètres
           </Link>
         </div>
 
         {/* Déconnexion */}
-        <div className="menu-footer">
+        <div className={styles.menuFooter}>
           <button
             onClick={() => {
               logout({ logoutParams: { returnTo: window.location.origin } });
               setIsDropdownOpen(false);
             }}
-            className="menu-item logout"
+            className={`${styles.menuItem} ${styles.logout}`}
           >
-            <FiLogOut className="menu-icon" />
+            <FiLogOut className={styles.menuIcon} />
             Déconnexion
           </button>
         </div>

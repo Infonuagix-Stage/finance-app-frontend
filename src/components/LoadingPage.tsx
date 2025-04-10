@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-import "./LoadingPage.css"; // Import the CSS file
+import styles from "./LoadingPage.module.css";
 
 const LoadingPage: React.FC = () => {
   const navigate = useNavigate();
@@ -25,14 +25,14 @@ const LoadingPage: React.FC = () => {
   }, [countdown, navigate]);
 
   return (
-    <div className="loading-container">
-      <h2 className="loading-title">Welcome to the loading page</h2>
-      <button onClick={handleLogout} className="logout-button">
+    <div className={styles.loadingContainer}>
+      <h2 className={styles.loadingTitle}>Welcome to the loading page</h2>
+      <button onClick={handleLogout} className={styles.logoutButton}>
         Logout
       </button>
-      <p className="loading-text">
+      <p className={styles.loadingText}>
         You will be redirected to the budgeting page in{" "}
-        <span className="loading-countdown">{countdown}</span> seconds.
+        <span className={styles.loadingCountdown}>{countdown}</span> seconds.
       </p>
     </div>
   );

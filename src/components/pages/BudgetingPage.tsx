@@ -5,7 +5,7 @@ import { useBudgetContext } from "../../context/BudgetContext";
 import useCategories from "../../hooks/useCategories";
 import { useTranslation } from "react-i18next";
 import { updateCategoryForUser, deleteCategoryForUser } from "../../services/categoryService";
-import "./BudgetingPage.css";
+import styles from "./BudgetingPage.module.css";
 
 interface Category {
   categoryId: string;
@@ -57,7 +57,7 @@ const BudgetingPage: React.FC = () => {
     setIsExpenseModalVisible,
     isIncomeModalVisible,
     setIsIncomeModalVisible,
-    fetchCategories
+    fetchCategories,
   } = useCategories(userId, currentDate);
 
   // État pour le modal d’édition
@@ -122,11 +122,7 @@ const BudgetingPage: React.FC = () => {
     setGlobalBalance(globalBalance);
   }, [totalIncome, totalExpense, globalBalance, setTotalIncome, setTotalExpense, setGlobalBalance]);
 
-
-  // =========
   // GESTION DU MENU 3 POINTS
-  // =========
-  // State pour savoir quel categoryId est en train d'ouvrir le menu
   const [menuOpenFor, setMenuOpenFor] = useState<string | null>(null);
 
   // Ferme le menu si on clique ailleurs
@@ -149,44 +145,55 @@ const BudgetingPage: React.FC = () => {
 
   if (isLoading) return <div>Loading...</div>;
   if (!isAuthenticated) return <div>Please log in to view this page.</div>;
+
   return (
-    <div className="budgeting-container">
+    <div className={styles.budgetingContainer}>
       {/* Sélecteur de mois */}
-      <div className="month-selector">
-        <button onClick={previousMonth} className="month-button">{"<"}</button>
-        <span className="month-text">{formattedMonth}</span>
-        <button onClick={nextMonth} className="month-button">{">"}</button>
+      <div className={styles.monthSelector}>
+        <button onClick={previousMonth} className={styles.monthButton}>
+          {"<"}
+        </button>
+        <span className={styles.monthText}>{formattedMonth}</span>
+        <button onClick={nextMonth} className={styles.monthButton}>
+          {">"}
+        </button>
       </div>
 
       {/* Header principal */}
-      <div className="header-container">
-        <h1 className="header-title">{t("header.title")}</h1>
-        <div className="header-stats">
-          <p className="header-income-expenses">
-            <span className="income">
+      <div className={styles.headerContainer}>
+        <h1 className={styles.headerTitle}>{t("header.title")}</h1>
+        <div className={styles.headerStats}>
+          <p className={styles.headerIncomeExpenses}>
+            <span className={styles.income}>
               {t("header.income")}: ${totalIncome.toFixed(2)}
             </span>
             {" | "}
-            <span className="expenses">
+            <span className={styles.expenses}>
               {t("header.expenses")}: ${totalExpense.toFixed(2)}
             </span>
           </p>
-          <p className={`balance ${globalBalance >= 0 ? "positive" : "negative"}`}>
+          <p
+            className={`${styles.balance} ${
+              globalBalance >= 0 ? styles.positive : styles.negative
+            }`}
+          >
             {t("header.balance")}: ${globalBalance.toFixed(2)}
           </p>
         </div>
       </div>
 
       {/* Liste des catégories */}
-      <div className="categories-container">
+      <div className={styles.categoriesContainer}>
         {/* PARTIE DÉPENSES */}
         <div>
-          <h2 className="category-title expenses-title">{t("categories.expenses")}</h2>
-          <div className="category-list">
+          <h2 className={`${styles.categoryTitle} ${styles.expensesTitle}`}>
+            {t("categories.expenses")}
+          </h2>
+          <div className={styles.categoryList}>
             {categories
               .filter((cat) => cat.type === "EXPENSE")
               .map((cat) => (
-                <div key={cat.categoryId} className="category-card">
+                <div key={cat.categoryId} className={styles.categoryCard}>
                   <Link
                     to={`/category/${encodeURIComponent(cat.name)}`}
                     state={{
@@ -197,26 +204,26 @@ const BudgetingPage: React.FC = () => {
                       month: currentDate.getMonth() + 1,
                     }}
                   >
-                    <h4 className="category-name">{cat.name}</h4>
-                    <p className="category-total">
+                    <h4 className={styles.categoryName}>{cat.name}</h4>
+                    <p className={styles.categoryTotal}>
                       {t("categories.total")}: ${totalsMap[cat.categoryId] || 0}
                     </p>
                   </Link>
 
                   {/* Bouton triple-points + menu */}
-                  <div className="category-card-actions" ref={menuRef}>
+                  <div className={styles.categoryCardActions} ref={menuRef}>
                     <button
                       onClick={() => toggleMenu(cat.categoryId)}
-                      className="three-dot-button"
+                      className={styles.threeDotButton}
                     >
-                      <div className="dot" />
-                      <div className="dot" />
-                      <div className="dot" />
+                      <div className={styles.dot} />
+                      <div className={styles.dot} />
+                      <div className={styles.dot} />
                     </button>
                     {menuOpenFor === cat.categoryId && (
-                      <div className="three-dot-menu">
+                      <div className={styles.threeDotMenu}>
                         <button
-                          className="menu-item"
+                          className={styles.menuItem}
                           onClick={() => {
                             setMenuOpenFor(null);
                             openEditModal(cat);
@@ -225,7 +232,7 @@ const BudgetingPage: React.FC = () => {
                           Modifier
                         </button>
                         <button
-                          className="menu-item delete-item"
+                          className={`${styles.menuItem} ${styles.deleteItem}`}
                           onClick={() => {
                             setMenuOpenFor(null);
                             handleDeleteCategory(cat);
@@ -240,21 +247,23 @@ const BudgetingPage: React.FC = () => {
               ))}
             <button
               onClick={() => setIsExpenseModalVisible(true)}
-              className="add-category-button"
+              className={styles.addCategoryButton}
             >
-              <span className="add-icon">+</span>
+              <span className={styles.addIcon}>+</span>
             </button>
           </div>
         </div>
 
         {/* PARTIE REVENUS */}
         <div>
-          <h2 className="category-title income-title">{t("categories.income")}</h2>
-          <div className="category-list">
+          <h2 className={`${styles.categoryTitle} ${styles.incomeTitle}`}>
+            {t("categories.income")}
+          </h2>
+          <div className={styles.categoryList}>
             {categories
               .filter((cat) => cat.type === "INCOME")
               .map((cat) => (
-                <div key={cat.categoryId} className="category-card">
+                <div key={cat.categoryId} className={styles.categoryCard}>
                   <Link
                     to={`/category/${encodeURIComponent(cat.name)}`}
                     state={{
@@ -265,26 +274,26 @@ const BudgetingPage: React.FC = () => {
                       month: currentDate.getMonth() + 1,
                     }}
                   >
-                    <h4 className="category-name">{cat.name}</h4>
-                    <p className="category-total">
+                    <h4 className={styles.categoryName}>{cat.name}</h4>
+                    <p className={styles.categoryTotal}>
                       {t("categories.total")}: ${totalsMap[cat.categoryId] || 0}
                     </p>
                   </Link>
 
                   {/* Bouton triple-points + menu */}
-                  <div className="category-card-actions" ref={menuRef}>
+                  <div className={styles.categoryCardActions} ref={menuRef}>
                     <button
                       onClick={() => toggleMenu(cat.categoryId)}
-                      className="three-dot-button"
+                      className={styles.threeDotButton}
                     >
-                      <div className="dot" />
-                      <div className="dot" />
-                      <div className="dot" />
+                      <div className={styles.dot} />
+                      <div className={styles.dot} />
+                      <div className={styles.dot} />
                     </button>
                     {menuOpenFor === cat.categoryId && (
-                      <div className="three-dot-menu">
+                      <div className={styles.threeDotMenu}>
                         <button
-                          className="menu-item"
+                          className={styles.menuItem}
                           onClick={() => {
                             setMenuOpenFor(null);
                             openEditModal(cat);
@@ -293,7 +302,7 @@ const BudgetingPage: React.FC = () => {
                           Modifier
                         </button>
                         <button
-                          className="menu-item delete-item"
+                          className={`${styles.menuItem} ${styles.deleteItem}`}
                           onClick={() => {
                             setMenuOpenFor(null);
                             handleDeleteCategory(cat);
@@ -308,9 +317,9 @@ const BudgetingPage: React.FC = () => {
               ))}
             <button
               onClick={() => setIsIncomeModalVisible(true)}
-              className="add-category-button"
+              className={styles.addCategoryButton}
             >
-              <span className="add-icon">+</span>
+              <span className={styles.addIcon}>+</span>
             </button>
           </div>
         </div>
@@ -318,26 +327,26 @@ const BudgetingPage: React.FC = () => {
 
       {/* MODAL : Ajouter dépense */}
       {isExpenseModalVisible && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h3 className="modal-title">{t("modals.addExpense")}</h3>
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <h3 className={styles.modalTitle}>{t("modals.addExpense")}</h3>
             <input
               type="text"
               placeholder={t("modals.name") || "Name"}
               value={newExpenseCategoryName}
               onChange={(e) => setNewExpenseCategoryName(e.target.value)}
-              className="modal-input"
+              className={styles.modalInput}
             />
             <textarea
               placeholder={t("modals.description") || "Description"}
               value={newExpenseCategoryDesc}
               onChange={(e) => setNewExpenseCategoryDesc(e.target.value)}
-              className="modal-textarea"
+              className={styles.modalTextarea}
             />
-            <div className="modal-buttons">
+            <div className={styles.modalButtons}>
               <button
                 onClick={() => setIsExpenseModalVisible(false)}
-                className="modal-btn cancel-btn"
+                className={`${styles.modalBtn} ${styles.cancelBtn}`}
               >
                 {t("modals.cancel")}
               </button>
@@ -346,7 +355,7 @@ const BudgetingPage: React.FC = () => {
                   addCategory("EXPENSE");
                   setIsExpenseModalVisible(false);
                 }}
-                className="modal-btn add-btn"
+                className={`${styles.modalBtn} ${styles.addBtn}`}
               >
                 {t("modals.add")}
               </button>
@@ -357,26 +366,26 @@ const BudgetingPage: React.FC = () => {
 
       {/* MODAL : Ajouter revenu */}
       {isIncomeModalVisible && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h3 className="modal-title">{t("modals.addIncome")}</h3>
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <h3 className={styles.modalTitle}>{t("modals.addIncome")}</h3>
             <input
               type="text"
               placeholder={t("modals.name") || "Name"}
               value={newIncomeCategoryName}
               onChange={(e) => setNewIncomeCategoryName(e.target.value)}
-              className="modal-input"
+              className={styles.modalInput}
             />
             <textarea
               placeholder={t("modals.description") || "Description"}
               value={newIncomeCategoryDesc}
               onChange={(e) => setNewIncomeCategoryDesc(e.target.value)}
-              className="modal-textarea"
+              className={styles.modalTextarea}
             />
-            <div className="modal-buttons">
+            <div className={styles.modalButtons}>
               <button
                 onClick={() => setIsIncomeModalVisible(false)}
-                className="modal-btn cancel-btn"
+                className={`${styles.modalBtn} ${styles.cancelBtn}`}
               >
                 {t("modals.cancel")}
               </button>
@@ -385,7 +394,7 @@ const BudgetingPage: React.FC = () => {
                   addCategory("INCOME");
                   setIsIncomeModalVisible(false);
                 }}
-                className="modal-btn add-btn"
+                className={`${styles.modalBtn} ${styles.addBtn}`}
               >
                 {t("modals.add")}
               </button>
@@ -396,27 +405,30 @@ const BudgetingPage: React.FC = () => {
 
       {/* MODAL : Éditer catégorie */}
       {editingCategory && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h3 className="modal-title">{t("modals.editCategory")}</h3>
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <h3 className={styles.modalTitle}>{t("modals.editCategory")}</h3>
             <input
               type="text"
               placeholder={t("modals.name") || "Name"}
               value={editName}
               onChange={(e) => setEditName(e.target.value)}
-              className="modal-input"
+              className={styles.modalInput}
             />
             <textarea
               placeholder={t("modals.description") || "Description"}
               value={editDesc}
               onChange={(e) => setEditDesc(e.target.value)}
-              className="modal-textarea"
+              className={styles.modalTextarea}
             />
-            <div className="modal-buttons">
-              <button onClick={closeEditModal} className="modal-btn cancel-btn">
+            <div className={styles.modalButtons}>
+              <button
+                onClick={closeEditModal}
+                className={`${styles.modalBtn} ${styles.cancelBtn}`}
+              >
                 {t("modals.cancel")}
               </button>
-              <button onClick={handleSaveEdit} className="modal-btn add-btn">
+              <button onClick={handleSaveEdit} className={`${styles.modalBtn} ${styles.addBtn}`}>
                 {t("modals.save")}
               </button>
             </div>

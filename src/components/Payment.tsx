@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDebts } from "../hooks/useDebts";
 import { Debt } from "../services/debtService";
-import "./Payment.css"; // Make sure this CSS file handles .debt-actions, .modal, etc.
+import styles from "./Payment.module.css";
 
 const Payment: React.FC = () => {
   const { t } = useTranslation("payement");
@@ -20,7 +20,7 @@ const Payment: React.FC = () => {
     setNewCreditor(debt.creditor);
     setNewAmount(debt.amountOwed);
     setNewMonthly(debt.monthlyPayment);
-    setNewDueDate(debt.dueDate.split("T")[0]); // for <input type="date" />
+    setNewDueDate(debt.dueDate.split("T")[0]);
     setIsModalVisible(true);
   };
 
@@ -69,32 +69,37 @@ const Payment: React.FC = () => {
   };
 
   return (
-    <div className="payment-container">
-      <div className="header">
+    <div className={styles.paymentContainer}>
+      <div className={styles.header}>
         <h1>{t("title")}</h1>
       </div>
 
-      <div className="debt-section">
-        <h2>{t("debt")}</h2>
+      <div className={styles.debtSection}>
+        <h2 className={styles.debtSectionTitle}>{t("debt")}</h2>
 
         {loading ? (
           <p>Chargement...</p>
         ) : error ? (
           <p className="error">{error}</p>
         ) : debts.length === 0 ? (
-          <p className="no-debt">{t("noDebt")}</p>
+          <p className={styles.noDebt}>{t("noDebt")}</p>
         ) : (
-            <div className="debt-list">
+          <div className={styles.debtList}>
             {debts.map((debt) => {
               const progress = 100 * (debt.amountPaid / debt.amountOwed);
               return (
-                <div key={debt.debtId} className="debt-card">
+                <div key={debt.debtId} className={styles.debtCard}>
                   <h4>{debt.creditor}</h4>
                   <p>Total Amount: ${debt.amountOwed.toFixed(2)}</p>
                   <p>Remaining Amount: ${(debt.amountOwed - debt.amountPaid).toFixed(2)}</p>
-                  <p>Progress: <span className="progress">{progress.toFixed(2)}%</span></p>
+                  <p>
+                    Progress:{" "}
+                    <span className={styles.progress}>
+                      {progress.toFixed(2)}%
+                    </span>
+                  </p>
                   <p>Due Date: {new Date(debt.dueDate).toLocaleDateString()}</p>
-                  <div className="debt-actions">
+                  <div className={styles.debtActions}>
                     <button onClick={() => openEditModal(debt)}>✏️</button>
                     <button onClick={() => deleteDebt(debt.debtId)}>🗑️</button>
                   </div>
@@ -102,45 +107,49 @@ const Payment: React.FC = () => {
               );
             })}
           </div>
-
         )}
 
-        <button className="add-debt-btn" onClick={openCreateModal}>
-          <span>+</span>
+        <button className={styles.addDebtBtn} onClick={openCreateModal}>
+          +
         </button>
       </div>
 
       {isModalVisible && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <h3>{editingDebt ? t("editDebt") : t("addDebt")}</h3>
+        <div className={styles.modalOverlay}>
+          <div className={styles.modal}>
+            <h3 className={styles.modalTitle}>
+              {editingDebt ? t("editDebt") : t("addDebt")}
+            </h3>
             <input
               type="text"
-              placeholder={t("debtNamePlaceholder")}
+              placeholder={t("debtNamePlaceholder") as string}
               value={newCreditor}
               onChange={(e) => setNewCreditor(e.target.value)}
+              className={styles.modalInput}
             />
             <input
               type="number"
-              placeholder={t("totalAmountPlaceholder")}
+              placeholder={t("totalAmountPlaceholder") as string}
               value={newAmount}
               onChange={(e) => setNewAmount(Number(e.target.value))}
+              className={styles.modalInput}
             />
             <input
               type="number"
-              placeholder={t("monthlyAmountPlaceholder")}
+              placeholder={t("monthlyAmountPlaceholder") as string}
               value={newMonthly}
               onChange={(e) => setNewMonthly(Number(e.target.value))}
+              className={styles.modalInput}
             />
             <input
               type="date"
-              placeholder={t("dueDate")}
               value={newDueDate}
               onChange={(e) => setNewDueDate(e.target.value)}
+              className={styles.modalInput}
             />
-            <div className="modal-buttons">
+            <div className={styles.modalButtons}>
               <button
-                className="cancel-btn"
+                className={styles.cancelBtn}
                 onClick={() => {
                   setIsModalVisible(false);
                   setEditingDebt(null);
@@ -148,7 +157,10 @@ const Payment: React.FC = () => {
               >
                 {t("cancel")}
               </button>
-              <button className="confirm-btn" onClick={handleSubmit}>
+              <button
+                className={styles.confirmBtn}
+                onClick={handleSubmit}
+              >
                 {editingDebt ? t("update") : t("add")}
               </button>
             </div>

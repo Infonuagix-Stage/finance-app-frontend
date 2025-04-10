@@ -1,0 +1,19 @@
+/* ExpenseWidget.module.css */
+
+.expenseWidget {
+  background-color: #2d3748;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.expenseWidgetTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.expenseWidgetAmount {
+  font-size: 1.5rem;
+  color: #f56565;
+}

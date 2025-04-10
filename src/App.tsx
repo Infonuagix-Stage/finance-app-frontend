@@ -9,7 +9,7 @@ import {
 import Login from "./components/Login";
 import Register from "./components/Signup";
 import LoadingPage from "./components/LoadingPage";
-import PrivateRoute from "./components/PrivateRoute";
+import PrivateRoute from "./PrivateRoute";
 import BudgetingPage from "./components/pages/BudgetingPage";
 import CategoryPage from "./components/pages/CategoryPage";
 import DashboardPage from "./components/pages/Dashboard";
@@ -27,15 +27,6 @@ import "./i18n";
 import useSyncAuth0User from "./hooks/useSyncAuth0User";
 import "./index.css";
 import "./App.css"; // Import the CSS file
-
-interface NavbarProps {
-  setIsDropdownOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-interface UserDropdownProps {
-  isDropdownOpen: boolean;
-  setIsDropdownOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
 
 const AppContent: React.FC = () => {
   useSyncAuth0User();

@@ -1,46 +1,41 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import "./About.css"; // Import CSS file
+import styles from "./About.module.css";
 
 const About: React.FC = () => {
   const { t } = useTranslation("about");
 
-  // Ensure that `features` is an array of strings
   const features: string[] = t("features", { returnObjects: true }) as string[];
 
   return (
-    <div className="about-container">
-      <div className="about-content">
-        <h1 className="about-title">{t("title")}</h1>
+    <div className={styles.aboutContainer}>
+      <div className={styles.aboutContent}>
+        <h1 className={styles.aboutTitle}>{t("title")}</h1>
 
-        {/* Section Description */}
-        <div className="about-section">
-          <h2 className="about-section-title">{t("mission_title")}</h2>
-          <p className="about-text">{t("mission_text")}</p>
+        <div className={styles.aboutSection}>
+          <h2 className={styles.aboutSectionTitle}>{t("mission_title")}</h2>
+          <p className={styles.aboutText}>{t("mission_text")}</p>
         </div>
 
-        {/* Section Fonctionnalités */}
-        <div className="about-section">
-          <h2 className="about-section-title">{t("features_title")}</h2>
-          <ul className="about-list">
+        <div className={styles.aboutSection}>
+          <h2 className={styles.aboutSectionTitle}>{t("features_title")}</h2>
+          <ul className={styles.aboutList}>
             {features.map((feature, index) => (
               <li key={index}>{feature}</li>
             ))}
           </ul>
         </div>
 
-        {/* Section Équipe */}
-        <div className="about-section">
-          <h2 className="about-section-title">{t("team_title")}</h2>
-          <p className="about-text">{t("team_text")}</p>
+        <div className={styles.aboutSection}>
+          <h2 className={styles.aboutSectionTitle}>{t("team_title")}</h2>
+          <p className={styles.aboutText}>{t("team_text")}</p>
         </div>
 
-        {/* Section Contact */}
-        <div className="about-section">
-          <h2 className="about-section-title">{t("contact_title")}</h2>
-          <p className="about-text">
+        <div className={styles.aboutSection}>
+          <h2 className={styles.aboutSectionTitle}>{t("contact_title")}</h2>
+          <p className={styles.aboutText}>
             {t("contact_text")}
-            <a href="mailto:support@financeapp.com" className="about-link">
+            <a href="mailto:support@financeapp.com" className={styles.aboutLink}>
               {t("contact_email")}
             </a>
             .
