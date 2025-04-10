@@ -26,19 +26,16 @@ const UserDropdown: React.FC<UserDropdownProps> = ({
       )}
 
       {/* Menu latéral */}
-      <div
-        className={`${styles.dropdownMenu} ${isDropdownOpen ? styles.open : ""}`}
-      >
-        <div className={styles.dropdownHeader}>
-          <div className={styles.profileBlock}>
-            <img
-              src={user?.picture || "https://via.placeholder.com/40"}
-              alt="Profile"
-              className={styles.profilePicture}
-            />
-            <div className={styles.profileName}>
-              {user?.name || "Utilisateur"}
-            </div>
+      <div className={`dropdown-menu ${isDropdownOpen ? "open" : ""}`}>
+        <div className="dropdown-header">
+        <div className="profile-block">
+          <img
+            src={user?.picture || "https://via.placeholder.com/40"}
+            alt="Profile"
+            className="profile-picture"
+          />
+          <div className="profile-name">
+            {user?.nickname || "Utilisateur"}
           </div>
           <button
             className={styles.closeBtn}
