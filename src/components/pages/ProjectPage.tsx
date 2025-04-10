@@ -6,9 +6,8 @@ import Confirmation from "../Confirmation";
 import { useProjects } from "../../hooks/useProjects";
 import { calculateMonthlyContribution } from "../../utils/projectCalculations";
 import { useTranslation } from "react-i18next";
-import './ProjectPage.css';
+import styles from "./ProjectPage.module.css";
 
-// Type Definitions
 interface Project {
   projectId?: string;
   name: string;
@@ -30,15 +29,12 @@ const ProjectPage: React.FC = () => {
     setCurrentProject,
   } = useProjects();
 
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [projectToDelete, setProjectToDelete] = useState<string | null>(null);
   const { t } = useTranslation("project");
 
   const handleCreateProject = async (projectData: Project) => {
-    if (!projectData.name) {
-      console.error("Project name is required!");
-      return;
-    }
+    if (!projectData.name) return;
 
     const newProjectId = projectData.projectId || crypto.randomUUID();
 
@@ -86,33 +82,31 @@ const ProjectPage: React.FC = () => {
   };
 
   return (
-    <div className="project-container">
-      <div className="max-container">
-        <h1 className="title">{t("myFinancialProjects")}</h1>
+    <div className={styles.projectContainer}>
+      <div className={styles.maxContainer}>
+        <h1 className={styles.title}>{t("myFinancialProjects")}</h1>
 
-        <div className="create-project-container">
+        <div className={styles.createProjectContainer}>
           {loading ? (
-            <div className="loading">
-              <div className="loader"></div>
+            <div className={styles.loading}>
+              <div className={styles.loader}></div>
             </div>
           ) : (
             <ProjectForm
-              onCreate={(project) => {
-                handleCreateProject(project).catch(console.error);
-              }}
+              onCreate={(project) => handleCreateProject(project).catch(console.error)}
             />
           )}
         </div>
 
-        <div className="projects-list">
-          <h2 className="projects-title">{t("ongoingProjects")}</h2>
+        <div className={styles.projectsList}>
+          <h2 className={styles.projectsTitle}>{t("ongoingProjects")}</h2>
 
           {projects.length === 0 ? (
-            <div className="no-projects">
-              <p className="no-projects-text">{t("noProjectsAdded")}</p>
+            <div className={styles.noProjects}>
+              <p className={styles.noProjectsText}>{t("noProjectsAdded")}</p>
             </div>
           ) : (
-            <div className="projects-grid">
+            <div className={styles.projectsGrid}>
               {projects.map((project) => (
                 <ProjectCard
                   key={project.projectId}
@@ -132,11 +126,11 @@ const ProjectPage: React.FC = () => {
         </div>
 
         {currentProject && (
-          <div className="update-modal">
-            <div className="update-form-container">
+          <div className={styles.updateModal}>
+            <div className={styles.updateFormContainer}>
               <button
                 onClick={() => setCurrentProject(null)}
-                className="close-button"
+                className={styles.closeButton}
               >
                 ✕
               </button>
@@ -148,9 +142,9 @@ const ProjectPage: React.FC = () => {
                   deadline: currentProject.deadline || "",
                   priority: currentProject.priority || "low",
                 }}
-                onUpdate={(updatedProject) => {
-                  handleUpdateProject(updatedProject).catch(console.error);
-                }}
+                onUpdate={(updatedProject) =>
+                  handleUpdateProject(updatedProject).catch(console.error)
+                }
               />
             </div>
           </div>

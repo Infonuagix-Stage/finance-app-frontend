@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import "./Footer.css"; // Import CSS file
+import styles from "./Footer.module.css";
 
 const Footer: React.FC = () => {
   const { t, i18n } = useTranslation("layouts");
@@ -11,26 +11,26 @@ const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="footer">
-      <div className="footer-container">
-        {/* Centered text with translation */}
+    <footer className={styles.footer}>
+      <div className={styles.footerContainer}>
         <p
-          className="footer-text"
-          dangerouslySetInnerHTML={{ __html: t("rights_reserved", { year: currentYear }) }}
+          className={styles.footerText}
+          dangerouslySetInnerHTML={{
+            __html: t("rights_reserved", { year: currentYear }),
+          }}
         />
 
-        {/* Language selector */}
-        <div className="lang-selector">
+        <div className={styles.langSelector}>
           <button
             onClick={() => changeLanguage("fr")}
-            className={`lang-button ${i18n.language === "fr" ? "active" : ""}`}
+            className={`${styles.langButton} ${i18n.language === "fr" ? styles.active : ""}`}
           >
             Français
           </button>
-          <span className="lang-separator">|</span>
+          <span className={styles.langSeparator}>|</span>
           <button
             onClick={() => changeLanguage("en")}
-            className={`lang-button ${i18n.language === "en" ? "active" : ""}`}
+            className={`${styles.langButton} ${i18n.language === "en" ? styles.active : ""}`}
           >
             English
           </button>

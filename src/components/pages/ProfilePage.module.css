@@ -1,5 +1,4 @@
-/* Container principal centré */
-.profile-container {
+.profileContainer {
   min-height: 100vh;
   background: linear-gradient(135deg, #2d3748, #1a202c);
   display: flex;
@@ -7,8 +6,7 @@
   padding: 20px;
 }
 
-/* Contenu centré et large */
-.profile-content {
+.profileContent {
   width: 100%;
   max-width: 600px;
   color: white;
@@ -16,32 +14,29 @@
   border-radius: 12px;
 }
 
-/* Informations du profil */
-.profile-info {
+.profileInfo {
   text-align: center;
   margin-bottom: 32px;
 }
 
-.profile-title {
+.profileTitle {
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 16px;
 }
 
-.profile-detail {
+.profileDetail {
   font-size: 1.1rem;
   margin-bottom: 8px;
 }
 
-/* Empilement vertical des formulaires */
-.forms-wrapper {
+.formsWrapper {
   display: flex;
   flex-direction: column;
   gap: 24px;
 }
 
-/* Style des cartes de formulaire */
-.form-card {
+.formCard {
   background: linear-gradient(135deg, #2d3748, #1f2937);
   border-radius: 12px;
   padding: 26px;
@@ -50,33 +45,31 @@
   border: 1px solid rgba(55, 65, 81, 0.5);
 }
 
-/* Titre de chaque formulaire */
-.form-card-title {
+.formCardTitle {
   font-size: 1.5rem;
   font-weight: 600;
   margin-bottom: 16px;
   text-align: center;
 }
 
-/* Champs de formulaire */
-.form-fields {
+.formFields {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.form-field {
+.formField {
   display: flex;
   flex-direction: column;
 }
 
-.form-label {
+.formLabel {
   font-size: 1rem;
   font-weight: 500;
   margin-bottom: 6px;
 }
 
-.form-input {
+.formInput {
   padding: 12px 16px;
   border: 1px solid #4a5568;
   border-radius: 8px;
@@ -87,12 +80,11 @@
   transition: border-color 0.2s;
 }
 
-.form-input:focus {
+.formInput:focus {
   border-color: #3b82f6;
 }
 
-/* Bouton de soumission */
-.submit-btn {
+.submitBtn {
   margin-right: -26px;
   background-color: #3b82f6;
   padding: 12px 16px;
@@ -105,6 +97,6 @@
   font-size: 1rem;
 }
 
-.submit-btn:hover {
+.submitBtn:hover {
   background-color: #2563eb;
 }
