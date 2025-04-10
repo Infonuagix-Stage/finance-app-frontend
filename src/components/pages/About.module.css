@@ -1,52 +1,53 @@
-.about-container {
-    min-height: 100vh;
-    background-color: #1a202c;
-    color: white;
-    padding-top: 80px;
-  }
-  
-  .about-content {
-    max-width: 1024px;
-    margin: 0 auto;
-    padding: 48px 24px;
-  }
-  
-  .about-title {
-    font-size: 32px;
-    font-weight: bold;
-    margin-bottom: 32px;
-  }
-  
-  .about-section {
-    margin-bottom: 32px;
-  }
-  
-  .about-section-title {
-    font-size: 24px;
-    font-weight: 600;
-    margin-bottom: 16px;
-  }
-  
-  .about-text {
-    color: #d1d5db;
-  }
-  
-  .about-list {
-    list-style-type: disc;
-    padding-left: 20px;
-    color: #d1d5db;
-  }
-  
-  .about-list li {
-    margin-bottom: 8px;
-  }
-  
-  .about-link {
-    color: #63b3ed;
-    text-decoration: none;
-  }
-  
-  .about-link:hover {
-    text-decoration: underline;
-  }
-  
+/* About.module.css */
+
+.aboutContainer {
+  min-height: 100vh;
+  background-color: #1a202c;
+  color: white;
+  padding-top: 80px;
+}
+
+.aboutContent {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 48px 24px;
+}
+
+.aboutTitle {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 32px;
+}
+
+.aboutSection {
+  margin-bottom: 32px;
+}
+
+.aboutSectionTitle {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.aboutText {
+  color: #d1d5db;
+}
+
+.aboutList {
+  list-style-type: disc;
+  padding-left: 20px;
+  color: #d1d5db;
+}
+
+.aboutList li {
+  margin-bottom: 8px;
+}
+
+.aboutLink {
+  color: #63b3ed;
+  text-decoration: none;
+}
+
+.aboutLink:hover {
+  text-decoration: underline;
+}
