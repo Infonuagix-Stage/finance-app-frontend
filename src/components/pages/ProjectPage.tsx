@@ -22,6 +22,7 @@ const ProjectPage: React.FC = () => {
   const {
     projects,
     loading,
+    fetchProjects,
     createProject,
     updateProject,
     deleteProject,
@@ -65,10 +66,12 @@ const ProjectPage: React.FC = () => {
       monthlyContribution,
     });
 
+    await fetchProjects();
+
     setCurrentProject(null);
   };
 
-  const handleDeleteClick = (projectId: string) => {
+  const handleDeleteClick = async (projectId: string) => {
     setProjectToDelete(projectId);
     setIsDeleteModalOpen(true);
   };
@@ -78,6 +81,7 @@ const ProjectPage: React.FC = () => {
       await deleteProject(projectToDelete);
       setIsDeleteModalOpen(false);
       setProjectToDelete(null);
+      await fetchProjects();
     }
   };
 
