@@ -25,6 +25,7 @@ html, body {
   color: #edf2f7;
   font-size: 16px;
   line-height: 1.6;
+  font-size: 90%;
 
 }
 button {
@@ -44,3 +45,4 @@ button {
   flex: 1; /* Pushes footer down */
   width: 100%;
 }
+
