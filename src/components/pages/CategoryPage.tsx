@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from "react";
+import React, { useState, ChangeEvent, useEffect } from "react";
 import { useParams, useLocation, Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { ChevronLeft, Edit, Trash2, Plus } from "lucide-react";
@@ -53,6 +53,14 @@ const CategoryPage: React.FC = () => {
     year: currentYear,
     month: currentMonth,
   });
+
+  // État local pour stocker le total calculé
+  const [displayTotal, setDisplayTotal] = useState<number>(0);
+
+  // Mettre à jour le total affiché à chaque fois que les enregistrements ou le total changent
+  useEffect(() => {
+    setDisplayTotal(currentTotal ?? 0);
+  }, [currentTotal, records]);
 
   const filteredRecords = records.filter((rec) => {
     const dateStr = rec.expenseDate || rec.incomeDate;
@@ -116,6 +124,11 @@ const CategoryPage: React.FC = () => {
     setEditingRecord(null);
   };
 
+  // Fonction améliorée pour supprimer un enregistrement
+  const handleDelete = (recordId: string) => {
+    handleDeleteRecord(recordId);
+  };
+
   return (
     <div className={styles.categoryPageContainer}>
       <Link
@@ -139,7 +152,7 @@ const CategoryPage: React.FC = () => {
           <span className={styles.totalLabel}>Total:</span>
           <span className={`${styles.totalAmount} ${
             categoryType === "INCOME" ? styles.incomeAmount : styles.expenseAmount}`}>
-            ${Math.abs(currentTotal ?? 0).toFixed(2)}
+            ${Math.abs(displayTotal).toFixed(2)}
           </span>
         </div>
       </div>
@@ -197,7 +210,7 @@ const CategoryPage: React.FC = () => {
                         </button>
                         <button 
                           onClick={() => 
-                            handleDeleteRecord(
+                            handleDelete(
                               categoryType === "INCOME" 
                                 ? record.incomeId! 
                                 : record.expenseId!
@@ -305,7 +318,10 @@ const CategoryPage: React.FC = () => {
               type="number"
               value={editingRecord.amount}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setEditingRecord({ ...editingRecord, amount: parseFloat(e.target.value) })
+                setEditingRecord({
+                  ...editingRecord,
+                  amount: parseFloat(e.target.value) || 0
+                })
               }
               className={styles.inputField}
             />
