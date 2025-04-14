@@ -25,6 +25,12 @@ const useRecords = ({ userId, categoryId, categoryType, year, month }: UseRecord
   const [records, setRecords] = useState<Record[]>([]);
   const [currentTotal, setCurrentTotal] = useState<number>(0);
 
+  // Fonction utilitaire pour recalculer le total
+  const recalculateTotal = (recordsList: Record[]) => {
+    const total = recordsList.reduce((sum, rec) => sum + Number(rec.amount), 0);
+    setCurrentTotal(total);
+  };
+
   useEffect(() => {
     const fetchRecords = async () => {
       if (!userId || !categoryId || !categoryType || !year || !month) return;
@@ -34,8 +40,7 @@ const useRecords = ({ userId, categoryId, categoryType, year, month }: UseRecord
       );
 
       setRecords(response.data);
-      const total = response.data.reduce((sum, rec) => sum + Number(rec.amount), 0);
-      setCurrentTotal(total);
+      recalculateTotal(response.data);
     };
 
     fetchRecords();
@@ -47,8 +52,9 @@ const useRecords = ({ userId, categoryId, categoryType, year, month }: UseRecord
       recordData
     );
 
-    setRecords((prev) => [...prev, response.data]);
-    setCurrentTotal((prev) => prev + Number(response.data.amount));
+    const newRecords = [...records, response.data];
+    setRecords(newRecords);
+    recalculateTotal(newRecords);
   };
 
   const handleDeleteRecord = async (recordUuid: string) => {
@@ -56,11 +62,12 @@ const useRecords = ({ userId, categoryId, categoryType, year, month }: UseRecord
       `/users/${userId}/categories/${categoryId}/${categoryType === "INCOME" ? "incomes" : "expenses"}/${recordUuid}`
     );
 
-    setRecords((prev) =>
-      prev.filter((rec) =>
-        (categoryType === "INCOME" ? rec.incomeId : rec.expenseId) !== recordUuid
-      )
+    const updatedRecords = records.filter((rec) =>
+      (categoryType === "INCOME" ? rec.incomeId : rec.expenseId) !== recordUuid
     );
+    
+    setRecords(updatedRecords);
+    recalculateTotal(updatedRecords);
   };
 
   const handleEditRecord = async (recordUuid: string, updatedData: Partial<Record>) => {
@@ -74,13 +81,14 @@ const useRecords = ({ userId, categoryId, categoryType, year, month }: UseRecord
   
     const updatedRecord = response.data;
   
-    setRecords((prevRecords) =>
-      prevRecords.map((rec) =>
-        (categoryType === "INCOME" ? rec.incomeId : rec.expenseId) === recordUuid
-          ? updatedRecord
-          : rec
-      )
+    const updatedRecords = records.map((rec) =>
+      (categoryType === "INCOME" ? rec.incomeId : rec.expenseId) === recordUuid
+        ? updatedRecord
+        : rec
     );
+    
+    setRecords(updatedRecords);
+    recalculateTotal(updatedRecords);
   };
   
 
