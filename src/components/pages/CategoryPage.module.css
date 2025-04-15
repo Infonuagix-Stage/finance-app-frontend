@@ -4,7 +4,7 @@
   background: linear-gradient(to bottom right, #1f2937, #2d3748);
   color: #f7fafc;
   padding: 2rem 1rem;
-  padding-top: 6rem; /* Espace pour la navbar */
+  padding-top: 6rem;
 }
 
 /* Header section */
@@ -70,14 +70,6 @@
   font-weight: 700;
 }
 
-.positiveAmount {
-  color: #4ade80;
-}
-
-.negativeAmount {
-  color: #fb7185;
-}
-
 /* Return link */
 .backLink {
   display: inline-flex;
@@ -97,298 +89,6 @@
   background-color: rgba(44, 55, 74, 0.8);
 }
 
-/* Records table */
-.recordsContainer {
-  max-width: 56rem;
-  margin: 0 auto 3rem;
-  background-color: rgba(30, 41, 59, 0.7);
-  border-radius: 1rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  border: 1px solid rgba(113, 128, 150, 0.3);
-  overflow: hidden;
-  position: relative; /* Pour le bouton d'ajout dans l'en-tête du tableau */
-}
-
-.recordsTable {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.tableHeader {
-  background-color: rgba(44, 55, 74, 0.9);
-  text-align: left;
-  border-bottom: 1px solid rgba(113, 128, 150, 0.3);
-  position: relative; /* Pour le bouton d'ajout dans l'en-tête du tableau */
-}
-
-.tableHeader th {
-  padding: 1rem;
-  font-weight: 600;
-  color: #e2e8f0;
-}
-
-.recordRow {
-  border-bottom: 1px solid rgba(74, 85, 104, 0.3);
-  transition: background-color 0.2s ease;
-}
-
-.recordRow:last-child {
-  border-bottom: none;
-}
-
-.recordRow:hover {
-  background-color: rgba(44, 55, 74, 0.7);
-}
-
-.recordRow td {
-  padding: 0.875rem 1rem;
-}
-
-.recordDescription {
-  font-weight: 500;
-  color: #f7fafc;
-}
-
-.recordAmount {
-  font-weight: 600;
-  text-align: right;
-}
-
-.recordActions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem;
-}
-
-.noRecords {
-  padding: 2.5rem 1rem;
-  text-align: center;
-  color: #a0aec0;
-}
-
-.noRecords p {
-  font-style: italic;
-  margin-bottom: 1rem;
-}
-
-/* Action buttons */
-.actionButton {
-  background: none;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
-  cursor: pointer;
-  color: #a0aec0;
-  transition: all 0.2s ease;
-}
-
-.actionButton:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  color: #e2e8f0;
-}
-
-.editButton:hover {
-  color: #4ade80;
-}
-
-.deleteButton:hover {
-  color: #fb7185;
-}
-
-/* Add button */
-.addButtonContainer {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  z-index: 50;
-}
-
-.addButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 3.5rem;
-  height: 3.5rem;
-  border-radius: 50%;
-  color: #1a202c;
-  border: none;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  cursor: pointer;
-  font-size: 1.75rem;
-  transition: all 0.3s ease;
-  z-index: 50;
-}
-
-.incomeButton {
-  background-color: #4ade80;
-}
-
-.expenseButton {
-  background-color: #fb7185;
-}
-
-.addButton:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
-  opacity: 0.9;
-}
-
-/* Add record button in table header */
-.tableAddButton {
-  position: absolute;
-  top: 0.75rem;
-  right: 1rem;
-  padding: 0.35rem 0.75rem;
-  border-radius: 0.375rem;
-  border: none;
-  font-weight: 600;
-  font-size: 0.875rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  color: #1a202c;
-}
-
-.incomeTableButton {
-  background-color: #4ade80;
-}
-
-.expenseTableButton {
-  background-color: #fb7185;
-}
-
-.tableAddButton:hover {
-  transform: translateY(-1px);
-  opacity: 0.9;
-}
-
-.emptyStateAddButton {
-  display: inline-block;
-  margin-top: 1rem;
-  padding: 0.75rem 1.5rem;
-  color: #1a202c;
-  border: none;
-  border-radius: 0.5rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.incomeEmptyButton {
-  background-color: #4ade80;
-}
-
-.expenseEmptyButton {
-  background-color: #fb7185;
-}
-
-.emptyStateAddButton:hover {
-  opacity: 0.9;
-  transform: translateY(-2px);
-}
-
-/* Form modal */
-.modalOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(3px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 50;
-}
-
-.modalContent {
-  width: 90%;
-  max-width: 500px;
-  background-color: #1a202c;
-  border-radius: 1rem;
-  border: 1px solid rgba(113, 128, 150, 0.3);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-  padding: 1.5rem;
-  box-sizing: border-box;
-}
-
-.modalTitle {
-  font-size: 1.5rem;
-  font-weight: 700;
-  text-align: center;
-  margin-bottom: 1.5rem;
-  color: #f7fafc;
-}
-
-.inputField {
-  display: block;
-  width: 100%;
-  padding: 0.875rem;
-  margin-bottom: 1rem;
-  border: 1px solid rgba(113, 128, 150, 0.3);
-  border-radius: 0.5rem;
-  background-color: rgba(30, 41, 59, 0.5);
-  color: #f7fafc;
-  font-size: 1rem;
-  transition: border-color 0.2s ease;
-  box-sizing: border-box;
-}
-
-.inputField:focus {
-  outline: none;
-  border-color: #ffffff;
-}
-
-.modalActions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 1rem;
-  margin-top: 1.5rem;
-}
-
-.cancelButton, 
-.confirmButton {
-  padding: 0.75rem 1.25rem;
-  border-radius: 0.5rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.cancelButton {
-  background-color: transparent;
-  color: #a0aec0;
-  border: 1px solid rgba(160, 174, 192, 0.3);
-}
-
-.cancelButton:hover {
-  background-color: rgba(160, 174, 192, 0.1);
-}
-
-.confirmButton {
-  border: none;
-  color: #1a202c;
-}
-
-.incomeConfirmButton {
-  background-color: #4ade80;
-}
-
-.expenseConfirmButton {
-  background-color: #fb7185;
-}
-
-.confirmButton:hover {
-  opacity: 0.9;
-}
-
 /* Responsive */
 @media (max-width: 768px) {
   .categoryName {
@@ -402,33 +102,28 @@
   .totalAmount {
     font-size: 1.5rem;
   }
-  
-  .tableHeader th:nth-child(3) {
-    display: none;
-  }
-  
-  .recordRow td:nth-child(3) {
-    display: none;
-  }
-  
-  .recordActions {
-    flex-direction: column;
-    gap: 0.25rem;
-  }
-  
-  .tableAddButton {
-    display: none; /* Masquer sur mobile, utiliser le bouton flottant à la place */
-  }
 }
 
 @media (max-width: 480px) {
-  .modalActions {
-    flex-direction: column-reverse;
-    gap: 0.5rem;
+  .categoryPageContainer {
+    padding: 1.5rem 0.75rem;
+    padding-top: 5rem;
   }
   
-  .cancelButton, 
-  .confirmButton {
-    width: 100%;
+  .categoryHeader {
+    padding: 1.25rem 1rem;
+  }
+  
+  .categoryName {
+    font-size: 1.25rem;
+  }
+  
+  .monthDisplay {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .totalAmount {
+    font-size: 1.25rem;
   }
 }

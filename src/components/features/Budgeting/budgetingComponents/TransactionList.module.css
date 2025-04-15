@@ -1,0 +1,244 @@
+/* Records table */
+.recordsContainer {
+    max-width: 56rem;
+    margin: 0 auto 3rem;
+    background-color: rgba(30, 41, 59, 0.7);
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(113, 128, 150, 0.3);
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .recordsTable {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .tableHeader {
+    background-color: rgba(44, 55, 74, 0.9);
+    text-align: left;
+    border-bottom: 1px solid rgba(113, 128, 150, 0.3);
+    position: relative;
+  }
+  
+  .tableHeader th {
+    padding: 1rem;
+    font-weight: 600;
+    color: #e2e8f0;
+  }
+  
+  .recordRow {
+    border-bottom: 1px solid rgba(74, 85, 104, 0.3);
+    transition: background-color 0.2s ease;
+  }
+  
+  .recordRow:last-child {
+    border-bottom: none;
+  }
+  
+  .recordRow:hover {
+    background-color: rgba(44, 55, 74, 0.7);
+  }
+  
+  .recordRow td {
+    padding: 0.875rem 1rem;
+  }
+  
+  .recordDescription {
+    font-weight: 500;
+    color: #f7fafc;
+  }
+  
+  .recordAmount {
+    font-weight: 600;
+    text-align: right;
+  }
+  
+  .incomeAmount {
+    color: #4ade80;
+  }
+  
+  .expenseAmount {
+    color: #fb7185;
+  }
+  
+  .noRecords {
+    padding: 2.5rem 1rem;
+    text-align: center;
+    color: #a0aec0;
+  }
+  
+  .noRecords p {
+    font-style: italic;
+    margin-bottom: 1rem;
+  }
+  
+  /* Action buttons */
+  .recordActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
+  
+  .actionButton {
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    cursor: pointer;
+    color: #a0aec0;
+    transition: all 0.2s ease;
+  }
+  
+  .actionButton:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #e2e8f0;
+  }
+  
+  .editButton:hover {
+    color: #4ade80;
+  }
+  
+  .deleteButton:hover {
+    color: #fb7185;
+  }
+  
+  /* Add button */
+  .addButtonContainer {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 50;
+  }
+  
+  .addButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    color: #1a202c;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    font-size: 1.75rem;
+    transition: all 0.3s ease;
+    z-index: 50;
+  }
+  
+  .incomeButton {
+    background-color: #4ade80;
+  }
+  
+  .expenseButton {
+    background-color: #fb7185;
+  }
+  
+  .addButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+    opacity: 0.9;
+  }
+  
+  /* Add record button in table header */
+  .tableAddButton {
+    position: absolute;
+    top: 0.75rem;
+    right: 1rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 0.375rem;
+    border: none;
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: #1a202c;
+  }
+  
+  .incomeTableButton {
+    background-color: #4ade80;
+  }
+  
+  .expenseTableButton {
+    background-color: #fb7185;
+  }
+  
+  .tableAddButton:hover {
+    transform: translateY(-1px);
+    opacity: 0.9;
+  }
+  
+  .emptyStateAddButton {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.75rem 1.5rem;
+    color: #1a202c;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .incomeEmptyButton {
+    background-color: #4ade80;
+  }
+  
+  .expenseEmptyButton {
+    background-color: #fb7185;
+  }
+  
+  .emptyStateAddButton:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .tableHeader th:nth-child(3) {
+      display: none;
+    }
+    
+    .recordRow td:nth-child(3) {
+      display: none;
+    }
+    
+    .recordActions {
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    
+    .tableAddButton {
+      display: none; /* Masquer sur mobile, utiliser le bouton flottant à la place */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .recordsContainer {
+      margin-bottom: 2rem;
+    }
+    
+    .recordRow td {
+      padding: 0.75rem 0.5rem;
+    }
+    
+    .noRecords {
+      padding: 2rem 0.75rem;
+    }
+    
+    .addButton {
+      width: 3rem;
+      height: 3rem;
+      bottom: 1.5rem;
+      right: 1.5rem;
+    }
+  }
