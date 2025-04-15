@@ -77,3 +77,72 @@
     font-size: 0.875rem;
   }
 }
+
+/* Apparence des inputs type checkbox */
+.sectionText label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.sectionText input[type="checkbox"] {
+  appearance: none;
+  width: 40px;
+  height: 20px;
+  background: #4a5568;
+  border-radius: 999px;
+  position: relative;
+  transition: background 0.3s ease;
+}
+
+.sectionText input[type="checkbox"]::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+
+.sectionText input[type="checkbox"]:checked {
+  background: #805ad5;
+}
+
+.sectionText input[type="checkbox"]:checked::before {
+  transform: translateX(20px);
+}
+
+/* Boutons d’exportation */
+.sectionText button {
+  margin: 8px 8px 0 0;
+  padding: 10px 16px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 0.75rem;
+  background: linear-gradient(to right, #4f46e5, #805ad5);
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.sectionText button:hover {
+  background: linear-gradient(to right, #5b4ded, #9072f5);
+}
+
+/* Bouton de suppression */
+.sectionText button[style*="color: red"] {
+  background: linear-gradient(to right, #e53e3e, #c53030);
+  color: white !important;
+  margin-top: 12px;
+}
+
+.sectionText button[style*="color: red"]:hover {
+  background: linear-gradient(to right, #f56565, #e53e3e);
+}
+
