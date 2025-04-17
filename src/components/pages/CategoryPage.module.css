@@ -4,7 +4,7 @@
   background: linear-gradient(to bottom right, var(--bg-alt2), var(--alt-bg));
   color: var(--text);
   padding: 2rem 1rem;
-  padding-top: 6rem; /* Espace pour la navbar */
+  padding-top: 6rem;
 }
 
 /* Header section */
@@ -68,14 +68,6 @@
 .totalAmount {
   font-size: 1.75rem;
   font-weight: 700;
-}
-
-.positiveAmount {
-  color: #4ade80;
-}
-
-.negativeAmount {
-  color: #fb7185;
 }
 
 /* Return link */
@@ -402,33 +394,28 @@
   .totalAmount {
     font-size: 1.5rem;
   }
-  
-  .tableHeader th:nth-child(3) {
-    display: none;
-  }
-  
-  .recordRow td:nth-child(3) {
-    display: none;
-  }
-  
-  .recordActions {
-    flex-direction: column;
-    gap: 0.25rem;
-  }
-  
-  .tableAddButton {
-    display: none; /* Masquer sur mobile, utiliser le bouton flottant à la place */
-  }
 }
 
 @media (max-width: 480px) {
-  .modalActions {
-    flex-direction: column-reverse;
-    gap: 0.5rem;
+  .categoryPageContainer {
+    padding: 1.5rem 0.75rem;
+    padding-top: 5rem;
   }
   
-  .cancelButton, 
-  .confirmButton {
-    width: 100%;
+  .categoryHeader {
+    padding: 1.25rem 1rem;
+  }
+  
+  .categoryName {
+    font-size: 1.25rem;
+  }
+  
+  .monthDisplay {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .totalAmount {
+    font-size: 1.25rem;
   }
 }
