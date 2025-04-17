@@ -1,8 +1,8 @@
 /* Base styles */
 .categoryPageContainer {
   min-height: 100vh;
-  background: linear-gradient(to bottom right, #1f2937, #2d3748);
-  color: #f7fafc;
+  background: linear-gradient(to bottom right, var(--bg-alt2), var(--alt-bg));
+  color: var(--text);
   padding: 2rem 1rem;
   padding-top: 6rem; /* Espace pour la navbar */
 }
@@ -23,7 +23,7 @@
   font-size: 1.75rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
-  color: #f7fafc;
+  color: var(--text);
 }
 
 /* Styles pour les catégories de revenus */
@@ -62,7 +62,7 @@
 .totalLabel {
   font-size: 1.125rem;
   font-weight: 500;
-  color: #cbd5e0;
+  color: var(--secondary-text);
 }
 
 .totalAmount {
@@ -163,7 +163,7 @@
 .noRecords {
   padding: 2.5rem 1rem;
   text-align: center;
-  color: #a0aec0;
+  color: var(--muted);
 }
 
 .noRecords p {

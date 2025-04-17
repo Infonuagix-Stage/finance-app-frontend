@@ -1,6 +1,6 @@
 .profileContainer {
   min-height: 100vh;
-  background: linear-gradient(135deg, #2d3748, #1a202c);
+  background: linear-gradient(135deg, var(--alt-bg), var(--bg));
   display: flex;
   justify-content: center;
   padding: 20px;
@@ -9,7 +9,7 @@
 .profileContent {
   width: 100%;
   max-width: 600px;
-  color: white;
+  color: var(--text);
   padding: 32px;
   border-radius: 12px;
 }
@@ -37,7 +37,7 @@
 }
 
 .formCard {
-  background: linear-gradient(135deg, #2d3748, #1f2937);
+  background: linear-gradient(135deg, var(--alt-bg), var(--bg-alt2));
   border-radius: 12px;
   padding: 26px;
   padding-right: 56px;
@@ -71,17 +71,17 @@
 
 .formInput {
   padding: 12px 16px;
-  border: 1px solid #4a5568;
+  border: 1px solid var(--secondary-bg);
   border-radius: 8px;
-  background-color: #1f2937;
-  color: white;
+  background-color: var(--bg-alt2);
+  color: var(--text);
   font-size: 1rem;
   outline: none;
   transition: border-color 0.2s;
 }
 
 .formInput:focus {
-  border-color: #3b82f6;
+  border-color: var(--primary);
 }
 
 .submitBtn {
@@ -98,5 +98,5 @@
 }
 
 .submitBtn:hover {
-  background-color: #2563eb;
+  background-color: var(--primary-hover);
 }

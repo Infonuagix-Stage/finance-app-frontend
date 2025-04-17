@@ -1,6 +1,6 @@
 .logout-button {
-    background-color: #4299e1; /* Equivalent to bg-blue-500 */
-    color: white;
+    background-color: var(--primary);
+    color: var(--text);
     font-weight: bold;
     padding: 0.5rem 1rem; /* Equivalent to py-2 px-4 */
     border: none;
@@ -10,6 +10,6 @@
   }
   
   .logout-button:hover {
-    background-color: #2b6cb0; /* Equivalent to hover:bg-blue-700 */
+    background-color: var(--primary-hover);
   }
   

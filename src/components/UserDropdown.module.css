@@ -17,7 +17,7 @@
   position: fixed;
   top: 0;
   right: 0;
-  background-color: #24354d;
+  background-color: var(--bg-alt2);
   box-shadow: -2px 0 6px rgba(0, 0, 0, 0.2);
   z-index: 1000;
   display: flex;
@@ -50,7 +50,7 @@
   align-items: center;
   padding: 16px 20px;
   border-bottom: 1px solid #e1e1e1;
-  background-color: #24354d;
+  background-color: var(--bg-alt2);
 }
 
 .profileBlock {
@@ -69,7 +69,7 @@
 .profileName {
   font-size: 16px;
   font-weight: 500;
-  color: #ffffff;
+  color: var(--text);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -80,7 +80,7 @@
   background: transparent;
   border: none;
   cursor: pointer;
-  color: #ffffff;
+  color: var(--text);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -104,7 +104,7 @@
   display: flex;
   align-items: center;
   padding: 10px 20px;
-  color: #fcfcfc;
+  color: var(--text);
   text-decoration: none;
 }
 

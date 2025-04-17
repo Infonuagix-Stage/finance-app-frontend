@@ -5,9 +5,9 @@
   top: 0;
   left: 0;
   width: 100%;
-  background: linear-gradient(to right, #1a202c, #2d3748, #1a202c);
+  background: linear-gradient(to right, var(--bg), var(--alt-bg), var(--bg));
   backdrop-filter: blur(10px);
-  border-bottom: 1px solid #4a5568;
+  border-bottom: 1px solid var(--secondary-bg);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 50;
 }
@@ -24,7 +24,7 @@
 }
 
 .navbarLogo {
-  color: white;
+  color: var(--text);
   font-size: 27px;
   font-weight: 800;
   letter-spacing: 1px;
@@ -32,7 +32,7 @@
 }
 
 .navbarLogo span {
-  color: #63b3ed;
+  color: var(--accent);
 }
 
 .navbarLinks {
@@ -42,13 +42,13 @@
 }
 
 .navbarLink {
-  color: #d1d5db;
+  color: var(--secondary-text);
   text-decoration: none;
   transition: color 0.3s ease-in-out;
 }
 
 .navbarLink:hover {
-  color: #63b3ed;
+  color: var(--accent);
 }
 
 .authButtons {
@@ -68,22 +68,22 @@
 }
 
 .primary {
-  background-color: #63b3ed;
-  color: white;
+  background-color: var(--accent);
+  color: var(--text);
 }
 
 .primary:hover {
-  background-color: #4299e1;
+  background-color: var(--primary);
 }
 
 .secondary {
   background: none;
-  border: 1px solid #4a5568;
-  color: #d1d5db;
+  border: 1px solid var(--secondary-bg);
+  color: var(--secondary-text);
 }
 
 .secondary:hover {
-  background-color: #4a5568;
+  background-color: var(--secondary-bg);
 }
 
 .profileImage {
@@ -109,7 +109,7 @@
 
 .mobileMenuButton {
   display: none;
-  color: #d1d5db;
+  color: var(--secondary-text);
   font-size: 22px;
   cursor: pointer;
   background: none;
@@ -120,15 +120,15 @@
 
 .mobileMenu {
   display: none;
-  background-color: #2d3748;
-  border-top: 1px solid #4a5568;
+  background-color: var(--alt-bg);
+  border-top: 1px solid var(--secondary-bg);
   padding: 16px;
   margin-top: 64px;
 }
 
 .mobileLink {
   display: block;
-  color: #d1d5db;
+  color: var(--secondary-text);
   text-decoration: none;
   margin-bottom: 12px;
   font-size: 16px;
@@ -136,7 +136,7 @@
 }
 
 .mobileLink:hover {
-  color: #63b3ed;
+  color: var(--accent);
 }
 
 @media (max-width: 850px) {

@@ -2,8 +2,8 @@
 
 .aboutContainer {
   min-height: 100vh;
-  background-color: #1a202c;
-  color: white;
+  background-color: var(--bg);
+  color: var(--text);
   padding-top: 80px;
 }
 
@@ -30,13 +30,13 @@
 }
 
 .aboutText {
-  color: #d1d5db;
+  color: var(--secondary-text);
 }
 
 .aboutList {
   list-style-type: disc;
   padding-left: 20px;
-  color: #d1d5db;
+  color: var(--secondary-text);
 }
 
 .aboutList li {
@@ -44,7 +44,7 @@
 }
 
 .aboutLink {
-  color: #63b3ed;
+  color: var(--accent);
   text-decoration: none;
 }
 
