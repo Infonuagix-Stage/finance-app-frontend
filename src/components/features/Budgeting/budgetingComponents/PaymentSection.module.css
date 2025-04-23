@@ -1,0 +1,264 @@
+.categoryTitle {
+    font-size: 1.875rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+  }
+  
+  .debtTitle {
+    background: linear-gradient(to right, #f56565, #ed64a6);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+  
+  .projectTitle {
+    background: linear-gradient(to right, #667eea, #764ba2);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+  
+  .sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .sectionMonthlySummary {
+    background-color: rgba(45,55,72,0.7);
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .monthlyLabel {
+    color: #a0aec0;
+    font-size: 0.875rem;
+  }
+  
+  .monthlyAmount {
+    color: #fff;
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+  
+  /* État vide */
+  .emptySection {
+    background-color: rgba(45,55,72,0.6);
+    border-radius: 0.75rem;
+    padding: 2rem;
+    text-align: center;
+    margin-top: 1rem;
+  }
+  
+  .emptyAddButton {
+    margin-top: 1rem;
+    background-color: rgba(66, 153, 225, 0.2);
+    border: 2px dashed rgba(66, 153, 225, 0.5);
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .emptyAddButton:hover {
+    background-color: rgba(66, 153, 225, 0.3);
+  }
+  
+  /* CAROUSEL AMÉLIORÉ */
+  .carouselContainer {
+    margin-bottom: 2rem;
+  }
+  
+  .pageNavigationWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    width: 100%;
+    margin-bottom: 1rem;
+    padding: 1rem;
+  }
+  
+  .carouselWrapper {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .carouselTrack {
+    display: flex;
+    transition: transform 0.3s ease-in-out;
+    width: 100%;
+  }
+  
+  .carouselPage {
+    min-width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, minmax(110px, auto));
+    gap: 1rem;
+  }
+  
+  .arrowButton {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(255,255,255,0.1);
+    border: none;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+  }
+  
+  .arrowButton:hover:not(.disabled) {
+    background-color: rgba(255,255,255,0.2);
+    transform: scale(1.05);
+  }
+  
+  .arrowButton.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .paginationDots {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  
+  .paginationDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: rgba(255,255,255,0.3);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .paginationDot:hover {
+    background-color: rgba(255,255,255,0.5);
+  }
+  
+  .activeDot {
+    background-color: #fff;
+    transform: scale(1.2);
+  }
+  
+  .addCategoryButton {
+    background-color: rgba(74,85,104,0.5);
+    border-radius: 0.75rem;
+    color: #fff;
+    font-weight: 700;
+    border: 2px dashed rgba(255,255,255,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    transition: all 0.3s ease;
+    min-height: 110px;
+    cursor: pointer;
+    margin: 0.25rem;
+  }
+  
+  .addCategoryButton:hover {
+    background-color: rgba(74,85,104,0.8);
+    border-color: rgba(255,255,255,0.5);
+    transform: scale(0.95);
+  }
+  
+  .addIcon {
+    font-size: 2.5rem;
+    line-height: 1;
+  }
+  
+  /* RESPONSIVE */
+  @media (max-width: 1200px) {
+    .carouselPage {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  @media (max-width: 992px) {
+    .carouselPage {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .categoryTitle {
+      font-size: 1.75rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .sectionHeader {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+    
+    .sectionMonthlySummary {
+      align-self: flex-end;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .carouselPage {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+    }
+    
+    .addCategoryButton {
+      min-height: 100px;
+    }
+    
+    .arrowButton {
+      width: 36px;
+      height: 36px;
+    }
+    
+    .categoryTitle {
+      font-size: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+    
+    .paginationDots {
+      margin-top: 0.75rem;
+    }
+    
+    .sectionMonthlySummary {
+      padding: 0.35rem 0.75rem;
+    }
+    
+    .monthlyAmount {
+      font-size: 1rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .carouselPage {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+    
+    .addCategoryButton {
+      min-height: 90px;
+    }
+    
+    .arrowButton {
+      width: 32px;
+      height: 32px;
+    }
+  }
