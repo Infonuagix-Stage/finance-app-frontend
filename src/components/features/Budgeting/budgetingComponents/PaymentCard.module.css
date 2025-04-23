@@ -1,0 +1,183 @@
+.paymentCard {
+    position: relative;
+    background-color: rgba(45,55,72,0.8);
+    border-radius: 0.75rem;
+    border: 1px solid #4a5568;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    padding: 1rem;
+    transition: all 0.3s ease;
+    min-height: 110px;
+    display: flex;
+    flex-direction: column;
+    margin: 0.25rem;
+  }
+  
+  .paymentCard:hover {
+    background-color: rgba(74,85,104,0.9);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 20px rgba(0,0,0,0.2);
+  }
+  
+  .debtCard {
+    border-left: 3px solid #f56565;
+  }
+  
+  .projectCard {
+    border-left: 3px solid #667eea;
+  }
+  
+  .cardContent {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .paymentName {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .paymentDetails {
+    margin-bottom: 0.5rem;
+  }
+  
+  .paymentAmount {
+    font-size: 0.875rem;
+    color: #e2e8f0;
+    margin-bottom: 0.25rem;
+  }
+  
+  .paymentDueDate, .paymentPriority {
+    font-size: 0.75rem;
+    color: #a0aec0;
+  }
+  
+  .monthlyAmount {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #cbd5e0;
+    margin-bottom: 0.5rem;
+    padding: 0.25rem 0;
+    border-top: 1px dotted rgba(160, 174, 192, 0.3);
+  }
+  
+  /* Barre de progression */
+  .progressBarContainer {
+    position: relative;
+    width: 100%;
+    height: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 0.25rem;
+  }
+  
+  .progressBar {
+    height: 100%;
+    border-radius: 6px;
+    transition: width 0.5s ease;
+  }
+  
+  .progressText {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+  }
+  
+  /* BOUTON "..." + MENU */
+  .cardMenu {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+  
+  .threeDotButton {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0.25rem;
+    color: #cbd5e0;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+  }
+  
+  .threeDotButton:hover {
+    background-color: rgba(255,255,255,0.1);
+    color: #fff;
+  }
+  
+  .threeDotMenu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #2d3748;
+    border: 1px solid #4a5568;
+    border-radius: 6px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    padding: 0.5rem 0;
+    z-index: 100;
+    min-width: 120px;
+  }
+  
+  .menuItem {
+    background: none;
+    border: none;
+    color: #fff;
+    text-align: left;
+    padding: 0.5rem 1rem;
+    width: 100%;
+    cursor: pointer;
+    font-size: 0.875rem;
+  }
+  
+  .menuItem:hover {
+    background-color: #4a5568;
+  }
+  
+  .deleteItem {
+    color: #f56565;
+  }
+  
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .paymentCard {
+      min-height: 100px;
+    }
+    
+    .paymentName {
+      font-size: 1rem;
+    }
+    
+    .paymentAmount {
+      font-size: 0.8rem;
+    }
+    
+    .monthlyAmount {
+      font-size: 0.8rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .paymentCard {
+      min-height: 90px;
+    }
+    
+    .progressBarContainer {
+      height: 8px;
+    }
+  }
