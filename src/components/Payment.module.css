@@ -46,7 +46,7 @@
   background: linear-gradient(to bottom right, var(--alt-bg), var(--secondary-bg));
   padding: 1.5rem;
   border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px var(--overlay-bg);
   border: 1px solid rgba(160, 174, 192, 0.5);
   transition: transform 0.3s, border-color 0.3s;
 }
@@ -87,7 +87,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--overlay-bg);
   backdrop-filter: blur(4px);
 }
 
@@ -97,7 +97,7 @@
   border-radius: 12px;
   width: 400px;
   text-align: center;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 10px var(--overlay-bg);
 }
 
 .modalTitle {

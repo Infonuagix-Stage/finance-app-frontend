@@ -4,7 +4,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0,0,0,0.6);
+    background-color: var(--overlay-bg);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -12,7 +12,7 @@
   }
   
   .modalContent {
-    background-color: #1a202c;
+    background-color: var(--card-bg);
     padding: 2rem;
     border-radius: 1rem;
     width: 90%;
@@ -31,9 +31,9 @@
     padding: 10px;
     margin-bottom: 1rem;
     border-radius: 6px;
-    background-color: #2d3748;
-    color: #fff;
-    border: 1px solid #4a5568;
+    background-color: var(--secondary-bg);
+    color: var(--text);
+    border: 1px solid var(--gray-600);
   }
   
   .modalTextarea {
@@ -57,7 +57,7 @@
   
   .cancelBtn {
     background-color: #4a5568;
-    color: #fff;
+    color: var(--text);
   }
   
   .cancelBtn:hover {
@@ -66,7 +66,7 @@
   
   .addBtn {
     background-color: #48bb78;
-    color: #fff;
+    color: var(--text);
   }
   
   .addBtn:hover {

@@ -13,7 +13,7 @@
   margin: 0 auto 2rem;
   background-color: rgba(30, 41, 59, 0.7);
   border-radius: 1rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px var(--overlay-bg);
   padding: 1.5rem;
   border: 1px solid rgba(113, 128, 150, 0.3);
   text-align: center;
@@ -95,7 +95,7 @@
   margin: 0 auto 3rem;
   background-color: rgba(30, 41, 59, 0.7);
   border-radius: 1rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px var(--overlay-bg);
   border: 1px solid rgba(113, 128, 150, 0.3);
   overflow: hidden;
   position: relative; /* Pour le bouton d'ajout dans l'en-tête du tableau */
@@ -208,7 +208,7 @@
   border-radius: 50%;
   color: #1a202c;
   border: none;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 12px var(--overlay-bg);
   cursor: pointer;
   font-size: 1.75rem;
   transition: all 0.3s ease;
@@ -225,7 +225,7 @@
 
 .addButton:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 6px 16px var(--overlay-bg);
   opacity: 0.9;
 }
 
@@ -292,7 +292,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: var(--overlay-bg);
   backdrop-filter: blur(3px);
   display: flex;
   align-items: center;
@@ -306,7 +306,7 @@
   background-color: #1a202c;
   border-radius: 1rem;
   border: 1px solid rgba(113, 128, 150, 0.3);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 25px var(--overlay-bg);
   padding: 1.5rem;
   box-sizing: border-box;
 }
@@ -335,7 +335,7 @@
 
 .inputField:focus {
   outline: none;
-  border-color: #ffffff;
+  border-color: var(--text);
 }
 
 .modalActions {

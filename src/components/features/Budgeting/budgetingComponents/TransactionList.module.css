@@ -4,7 +4,7 @@
     margin: 0 auto 3rem;
     background-color: rgba(30, 41, 59, 0.7);
     border-radius: 1rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 12px var(--overlay-bg);
     border: 1px solid rgba(113, 128, 150, 0.3);
     overflow: hidden;
     position: relative;
@@ -125,7 +125,7 @@
     border-radius: 50%;
     color: #1a202c;
     border: none;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 12px var(--overlay-bg);
     cursor: pointer;
     font-size: 1.75rem;
     transition: all 0.3s ease;
@@ -142,7 +142,7 @@
   
   .addButton:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 6px 16px var(--overlay-bg);
     opacity: 0.9;
   }
   

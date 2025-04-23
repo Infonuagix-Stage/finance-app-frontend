@@ -56,24 +56,29 @@ const Dashboard: React.FC = () => {
     ],
   };
 
+  // Dynamically retrieve theme colors from CSS variables
+  const root = getComputedStyle(document.documentElement);
+  const textColor = root.getPropertyValue('--text').trim();
+  const secondaryText = root.getPropertyValue('--secondary-text').trim();
+
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
       legend: {
         position: "top" as const,
-        labels: { color: "#fff" },
+        labels: { color: textColor },
       },
       title: { display: false },
     },
     scales: {
       x: {
         grid: { display: false },
-        ticks: { color: "#fff" },
+        ticks: { color: textColor },
       },
       y: {
-        grid: { color: "#4A5568" },
-        ticks: { color: "#fff" },
+        grid: { color: secondaryText },
+        ticks: { color: textColor },
       },
     },
   };

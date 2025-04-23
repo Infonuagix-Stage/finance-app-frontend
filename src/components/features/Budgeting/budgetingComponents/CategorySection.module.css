@@ -102,14 +102,14 @@
   }
   
   .activeDot {
-    background-color: #fff;
+    background-color: var(--text);
     transform: scale(1.2);
   }
   
   .addCategoryButton {
     background-color: rgba(74,85,104,0.5);
     border-radius: 0.75rem;
-    color: #fff;
+    color: var(--text);
     font-weight: 700;
     border: 2px dashed rgba(255,255,255,0.3);
     display: flex;

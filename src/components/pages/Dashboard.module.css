@@ -4,6 +4,9 @@
   color: var(--text);
   padding: 32px;
 }
+html.light .dashboardContainer {
+  background: var(--secondary-bg);
+}
 
 .dashboardContent {
   max-width: 1280px;
@@ -22,7 +25,7 @@
   background-color: var(--alt-bg);
   padding: 24px;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 8px var(--overlay-bg);
   margin-bottom: 32px;
 }
 
@@ -63,5 +66,5 @@
   background-color: var(--alt-bg);
   padding: 24px;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 8px var(--overlay-bg);
 }
