@@ -21,7 +21,7 @@ const BudgetHeader: React.FC<BudgetHeaderProps> = ({
   totalExpense,
   globalBalance,
 }) => {
-  const { t } = useTranslation("budgeting");
+  const { t } = useTranslation();
 
   const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
   const formattedMonth = capitalize(
