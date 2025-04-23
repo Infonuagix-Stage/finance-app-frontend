@@ -3,6 +3,8 @@ import { useLocation } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useBudgetContext } from "../../context/BudgetContext";
 import useCategories from "../../hooks/useCategories";
+import { useDebts } from "../../hooks/useDebts";
+import { useProjects } from "../../hooks/useProjects";
 import { useTranslation } from "react-i18next";
 import i18n from "i18next";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
@@ -41,22 +43,47 @@ const BudgetingPage: React.FC = () => {
   // État pour conserver l'ordre des catégories
   const [categoryOrder, setCategoryOrder] = useState<string[]>([]);
 
-  // États pour les dettes
-  const [debts, setDebts] = useState<DebtItem[]>([]);
+  // Utilisation des hooks pour les dettes et projets
   const [isDebtModalVisible, setIsDebtModalVisible] = useState(false);
   const [editingDebt, setEditingDebt] = useState<DebtItem | null>(null);
+  const { 
+    debts, 
+    loading: debtsLoading, 
+    error: debtsError, 
+    createDebt, 
+    updateDebt, 
+    deleteDebt 
+  } = useDebts();
 
   // États pour les projets
-  const [projects, setProjects] = useState<ProjectItem[]>([]);
   const [isProjectModalVisible, setIsProjectModalVisible] = useState(false);
   const [editingProject, setEditingProject] = useState<ProjectItem | null>(null);
+  const {
+    projects,
+    loading: projectsLoading,
+    error: projectsError,
+    createProject,
+    updateProject,
+    deleteProject
+  } = useProjects();
+
+  // Mappage des projets au format ProjectItem
+  const mappedProjects: ProjectItem[] = projects.map(project => ({
+    projectId: project.id,
+    name: project.name,
+    targetAmount: project.targetAmount || 0,
+    savedAmount: project.savedAmount || 0,
+    deadline: project.deadline || '',
+    priority: project.priority || 'MEDIUM',
+    monthlyContribution: project.monthlyContribution || 0
+  }));
 
   // Pagination pour les dettes
   const debtPages = chunkArray(debts, 8);
   const [debtPageIndex, setDebtPageIndex] = useState(0);
 
   // Pagination pour les projets
-  const projectPages = chunkArray(projects, 8);
+  const projectPages = chunkArray(mappedProjects, 8);
   const [projectPageIndex, setProjectPageIndex] = useState(0);
 
   const previousMonth = () =>
@@ -92,70 +119,11 @@ const BudgetingPage: React.FC = () => {
     fetchCategories,
   } = useCategories(userId, currentDate);
 
-  // Fetch dettes et projets
-  useEffect(() => {
-    const fetchDebtsAndProjects = async () => {
-      try {
-        // Simulation de chargement des dettes depuis une API
-        // À remplacer par vos appels API réels
-        const mockDebts: DebtItem[] = [
-          {
-            debtId: "debt1",
-            creditor: "Prêt Immobilier",
-            amountOwed: 150000,
-            amountPaid: 50000,
-            dueDate: "2030-01-01",
-            monthlyPayment: 750,
-            status: "ACTIVE"
-          },
-          {
-            debtId: "debt2",
-            creditor: "Prêt Auto",
-            amountOwed: 20000,
-            amountPaid: 15000,
-            dueDate: "2026-05-01",
-            monthlyPayment: 400,
-            status: "ACTIVE"
-          }
-        ];
-        
-        // Simulation de chargement des projets depuis une API
-        const mockProjects: ProjectItem[] = [
-          {
-            projectId: "proj1",
-            name: "Vacances été",
-            targetAmount: 3000,
-            savedAmount: 1200,
-            deadline: "2025-06-01",
-            priority: "MEDIUM",
-            monthlyContribution: 300
-          },
-          {
-            projectId: "proj2",
-            name: "Rénovation cuisine",
-            targetAmount: 8000,
-            savedAmount: 2500,
-            deadline: "2025-12-01",
-            priority: "HIGH",
-            monthlyContribution: 500
-          }
-        ];
-        
-        setDebts(mockDebts);
-        setProjects(mockProjects);
-      } catch (error) {
-        console.error("Error fetching debts and projects:", error);
-      }
-    };
-    
-    if (userId) {
-      fetchDebtsAndProjects();
-    }
-  }, [userId, currentDate]);
+  // Nous n'avons plus besoin de l'effet de simulation car nous utilisons les hooks useDebts et useProjects
 
   // Calcul des paiements mensuels totaux
   const totalMonthlyDebtPayments = debts.reduce((total, debt) => total + debt.monthlyPayment, 0);
-  const totalMonthlyProjectContributions = projects.reduce(
+  const totalMonthlyProjectContributions = mappedProjects.reduce(
     (total, project) => total + (project.monthlyContribution || 0), 
     0
   );
@@ -273,9 +241,7 @@ const BudgetingPage: React.FC = () => {
 
   const handleDeleteDebt = async (debtId: string) => {
     try {
-      // Logique de suppression de dette à implémenter
-      // await deleteDebtFromAPI(debtId);
-      setDebts(debts.filter(d => d.debtId !== debtId));
+      await deleteDebt(debtId);
     } catch (error) {
       console.error("Error deleting debt:", error);
     }
@@ -283,22 +249,34 @@ const BudgetingPage: React.FC = () => {
 
   // Fonctions pour gérer les projets
   const handleEditProject = (project: PaymentItem) => {
+    // Nous devons convertir de ProjectItem vers le format attendu par le hook
+    const projectData = {
+      id: (project as ProjectItem).projectId,
+      name: (project as ProjectItem).name,
+      targetAmount: (project as ProjectItem).targetAmount,
+      savedAmount: (project as ProjectItem).savedAmount,
+      deadline: (project as ProjectItem).deadline,
+      priority: (project as ProjectItem).priority,
+      monthlyContribution: (project as ProjectItem).monthlyContribution
+    };
+    
     setEditingProject(project as ProjectItem);
     setIsProjectModalVisible(true);
   };
 
   const handleDeleteProject = async (projectId: string) => {
     try {
-      // Logique de suppression de projet à implémenter
-      // await deleteProjectFromAPI(projectId);
-      setProjects(projects.filter(p => p.projectId !== projectId));
+      await deleteProject(projectId);
     } catch (error) {
       console.error("Error deleting project:", error);
     }
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading || debtsLoading || projectsLoading) return <div>Loading...</div>;
   if (!isAuthenticated) return <div>Please log in to view this page.</div>;
+  
+  if (debtsError) console.error("Error loading debts:", debtsError);
+  if (projectsError) console.error("Error loading projects:", projectsError);
 
   return (
     <div className={styles.budgetingContainer}>

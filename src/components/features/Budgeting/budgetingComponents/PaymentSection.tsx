@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import PaymentCard, { DebtItem, ProjectItem } from "./PaymentCard";
 import styles from "./PaymentSection.module.css";
@@ -13,7 +14,7 @@ interface PaymentSectionProps {
   prevPage: () => void;
   nextPage: () => void;
   setPageIndex: (index: number) => void;
-  onAddClick: () => void;
+  onAddClick?: () => void; // Maintenant optionnel car nous utiliserons aussi la navigation directe
   currentDate: Date;
   onEditItem: (item: PaymentItem) => void;
   onDeleteItem: (itemId: string) => Promise<void>;
@@ -34,8 +35,18 @@ const PaymentSection: React.FC<PaymentSectionProps> = ({
   onDeleteItem,
   totalMonthly = 0,
 }) => {
+  const navigate = useNavigate();
   const isDebtSection = itemType === "DEBT";
   const titleColor = isDebtSection ? styles.debtTitle : styles.projectTitle;
+
+  // Fonction de navigation pour rediriger vers les routes appropriées
+  const handleNavigation = () => {
+    if (isDebtSection) {
+      navigate('/payment');
+    } else {
+      navigate('/project');
+    }
+  };
 
   // Si aucune page ou tableau vide, afficher seulement le bouton d'ajout
   if (!pages || pages.length === 0 || (pages.length === 1 && pages[0].length === 0)) {
@@ -54,7 +65,10 @@ const PaymentSection: React.FC<PaymentSectionProps> = ({
         </div>
         <div className={styles.emptySection}>
           <p>Aucun {isDebtSection ? "dette" : "projet"} à afficher.</p>
-          <button onClick={onAddClick} className={styles.emptyAddButton}>
+          <button 
+            onClick={handleNavigation} 
+            className={styles.emptyAddButton}
+          >
             Ajouter {isDebtSection ? "une dette" : "un projet"}
           </button>
         </div>
@@ -106,7 +120,7 @@ const PaymentSection: React.FC<PaymentSectionProps> = ({
                   {/* Ajout du bouton "+" uniquement à la dernière page */}
                   {pageIdx === pages.length - 1 && (
                     <button
-                      onClick={onAddClick}
+                      onClick={handleNavigation}
                       className={styles.addCategoryButton}
                     >
                       <span className={styles.addIcon}>+</span>
