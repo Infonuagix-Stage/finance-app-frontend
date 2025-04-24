@@ -1,10 +1,10 @@
 /* SavingWidget.module.css */
 
 .savingsWidget {
-  background-color: #2d3748;
+  background-color: var(--alt-bg);
   padding: 24px;
   border-radius: 8px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 6px var(--overlay-bg);
 }
 
 .savingsWidgetTitle {
@@ -14,7 +14,7 @@
 }
 
 .savingsWidgetText {
-  color: #d1d5db;
+  color: var(--secondary-text);
 }
 
 .projectContainer {
@@ -24,25 +24,25 @@
 .projectTitle {
   font-size: 1.125rem;
   font-weight: 500;
-  color: #e5e7eb;
+  color: var(--text);
 }
 
 .progressBarContainer {
   width: 100%;
-  background-color: #4a5568;
+  background-color: var(--secondary-bg);
   border-radius: 9999px;
   height: 10px;
 }
 
 .progressBar {
   height: 100%;
-  background: linear-gradient(to right, #38b2ac, #4299e1);
+  background: linear-gradient(to right, var(--accent), var(--primary));
   border-radius: 9999px;
   transition: width 0.5s ease-in-out;
 }
 
 .projectDetails {
-  color: #9ca3af;
+  color: var(--muted);
   font-size: 0.875rem;
   margin-top: 8px;
 }

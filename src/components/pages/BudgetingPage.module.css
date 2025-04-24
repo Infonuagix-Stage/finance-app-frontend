@@ -4,13 +4,116 @@ a {
 }
 .budgetingContainer {
   min-height: 100vh;
-  background: linear-gradient(to bottom right, #1f2937, #2d3748);
-  color: #f7fafc;
+  background: linear-gradient(to bottom right, var(--bg-alt2), var(--alt-bg));
+  color: var(--text);
   padding: 2rem 1rem;
 }
 
-/* CONTENEUR DES DEUX PARTIES : DÉPENSES/REVENUS */
-.categoriesContainer {
+/* HEADER PRINCIPAL */
+.headerContainer {
+  max-width: 56rem;
+  margin: 0 auto;
+  background-color: rgba(25, 48, 75, 0.568);
+  border-radius: 1rem;
+  box-shadow: 0 10px 15px var(--overlay-bg), 0 4px 6px var(--overlay-bg);
+  padding: 1rem;
+  border: 1px solid var(--gray-600);
+  margin-top: 6rem;
+}
+
+.headerTitle {
+  font-size: 1.75rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/*********************************************
+ * MOIS SÉLECTEUR
+ *********************************************/
+.monthSelector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  max-width: 300px;
+  margin: 0 auto;
+  padding: 0.5rem 0;
+  position: relative;
+}
+
+.monthButton {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(255,255,255,0.1);
+  border: none;
+  color: white;
+  font-size: 1.25rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+.monthButton:hover {
+  background-color: rgba(255,255,255,0.2);
+  transform: scale(1.05);
+}
+
+.monthText {
+  min-width: 140px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.125rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/*********************************************
+ * STATS HEADER (INCOME, EXPENSES, BALANCE)
+ *********************************************/
+.headerStats {
+  text-align: center;
+}
+.headerIncomeExpenses {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+.separator {
+  margin: 0 0.5rem;
+  color: var(--secondary-text);
+  font-weight: 400;
+  font-size: 1.125rem;
+}
+.income {
+  color: #48bb78;
+}
+.expenses {
+  color: #f56565;
+}
+.balance {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+.positive {
+  color: #48bb78;
+}
+.negative {
+  color: #f56565;
+}
+
+/*********************************************
+ * CONTENEUR DES DEUX PARTIES : DÉPENSES/REVENUS
+ *********************************************/
+ .categoriesContainer {
   display: flex;
   flex-direction: column;
   gap: 2rem;

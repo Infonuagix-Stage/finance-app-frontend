@@ -1,6 +1,6 @@
 .signupButton {
-  background-color: #16a34a;
-  color: white;
+  background-color: var(--success);
+  color: var(--text);
   padding: 8px 16px;
   border-radius: 6px;
   border: none;
@@ -10,5 +10,5 @@
 }
 
 .signupButton:hover {
-  background-color: #15803d;
+  background-color: var(--success-hover);
 }

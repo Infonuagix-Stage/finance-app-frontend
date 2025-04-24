@@ -1,19 +1,24 @@
 .settingsContainer {
   min-height: 100vh;
-  background: linear-gradient(135deg, #2d3748, #1a202c);
-  color: white;
+  background: linear-gradient(135deg, var(--alt-bg), var(--bg));
+  color: var(--text);
   padding: 6rem 0;
   padding-left: 24px;
   padding-right: 24px;
+}
+/* Light theme override: flat background for better contrast in settings */
+html.light .settingsContainer {
+  background: var(--muted);
+  border: 1px solid var(--gray-600);
 }
 
 .settingsBox {
   max-width: 1024px;
   margin: 0 auto;
-  background: linear-gradient(to right, #2d3748, #1e293b);
+  background: linear-gradient(to right, var(--alt-bg), var(--bg-alt2));
   border-radius: 1.5rem;
   padding: 32px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 4px 20px var(--overlay-bg);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(75, 85, 99, 0.5);
 }
@@ -22,7 +27,7 @@
   font-size: 3rem;
   font-weight: 800;
   text-align: center;
-  background: linear-gradient(to right, #9b5de5, #5f4bb6);
+  background: linear-gradient(to right, var(--purple1), var(--purple2));
   -webkit-background-clip: text;
   color: transparent;
   margin-bottom: 1.5rem;
@@ -35,22 +40,22 @@
 }
 
 .settingsCard {
-  background: linear-gradient(to right, #2d3748, #1a202c);
+  background-color: var(--card-bg);
   padding: 24px;
   border-radius: 1rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 12px var(--overlay-bg);
   border: 1px solid rgba(75, 85, 99, 0.5);
 }
 
 .sectionTitle {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #e2e8f0;
+  color: var(--text-light);
   margin-bottom: 1rem;
 }
 
 .sectionText {
-  color: #cbd5e0;
+  color: var(--secondary-text);
   margin-top: 0.5rem;
   font-size: 1rem;
 }
@@ -91,7 +96,7 @@
   appearance: none;
   width: 40px;
   height: 20px;
-  background: #4a5568;
+  background: var(--secondary-bg);
   border-radius: 999px;
   position: relative;
   transition: background 0.3s ease;
@@ -104,13 +109,13 @@
   left: 2px;
   width: 16px;
   height: 16px;
-  background: white;
+  background: var(--light);
   border-radius: 50%;
   transition: transform 0.3s ease;
 }
 
 .sectionText input[type="checkbox"]:checked {
-  background: #805ad5;
+  background: var(--purple-hover);
 }
 
 .sectionText input[type="checkbox"]:checked::before {
@@ -125,24 +130,24 @@
   font-weight: 600;
   border: none;
   border-radius: 0.75rem;
-  background: linear-gradient(to right, #4f46e5, #805ad5);
+  background: linear-gradient(to right, var(--gradient-indigo), var(--purple-hover));
   color: white;
   cursor: pointer;
   transition: background 0.2s ease;
 }
 
 .sectionText button:hover {
-  background: linear-gradient(to right, #5b4ded, #9072f5);
+  background: linear-gradient(to right, var(--indigo-hover), var(--purple1));
 }
 
 /* Bouton de suppression */
 .sectionText button[style*="color: red"] {
-  background: linear-gradient(to right, #e53e3e, #c53030);
+  background: linear-gradient(to right, var(--danger), var(--danger-hover));
   color: white !important;
   margin-top: 12px;
 }
 
 .sectionText button[style*="color: red"]:hover {
-  background: linear-gradient(to right, #f56565, #e53e3e);
+  background: linear-gradient(to right, var(--danger-hover), var(--danger));
 }
 

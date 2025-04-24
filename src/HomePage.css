@@ -1,8 +1,8 @@
 /* Page container */
 .homepage-container {
     min-height: 100vh;
-    background-color: #1a202c; /* bg-gray-900 */
-    color: white;
+    background-color: var(--bg);
+    color: var(--text);
     padding: 2rem;
   }
   
@@ -20,7 +20,7 @@
   .homepage-subtitle {
     margin-top: 1rem;
     font-size: 1.25rem;
-    color: #a0aec0; /* text-gray-400 */
+    color: var(--muted); /* text-muted */
   }
   
   /* Statistics grid */
@@ -34,7 +34,7 @@
   }
   
   .stats-card {
-    background-color: #2d3748; /* bg-gray-800 */
+    background-color: var(--alt-bg);
     padding: 1.5rem;
     border-radius: 8px;
     text-align: center;
@@ -46,7 +46,7 @@
   }
   
   .stats-label {
-    color: #a0aec0; /* text-gray-400 */
+    color: var(--muted);
   }
   
   /* Chart Section */

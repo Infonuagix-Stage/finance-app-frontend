@@ -5,7 +5,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: var(--overlay-bg);
     backdrop-filter: blur(3px);
     display: flex;
     align-items: center;
@@ -16,10 +16,10 @@
   .modalContent {
     width: 90%;
     max-width: 500px;
-    background-color: #1a202c;
+    background-color: var(--card-bg);
     border-radius: 1rem;
     border: 1px solid rgba(113, 128, 150, 0.3);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 25px var(--overlay-bg);
     padding: 1.5rem;
     box-sizing: border-box;
   }
@@ -29,7 +29,7 @@
     font-weight: 700;
     text-align: center;
     margin-bottom: 1.5rem;
-    color: #f7fafc;
+    color: var(--text);
   }
   
   .inputField {
@@ -39,8 +39,8 @@
     margin-bottom: 1rem;
     border: 1px solid rgba(113, 128, 150, 0.3);
     border-radius: 0.5rem;
-    background-color: rgba(30, 41, 59, 0.5);
-    color: #f7fafc;
+    background-color: var(--secondary-bg);
+    color: var(--text);
     font-size: 1rem;
     transition: border-color 0.2s ease;
     box-sizing: border-box;
@@ -48,7 +48,7 @@
   
   .inputField:focus {
     outline: none;
-    border-color: #ffffff;
+    border-color: var(--text);
   }
   
   .modalActions {
