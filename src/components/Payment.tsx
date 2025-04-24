@@ -10,6 +10,7 @@ const Payment: React.FC = () => {
 
   const [newCreditor, setNewCreditor] = useState("");
   const [newAmount, setNewAmount] = useState<number>(0);
+  const [newAmountPaid, setNewAmountPaid] = useState<number>(0);
   const [newDueDate, setNewDueDate] = useState("");
   const [newMonthly, setNewMonthly] = useState<number>(0);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -19,6 +20,7 @@ const Payment: React.FC = () => {
     setEditingDebt(debt);
     setNewCreditor(debt.creditor);
     setNewAmount(debt.amountOwed);
+    setNewAmountPaid(debt.amountPaid);
     setNewMonthly(debt.monthlyPayment);
     setNewDueDate(debt.dueDate.split("T")[0]);
     setIsModalVisible(true);
@@ -28,6 +30,7 @@ const Payment: React.FC = () => {
     setEditingDebt(null);
     setNewCreditor("");
     setNewAmount(0);
+    setNewAmountPaid(0);
     setNewMonthly(0);
     setNewDueDate("");
     setIsModalVisible(true);
@@ -41,16 +44,16 @@ const Payment: React.FC = () => {
         await updateDebt(editingDebt.debtId, {
           creditor: newCreditor,
           amountOwed: newAmount,
+          amountPaid: newAmountPaid,
           dueDate: newDueDate,
           monthlyPayment: newMonthly,
           status: editingDebt.status,
-          amountPaid: editingDebt.amountPaid,
         });
       } else {
         await createDebt({
           creditor: newCreditor,
           amountOwed: newAmount,
-          amountPaid: 0,
+          amountPaid: newAmountPaid,
           dueDate: newDueDate,
           monthlyPayment: newMonthly,
           status: "Pending",
@@ -61,6 +64,7 @@ const Payment: React.FC = () => {
       setEditingDebt(null);
       setNewCreditor("");
       setNewAmount(0);
+      setNewAmountPaid(0);
       setNewDueDate("");
       setNewMonthly(0);
     } catch (err) {
@@ -120,33 +124,53 @@ const Payment: React.FC = () => {
             <h3 className={styles.modalTitle}>
               {editingDebt ? t("editDebt") : t("addDebt")}
             </h3>
+
+            <label className={styles.modalLabel}>{t("debtNameLabel")}</label>
             <input
               type="text"
-              placeholder={t("debtNamePlaceholder") as string}
               value={newCreditor}
               onChange={(e) => setNewCreditor(e.target.value)}
               className={styles.modalInput}
             />
+
+            <label className={styles.modalLabel}>{t("totalAmountLabel")}</label>
             <input
               type="number"
+              min={0}
               placeholder={t("totalAmountPlaceholder") as string}
               value={newAmount}
-              onChange={(e) => setNewAmount(Number(e.target.value))}
+              onChange={(e) => setNewAmount(Math.max(0, Number(e.target.value)))}
               className={styles.modalInput}
             />
+
+            <label className={styles.modalLabel}>{t("amountPaidLabel")}</label>
             <input
               type="number"
-              placeholder={t("monthlyAmountPlaceholder") as string}
-              value={newMonthly}
-              onChange={(e) => setNewMonthly(Number(e.target.value))}
+              min={0}
+              placeholder={t("amountPaidPlaceholder") as string}
+              value={newAmountPaid}
+              onChange={(e) => setNewAmountPaid(Math.max(0, Number(e.target.value)))}
               className={styles.modalInput}
             />
+
+            <label className={styles.modalLabel}>{t("monthlyAmountLabel")}</label>
+            <input
+              type="number"
+              min={0}
+              placeholder={t("monthlyAmountPlaceholder") as string}
+              value={newMonthly}
+              onChange={(e) => setNewMonthly(Math.max(0, Number(e.target.value)))}
+              className={styles.modalInput}
+            />
+
+            <label className={styles.modalLabel}>{t("dueDateLabel")}</label>
             <input
               type="date"
               value={newDueDate}
               onChange={(e) => setNewDueDate(e.target.value)}
               className={styles.modalInput}
             />
+
             <div className={styles.modalButtons}>
               <button
                 className={styles.cancelBtn}
@@ -157,10 +181,7 @@ const Payment: React.FC = () => {
               >
                 {t("cancel")}
               </button>
-              <button
-                className={styles.confirmBtn}
-                onClick={handleSubmit}
-              >
+              <button className={styles.confirmBtn} onClick={handleSubmit}>
                 {editingDebt ? t("update") : t("add")}
               </button>
             </div>

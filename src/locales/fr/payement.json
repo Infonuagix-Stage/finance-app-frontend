@@ -1,14 +1,17 @@
 {
     "title": "Gestion des paiments",
     "noDebt": "Aucune dette ajoutée.",
-    "totalAmount": "Montant total",
-    "remainingAmount": "Montant restant",
-    "progress": "Progression",
+    "debtNameLabel": "Entrez le nom de la dette",
+    "totalAmountPlaceholder": "Entrez le montant total dû",
+    "monthlyAmountPlaceholder": "Entrez le paiement mensuel",
+    "creditorLabel": "Nom du créancier",
+    "totalAmountLabel": "Montant total dû",
+    "monthlyAmountLabel": "Paiement mensuel",
+    "dueDateLabel": "Date d'échéance",
     "addDebt": "Ajouter une Dette",
-    "debtNamePlaceholder": "Nom de la dette",
-    "totalAmountPlaceholder": "Montant total",
     "cancel": "Annuler",
     "add": "Ajouter",
-    "debt": "Dettes et paiments"
+    "debt": "Dettes et paiments",
+    "amountPaidLabel": "Entrez le montant payé"
   }
   

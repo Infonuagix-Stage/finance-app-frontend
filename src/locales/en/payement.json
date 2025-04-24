@@ -1,13 +1,17 @@
 {
     "title": "Payment Management",
     "noDebt": "No debts added.",
-    "totalAmount": "Total Amount",
-    "remainingAmount": "Remaining Amount",
-    "progress": "Progress",
-    "addDebt": "Add a Debt",
-    "debtNamePlaceholder": "Debt Name",
-    "totalAmountPlaceholder": "Total Amount",
+    "debtNameLabel": "Enter debt name",
+    "totalAmountPlaceholder": "Enter total amount owed",
+    "monthlyAmountPlaceholder": "Enter monthly payment",
+    "creditorLabel": "Creditor Name",
+    "totalAmountLabel": "Total Amount Owed",
+    "monthlyAmountLabel": "Monthly Payment",
+    "dueDateLabel": "Due Date",
     "cancel": "Cancel",
     "add": "Add",
-    "debt": "Debts and Payments"
+    "debt": "Debts and Payments",
+    "amountPaidLabel": "Enter amount paid"
 }
+
+  

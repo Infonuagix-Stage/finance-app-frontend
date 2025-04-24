@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useBudgetContext } from "../../context/BudgetContext";
 import ExpenseWidget from "../features/Dashboard/widgets/ExpenseWidget";
@@ -7,6 +7,7 @@ import SavingsWidget from "../features/Dashboard/widgets/SavingsWidget";
 import DebtWidget from "../features/Dashboard/widgets/DebtWidget";
 import ChartWidget from "../features/Dashboard/widgets/ChartWidget";
 import { useTranslation } from "react-i18next";
+import { useDebts } from "../../hooks/useDebts";  // Make sure you have this hook
 import styles from "./Dashboard.module.css";
 
 // Type definitions
@@ -26,6 +27,7 @@ const Dashboard: React.FC = () => {
   const { t } = useTranslation(["dashboard", "homepage"]);
   const { user } = useAuth0();
   const { totalExpense, globalBalance } = useBudgetContext();
+  const { debts, loading, error } = useDebts();  // Fetch debts here
 
   const chartData: ChartData = {
     labels: [
@@ -95,7 +97,14 @@ const Dashboard: React.FC = () => {
         <div className={styles.widgetsGrid}>
           <ExpenseWidget totalExpenses={totalExpense} />
           <BudgetWidget remainingBudget={globalBalance} />
-          <DebtWidget totalDebt={500} />
+
+          {/* Debt Widget */}
+          <DebtWidget
+            totalDebt={debts.reduce((total, debt) => total + debt.amountOwed, 0)}
+            remainingDebt={debts.reduce((total, debt) => total + (debt.amountOwed - debt.amountPaid), 0)}
+            loading={loading}
+            error={error}
+          />
         </div>
 
         {/* Chart Widget */}
