@@ -4,7 +4,7 @@
     margin: 0 auto;
     background-color: rgba(25, 48, 75, 0.568);
     border-radius: 1rem;
-    box-shadow: 0 10px 15px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 15px var(--overlay-bg), 0 4px 6px var(--overlay-bg);
     padding: 1rem;
     border: 1px solid #718096;
     margin-top: 6rem;

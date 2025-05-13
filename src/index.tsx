@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import { Auth0Provider } from "@auth0/auth0-react";
+import { ThemeProvider } from "./context/ThemeContext";
 import "./i18n";
 
 // Ensure environment variables are correctly typed
@@ -34,7 +35,9 @@ root.render(
         redirect_uri: window.location.origin,
       }}
     >
-      <App />
+      <ThemeProvider>
+        <App />
+      </ThemeProvider>
     </Auth0Provider>
   </React.StrictMode>
 );

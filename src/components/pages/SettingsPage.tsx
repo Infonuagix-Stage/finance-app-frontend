@@ -1,22 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styles from "./SettingsPage.module.css";
 import { useAuth0, LogoutOptions } from "@auth0/auth0-react";
 import Confirmation from "../Confirmation";
+import { ThemeContext } from "../../context/ThemeContext";
 
 const SettingsPage: React.FC = () => {
   const { logout, getAccessTokenSilently } = useAuth0();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
-    return localStorage.getItem("theme") === "dark";
-  });
-
-  const toggleDarkMode = () => {
-    const newTheme = isDarkMode ? "light" : "dark";
-    document.documentElement.classList.toggle("dark", newTheme === "dark");
-    localStorage.setItem("theme", newTheme);
-    setIsDarkMode(!isDarkMode);
-  };
+  const { theme, toggleTheme } = useContext(ThemeContext);
 
   const handleAccountDeletion = async () => {
     const confirmed = window.confirm("Es-tu sûr de vouloir supprimer ton compte ? Cette action est irréversible.");
@@ -67,7 +59,7 @@ const SettingsPage: React.FC = () => {
             <h2 className={styles.sectionTitle}>Apparence</h2>
             <p className={styles.sectionText}>
               <label>
-                <input type="checkbox" checked={isDarkMode} onChange={toggleDarkMode} />
+                <input type="checkbox" checked={theme === 'dark'} onChange={toggleTheme} />
                 Activer le mode sombre
               </label>
             </p>

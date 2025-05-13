@@ -1,7 +1,7 @@
 .paymentContainer {
   min-height: 100vh;
-  background: linear-gradient(to bottom right, #1a202c, #2d3748);
-  color: #f7fafc;
+  background: linear-gradient(to bottom right, var(--bg), var(--alt-bg));
+  color: var(--light);
   padding: 6rem 0; /* Padding top-bottom */
   padding-left: 3rem; /* Alternatively, combine your original padding rules */
   padding-right: 3rem;
@@ -10,13 +10,13 @@
 .header {
   max-width: 800px;
   margin: 0 auto;
-  background: linear-gradient(to right, #6b46c1, #4c51bf);
+  background: linear-gradient(to right, var(--gradient-purple), var(--gradient-indigo));
   padding: 2rem;
   border-radius: 15px;
   text-align: center;
   font-size: 2.5rem;
   font-weight: bold;
-  color: white;
+  color: var(--text);
 }
 
 .debtSection {
@@ -26,7 +26,7 @@
 
 .debtSectionTitle {
   font-size: 2rem;
-  color: #cbd5e0;
+  color: var(--secondary-text);
   text-align: center;
   margin-bottom: 1.5rem;
 }
@@ -39,33 +39,33 @@
 
 .noDebt {
   text-align: center;
-  color: #a0aec0;
+  color: var(--muted);
 }
 
 .debtCard {
-  background: linear-gradient(to bottom right, #2d3748, #4a5568);
+  background: linear-gradient(to bottom right, var(--alt-bg), var(--secondary-bg));
   padding: 1.5rem;
   border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px var(--overlay-bg);
   border: 1px solid rgba(160, 174, 192, 0.5);
   transition: transform 0.3s, border-color 0.3s;
 }
 
 .debtCard:hover {
   transform: scale(1.05);
-  border-color: #6b46c1;
+  border-color: var(--gradient-purple);
 }
 
 .progress {
   font-weight: bold;
-  color: #6b46c1;
+  color: var(--gradient-purple);
 }
 
 .addDebtBtn {
   width: 100%;
   padding: 2rem;
-  background: linear-gradient(to bottom right, #4a5568, #718096);
-  color: #f7fafc;
+  background: linear-gradient(to bottom right, var(--secondary-bg), var(--gray-600));
+  color: var(--light);
   border-radius: 12px;
   text-align: center;
   font-size: 2rem;
@@ -78,7 +78,7 @@
 
 .addDebtBtn:hover {
   transform: scale(1.05);
-  background: linear-gradient(to bottom right, #4a5568, #a0aec0);
+  background: linear-gradient(to bottom right, var(--secondary-bg), var(--muted));
 }
 
 .modalOverlay {
@@ -87,22 +87,22 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--overlay-bg);
   backdrop-filter: blur(4px);
 }
 
 .modal {
-  background: linear-gradient(to bottom right, #2d3748, #4a5568);
+  background: linear-gradient(to bottom right, var(--alt-bg), var(--secondary-bg));
   padding: 2rem;
   border-radius: 12px;
   width: 400px;
   text-align: center;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 10px var(--overlay-bg);
 }
 
 .modalTitle {
   font-size: 1.8rem;
-  color: #cbd5e0;
+  color: var(--secondary-text);
   margin-bottom: 1rem;
 }
 
@@ -113,12 +113,12 @@
   border-radius: 8px;
   border: 1px solid rgba(160, 174, 192, 0.5);
   background: rgba(45, 55, 72, 0.5);
-  color: white;
+  color: var(--text);
 }
 
 .modalInput:focus {
   outline: none;
-  border-color: #6b46c1;
+  border-color: var(--gradient-purple);
 }
 
 .modalButtons {
@@ -146,13 +146,13 @@
 }
 
 .confirmBtn {
-  background: linear-gradient(to right, #6b46c1, #4c51bf);
-  color: white;
+  background: linear-gradient(to right, var(--gradient-purple), var(--gradient-indigo));
+  color: var(--text);
   border: none;
 }
 
 .confirmBtn:hover {
-  background: linear-gradient(to right, #805ad5, #5a67d8);
+  background: linear-gradient(to right, var(--purple-hover), var(--indigo-hover));
 }
 
 .debtActions {

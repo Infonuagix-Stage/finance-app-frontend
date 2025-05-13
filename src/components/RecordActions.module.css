@@ -10,7 +10,7 @@
   font-size: 20px;
   cursor: pointer;
   padding: 4px 8px;
-  color: #d1d5db; /* couleur texte en accord avec ProjectCard */
+  color: var(--secondary-text); /* couleur texte */
   transition: color 0.2s;
 }
 
@@ -26,7 +26,7 @@
   background-color: rgba(45, 55, 72); /* fond sombre en harmonie avec ProjectCard */
   border: 1px solid #374151; /* bordure assortie au ProjectCard */
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px var(--overlay-bg);
   z-index: 9999;
   display: flex;
   flex-direction: column;
@@ -41,7 +41,7 @@
   border: none;
   text-align: left;
   cursor: pointer;
-  color: #d1d5db; /* même couleur que les textes dans ProjectCard */
+  color: var(--secondary-text);
   font-size: 0.875rem;
   transition: background-color 0.2s, color 0.2s;
 }
@@ -49,15 +49,15 @@
 /* Effet hover pour un item standard */
 .dropdownItem:hover {
   background-color: #38b2ac; /* accent similaire à celui appliqué aux barres de progression */
-  color: #fff;
+  color: var(--text);
 }
 
 /* Style spécifique pour les actions de suppression */
 .delete {
-  color: #e53e3e; /* rouge pour attirer l'attention */
+  color: var(--danger); /* rouge pour attirer l'attention */
 }
 
 .delete:hover {
-  background-color: #c53030; /* rouge plus foncé au survol */
-  color: #fff;
+  background-color: var(--danger-hover); /* rouge plus foncé au survol */
+  color: var(--text);
 }
